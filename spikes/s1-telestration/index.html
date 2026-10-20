@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S1 telestration spike</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #07120c; overflow: hidden; }
+  #stage { width: 1920px; height: 1080px; position: relative; }
+  canvas { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+<div id="stage"><canvas id="c" width="1920" height="1080"></canvas></div>
+<script>
+// Throwaway spike: can a browser play a timed overlay script over 10 Hz
+// synthetic tracking and read like broadcast telestration?
+
+const W = 1920, H = 1080;
+const PITCH = { len: 105, wid: 68 };
+const HZ = 10;
+const DURATION = 14; // seconds of tracking
+
+// ---------- synthetic tracking (10 Hz), 22 players + ball ----------
+// Home attacks left -> right. A right-flank overload: RB overlaps, RW drops
+// inside, CM arrives late; cross, shot.
+function lerp(a, b, t) { return a + (b - a) * t; }
+function smooth(t) { return t * t * (3 - 2 * t); }
+function keyed(keys, t) { // keys: [[time, x, y], ...]
+  if (t <= keys[0][0]) return [keys[0][1], keys[0][2]];
+  for (let i = 1; i < keys.length; i++) {
+    if (t <= keys[i][0]) {
+      const [t0, x0, y0] = keys[i - 1], [t1, x1, y1] = keys[i];
+      const u = smooth((t - t0) / (t1 - t0));
+      return [lerp(x0, x1, u), lerp(y0, y1, u)];
+    }
+  }
+  const k = keys[keys.length - 1]; return [k[1], k[2]];
+}
+
+const ballKeys = [
+  [0, 40, 40], [1.2, 40, 40], [2.0, 52, 30], [3.4, 52, 30], [4.2, 66, 56],
+  [5.6, 70, 58], [6.4, 82, 62], [8.6, 90, 63], [9.4, 96, 38], [10.0, 99.5, 36], [14, 99.5, 36]
+];
+// home: [number, name, base x, base y, scripted keys or null]
+const home = [
+  [1, 'Okafor', 8, 34], [2, 'Reyes', 38, 60, [[0,38,60],[3,48,62],[5.5,66,64],[8.6,90,63],[14,92,62]]],
+  [4, 'Lindqvist', 30, 42], [5, 'Mensah', 30, 26], [3, 'Duarte', 40, 8],
+  [6, 'Haddad', 40, 40, [[0,40,40],[1.2,40,40],[3,44,36],[14,46,36]]],
+  [8, 'Kowal', 52, 30, [[0,48,30],[2,52,30],[3.4,52,30],[6,66,44],[9.4,92,40],[14,95,38]]],
+  [10, 'Sato', 54, 46, [[0,54,46],[4,62,50],[6.4,70,52],[9.4,90,46],[14,93,45]]],
+  [7, 'Adeyemi', 68, 60, [[0,66,62],[4,66,56],[5.6,70,58],[6.4,74,50],[9.4,86,42],[14,88,42]]],
+  [9, 'Brandt', 76, 34, [[0,74,34],[6,84,34],[9.4,94,32],[14,96,32]]],
+  [11, 'Ilunga', 70, 12, [[0,68,12],[9,82,20],[14,84,22]]]
+];
+const away = [
+  [1, 'Varga', 101, 34], [2, 'Nunes', 86, 58], [5, 'Petit', 88, 42], [4, 'Moreau', 88, 28],
+  [3, 'Saari', 86, 12], [6, 'Abara', 76, 38], [8, 'Lund', 70, 48], [10, 'Castillo', 70, 26],
+  [7, 'Ivanov', 58, 56], [9, 'Tanaka', 56, 34], [11, 'Oduya', 58, 12]
+];
+
+function shapeFollow(base, ball, side) {
+  // team block slides with the ball: a cheap but believable shape model
+  const shiftX = (ball[0] - 52) * (side === 'away' ? 0.35 : 0.3);
+  const shiftY = (ball[1] - 34) * 0.28;
+  return [base[0] + shiftX, base[1] + shiftY];
+}
+
+const frames = [];
+for (let i = 0; i <= DURATION * HZ; i++) {
+  const t = i / HZ;
+  const ball = keyed(ballKeys, t);
+  const h = home.map(p => p[4] ? keyed(p[4], t) : shapeFollow([p[2], p[3]], ball, 'home'));
+  const a = away.map(p => {
+    const s = shapeFollow([p[2], p[3]], ball, 'away');
+    // nearest defenders step to the ball
+    const d = Math.hypot(s[0] - ball[0], s[1] - ball[1]);
+    const pull = d < 14 ? 0.35 : 0;
+    return [lerp(s[0], ball[0], pull), lerp(s[1], ball[1], pull)];
+  });
+  frames.push({ t, ball, h, a });
+}
+function sample(t) { // interpolate 10 Hz frames to any render time
+  const f = Math.min(frames.length - 1.001, Math.max(0, t * HZ));
+  const i = Math.floor(f), u = f - i, A = frames[i], B = frames[i + 1];
+  const mix = (p, q) => [lerp(p[0], q[0], u), lerp(p[1], q[1], u)];
+  return { ball: mix(A.ball, B.ball), h: A.h.map((p, k) => mix(p, B.h[k])), a: A.a.map((p, k) => mix(p, B.a[k])) };
+}
+
+// ---------- overlay script (the format under test) ----------
+const script = {
+  segment: 'The right side overload',
+  duration: 16,
+  clock: { matchTime: '38:12' },
+  cues: [
+    { t: 0.0, d: 16, kind: 'play', from: 0, rate: 1 },
+    { t: 0.4, d: 3.5, kind: 'label', text: 'THE RIGHT SIDE OVERLOAD', sub: '3 v 2 on the flank, 6 times this half' },
+    { t: 3.4, d: 1.6, kind: 'freeze', at: 3.4 },
+    { t: 3.5, d: 1.5, kind: 'highlight', team: 'h', idx: 1, text: 'Reyes overlaps' },
+    { t: 3.5, d: 1.5, kind: 'run', team: 'h', idx: 1, toT: 8.6 },
+    { t: 5.0, d: 5, kind: 'zone', x: 64, y: 46, w: 28, h: 22, text: '3 v 2' },
+    { t: 5.0, d: 3, kind: 'arrow', fromT: 3.4, toT: 4.2, style: 'pass' },
+    { t: 6.4, d: 3, kind: 'highlight', team: 'h', idx: 8, text: 'Adeyemi drops inside' },
+    { t: 8.6, d: 1.8, kind: 'freeze', at: 8.6 },
+    { t: 8.7, d: 2.6, kind: 'arrow', fromT: 8.6, toT: 9.4, style: 'cross' },
+    { t: 10.4, d: 5.6, kind: 'statcard', title: 'Right side', rows: [['Overloads', '6'], ['Crosses', '9'], ['xG from it', '0.84']] }
+  ]
+};
+
+// ---------- renderer ----------
+const c = document.getElementById('c'), g = c.getContext('2d');
+const M = 90; // margin
+const sx = x => M + (x / PITCH.len) * (W - 2 * M);
+const sy = y => M * 0.9 + (y / PITCH.wid) * (H - 1.8 * M);
+const ACC = '#d8ff3c', HOME = '#f4f1ea', AWAY = '#e5484d';
+
+// map segment time -> tracking time, honouring freezes
+function trackTime(st) {
+  let tt = 0, last = 0;
+  const freezes = script.cues.filter(q => q.kind === 'freeze').sort((a, b) => a.t - b.t);
+  for (const f of freezes) {
+    if (st < f.t) break;
+    tt += f.t - last; last = f.t + f.d;
+    if (st < f.t + f.d) return { tt, frozen: true };
+  }
+  return { tt: tt + Math.max(0, st - last), frozen: false };
+}
+function active(st) { return script.cues.filter(q => st >= q.t && st < q.t + q.d); }
+function ease(u) { return 1 - Math.pow(1 - Math.min(1, Math.max(0, u)), 3); }
+
+function drawPitch(dim) {
+  g.fillStyle = '#0d2a18'; g.fillRect(0, 0, W, H);
+  for (let i = 0; i < 12; i++) { // mow stripes
+    g.fillStyle = i % 2 ? '#0f301b' : '#0d2a18';
+    g.fillRect(sx(i * PITCH.len / 12), sy(0), sx(PITCH.len / 12) - M, sy(PITCH.wid) - sy(0));
+  }
+  g.strokeStyle = 'rgba(244,241,234,.55)'; g.lineWidth = 3;
+  g.strokeRect(sx(0), sy(0), sx(PITCH.len) - sx(0), sy(PITCH.wid) - sy(0));
+  g.beginPath(); g.moveTo(sx(52.5), sy(0)); g.lineTo(sx(52.5), sy(68)); g.stroke();
+  g.beginPath(); g.arc(sx(52.5), sy(34), (sx(9.15) - sx(0)), 0, Math.PI * 2); g.stroke();
+  for (const [x0, dir] of [[0, 1], [105, -1]]) {
+    g.strokeRect(Math.min(sx(x0), sx(x0 + dir * 16.5)), sy(13.85), Math.abs(sx(16.5) - sx(0)), sy(54.15) - sy(13.85));
+    g.strokeRect(Math.min(sx(x0), sx(x0 + dir * 5.5)), sy(24.85), Math.abs(sx(5.5) - sx(0)), sy(43.15) - sy(24.85));
+  }
+  if (dim) { g.fillStyle = `rgba(4,10,7,${0.35 * dim})`; g.fillRect(0, 0, W, H); }
+}
+function drawPlayers(s, focus) {
+  const dot = (p, col, n, isFocus) => {
+    const x = sx(p[0]), y = sy(p[1]);
+    g.fillStyle = 'rgba(0,0,0,.35)'; g.beginPath(); g.ellipse(x + 3, y + 5, 15, 9, 0, 0, Math.PI * 2); g.fill();
+    g.fillStyle = col; g.globalAlpha = focus && !isFocus ? 0.45 : 1;
+    g.beginPath(); g.arc(x, y, 14, 0, Math.PI * 2); g.fill();
+    g.fillStyle = col === HOME ? '#0d2a18' : '#fff'; g.font = '600 13px system-ui'; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(n, x, y + 1); g.globalAlpha = 1;
+  };
+  s.a.forEach((p, i) => dot(p, AWAY, away[i][0], false));
+  s.h.forEach((p, i) => dot(p, HOME, home[i][0], focus && focus.has('h' + i)));
+  g.fillStyle = '#fff'; g.beginPath(); g.arc(sx(s.ball[0]), sy(s.ball[1]), 7, 0, Math.PI * 2); g.fill();
+  g.strokeStyle = '#000'; g.lineWidth = 1.5; g.stroke();
+}
+function arrow(x0, y0, x1, y1, u, col, dashed, curve) {
+  const mx = (x0 + x1) / 2 + curve * (y1 - y0) * 0.25, my = (y0 + y1) / 2 - curve * (x1 - x0) * 0.25;
+  const pt = v => [(1 - v) ** 2 * x0 + 2 * (1 - v) * v * mx + v * v * x1, (1 - v) ** 2 * y0 + 2 * (1 - v) * v * my + v * v * y1];
+  g.save(); g.strokeStyle = col; g.lineWidth = 6; g.lineCap = 'round'; g.shadowColor = col; g.shadowBlur = 18;
+  if (dashed) g.setLineDash([16, 14]);
+  g.beginPath(); const N = 40;
+  for (let k = 0; k <= N * u; k++) { const [x, y] = pt(k / N); k ? g.lineTo(x, y) : g.moveTo(x, y); }
+  g.stroke(); g.setLineDash([]);
+  if (u > 0.97) { // head
+    const [ax, ay] = pt(0.97), ang = Math.atan2(y1 - ay, x1 - ax);
+    g.fillStyle = col; g.beginPath(); g.moveTo(x1, y1);
+    g.lineTo(x1 - 26 * Math.cos(ang - 0.45), y1 - 26 * Math.sin(ang - 0.45));
+    g.lineTo(x1 - 26 * Math.cos(ang + 0.45), y1 - 26 * Math.sin(ang + 0.45)); g.fill();
+  }
+  g.restore();
+}
+function tag(x, y, text, u) {
+  g.save(); g.globalAlpha = ease(u * 3); g.font = '700 22px system-ui';
+  const w = g.measureText(text).width + 28; const bx = x - w / 2, by = y - 66;
+  g.fillStyle = ACC; g.fillRect(bx, by, w, 38); g.fillStyle = '#07120c'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillText(text, x, by + 20); g.fillRect(x - 2, by + 38, 4, 14); g.restore();
+}
+
+function renderAt(st) {
+  const { tt, frozen } = trackTime(st);
+  const s = sample(tt), cues = active(st);
+  const focus = new Set(cues.filter(q => q.kind === 'highlight').map(q => q.team + q.idx));
+  drawPitch(frozen ? 1 : 0);
+  for (const q of cues) {
+    const u = (st - q.t) / Math.min(q.d, 1.2);
+    if (q.kind === 'zone') {
+      const p = 0.5 + 0.5 * Math.sin((st - q.t) * 4);
+      g.save(); g.globalAlpha = ease(u) * (0.18 + 0.08 * p); g.fillStyle = ACC;
+      g.fillRect(sx(q.x), sy(q.y), sx(q.w) - sx(0), sy(q.h) - sy(0)); g.globalAlpha = ease(u);
+      g.strokeStyle = ACC; g.lineWidth = 3; g.setLineDash([10, 8]);
+      g.strokeRect(sx(q.x), sy(q.y), sx(q.w) - sx(0), sy(q.h) - sy(0)); g.setLineDash([]);
+      g.font = '800 44px system-ui'; g.fillStyle = ACC; g.textAlign = 'left'; g.textBaseline = 'top';
+      g.fillText(q.text, sx(q.x) + 14, sy(q.y) + 10); g.restore();
+    }
+  }
+  drawPlayers(s, focus.size ? focus : null);
+  for (const q of cues) {
+    const u = (st - q.t) / Math.min(q.d, 1.2);
+    if (q.kind === 'arrow') {
+      const a = sample(q.fromT).ball, b = sample(q.toT).ball;
+      arrow(sx(a[0]), sy(a[1]), sx(b[0]), sy(b[1]), ease(u), q.style === 'cross' ? ACC : '#fff', false, q.style === 'cross' ? 0.6 : 0.15);
+    }
+    if (q.kind === 'run') {
+      const team = q.team === 'h' ? 'h' : 'a', from = sample(tt)[team][q.idx], to = sample(q.toT)[team][q.idx];
+      arrow(sx(from[0]), sy(from[1]), sx(to[0]), sy(to[1]), ease(u), ACC, true, -0.2);
+    }
+    if (q.kind === 'highlight') {
+      const p = s[q.team][q.idx], x = sx(p[0]), y = sy(p[1]);
+      g.save(); g.strokeStyle = ACC; g.lineWidth = 4; g.shadowColor = ACC; g.shadowBlur = 16;
+      g.beginPath(); g.arc(x, y, 22 + 4 * Math.sin(st * 6), 0, Math.PI * 2 * ease(u)); g.stroke(); g.restore();
+      tag(x, y, q.text, u);
+    }
+    if (q.kind === 'label') {
+      const k = ease(u), out = Math.max(0, (st - (q.t + q.d - 0.4)) / 0.4);
+      g.save(); g.globalAlpha = 1 - out; g.translate(-80 * (1 - k), 0);
+      g.fillStyle = ACC; g.fillRect(M, H - 210, 14, 120);
+      g.fillStyle = 'rgba(7,18,12,.88)'; g.fillRect(M + 14, H - 210, 900 * k, 120);
+      g.fillStyle = '#f4f1ea'; g.font = '800 52px system-ui'; g.textAlign = 'left'; g.textBaseline = 'top';
+      g.fillText(q.text, M + 44, H - 196); g.font = '500 28px system-ui'; g.fillStyle = 'rgba(244,241,234,.75)';
+      g.fillText(q.sub, M + 46, H - 132); g.restore();
+    }
+    if (q.kind === 'statcard') {
+      const k = ease(u), x = W - M - 420, y = M + 30;
+      g.save(); g.globalAlpha = k; g.translate(40 * (1 - k), 0);
+      g.fillStyle = 'rgba(7,18,12,.9)'; g.fillRect(x, y, 420, 70 + 62 * q.rows.length);
+      g.fillStyle = ACC; g.fillRect(x, y, 420, 8);
+      g.fillStyle = '#f4f1ea'; g.font = '800 34px system-ui'; g.textAlign = 'left'; g.textBaseline = 'top'; g.fillText(q.title.toUpperCase(), x + 28, y + 26);
+      q.rows.forEach(([kk, v], i) => {
+        const r = ease((st - q.t - 0.25 * (i + 1)) / 0.6);
+        g.globalAlpha = k * r; g.font = '500 28px system-ui'; g.fillStyle = 'rgba(244,241,234,.75)'; g.fillText(kk, x + 28, y + 86 + 62 * i);
+        g.font = '800 34px system-ui'; g.fillStyle = ACC; g.textAlign = 'right'; g.fillText(v, x + 392, y + 82 + 62 * i); g.textAlign = 'left';
+      });
+      g.restore();
+    }
+  }
+  // clock bug
+  g.fillStyle = 'rgba(7,18,12,.9)'; g.fillRect(M, 24, 300, 46);
+  g.fillStyle = '#f4f1ea'; g.font = '700 24px system-ui'; g.textAlign = 'left'; g.textBaseline = 'middle';
+  g.fillText('HOM  1 – 0  AWY', M + 16, 47); g.fillStyle = ACC; g.fillText(script.clock.matchTime, M + 218, 47);
+  if (frozen) { g.fillStyle = ACC; g.font = '800 22px system-ui'; g.textAlign = 'right'; g.fillText('❚❚ ANALYSIS', W - M, 47); }
+}
+
+window.renderAt = renderAt;
+window.SEGMENT = script;
+// live mode measures real frame pacing
+window.fpsReport = new Promise(res => {
+  if (location.hash !== '#live') return res(null);
+  const t0 = performance.now(), gaps = []; let last = t0;
+  (function loop(now) {
+    renderAt((now - t0) / 1000); gaps.push(now - last); last = now;
+    if (now - t0 < script.duration * 1000) requestAnimationFrame(loop);
+    else { gaps.sort((a, b) => a - b); res({ frames: gaps.length, p50: gaps[gaps.length >> 1], p95: gaps[Math.floor(gaps.length * 0.95)] }); }
+  })(t0);
+});
+renderAt(0);
+</script>
+</body>
+</html>
