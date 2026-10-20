@@ -1,0 +1,41 @@
+# secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+azure-credentials*.json
+local.settings.json
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# node
+node_modules/
+dist/
+build/
+.vite/
+coverage/
+
+# generated output
+out/
+renders/
+*.mp4
+*.wav
+*.mp3
+!web/public/**/*.mp3
+
+# os / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
