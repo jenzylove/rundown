@@ -49,10 +49,10 @@ Each phase ends with a check that proves it is done.
 - Bicep for Container Apps, Event Hubs, Cosmos DB, App Insights; GitHub Actions deploy.
 - `/demo` and `/proof` live.
 - **Check:** the public URL runs a fresh seed end to end, with no local machine involved.
-- **Status 21 Oct: ready to deploy, waiting on credentials.** `infra/main.bicep` (compiles clean),
-  `scripts/deploy.sh`, a Dockerfile (built and booted locally: health OK, crew and voice configured),
-  CI and a manual deploy workflow. Needs the service principal and the Azure network domains in the
-  cloud environment (`docs/DEPLOY.md`). Then: Cosmos store and Event Hubs stream in the app.
+- **Status 21 Oct: deployed.** Live at
+  https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io with the agent crew and voice
+  on. A fresh seed runs end to end on the live URL (crew rundown, every segment verified, voice MP3).
+  Next: Cosmos store and Event Hubs stream in the app, then `/demo` and `/proof`.
 
 ## Phase 5. Evals and proof (25 Oct)
 - Story recall, precision, grounding, slot fit, and the baseline, on 10+ seeds. Publish the
