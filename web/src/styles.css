@@ -100,6 +100,14 @@ code { font: 12px "IBM Plex Mono", monospace; color: var(--ink-muted); display: 
 .feed li.muted { display: block; }
 .feed .min { font: 500 12px "IBM Plex Mono", monospace; color: var(--ink-muted); }
 .mode { margin-top: auto; padding-top: 8px; }
+.crew-log { list-style: none; margin: 0; padding: 0; }
+.crew-log li { display: grid; grid-template-columns: 88px 1fr auto; gap: 6px; padding: 6px 0; border-top: 1px solid var(--rule); font-size: 13px; align-items: baseline; }
+.crew-log li.muted { display: block; }
+.crew-log b { font-weight: 600; }
+.crew-log em { font-style: normal; color: var(--warn); }
+.crew-log .ms { font: 500 12px "IBM Plex Mono", monospace; color: var(--ink-muted); }
+.why { margin: 4px 0 0; color: var(--ink-muted); }
+.why b { color: var(--ink); font-weight: 600; }
 
 .toggles { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
 .toggles button, .seg-actions button, .chips button { background: var(--surface-2); color: var(--ink); padding: 7px 10px; font-size: 13px; }

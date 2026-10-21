@@ -1,0 +1,2664 @@
+{
+ "summary": {
+  "rundowns": [
+   {
+    "match": "3",
+    "cut": "neutral",
+    "lang": "en",
+    "segments": 3,
+    "agent_pictures": 0,
+    "agent_words": 3,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 1.55
+   },
+   {
+    "match": "3",
+    "cut": "away",
+    "lang": "es",
+    "segments": 3,
+    "agent_pictures": 0,
+    "agent_words": 2,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 2.92
+   },
+   {
+    "match": "42",
+    "cut": "neutral",
+    "lang": "en",
+    "segments": 3,
+    "agent_pictures": 0,
+    "agent_words": 2,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 5.42
+   },
+   {
+    "match": "42",
+    "cut": "away",
+    "lang": "es",
+    "segments": 3,
+    "agent_pictures": 0,
+    "agent_words": 3,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 4.96
+   }
+  ],
+  "agents": {
+   "analyst": {
+    "jobs": 28,
+    "first_try": 27,
+    "after_retry": 28,
+    "routed_around": 0
+   },
+   "producer": {
+    "jobs": 4,
+    "first_try": 3,
+    "after_retry": 4,
+    "routed_around": 0
+   },
+   "telestrator": {
+    "jobs": 0,
+    "first_try": 0,
+    "after_retry": 0,
+    "routed_around": 0
+   },
+   "writer": {
+    "jobs": 28,
+    "first_try": 20,
+    "after_retry": 24,
+    "routed_around": 4
+   }
+  },
+  "lock_median_s": 3.94,
+  "lock_max_s": 5.42
+ },
+ "runs": [
+  {
+   "match": "3",
+   "cut": "neutral",
+   "lang": "en",
+   "lock_s": 1.55,
+   "segments": [
+    {
+     "title": "Halvorsen's Speed Drops in First Half",
+     "kind": "fatigue",
+     "script": [
+      "Zane Halvorsen starts strong with 8 sprints, hitting a top speed of 27.1 km/h.",
+      "But by minute 40, his sprints drop to 0 with a top speed down to 20.5 km/h.",
+      "This shows fatigue setting in as Eastmoor Athletic pushes on."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "Zane Halvorsen's top speed dropped from 27.1 to 20.5 km/h showing a clear physical fade which likely impacts Eastmoor Athletic's second-half performance.",
+      "pick_reason": "Lead with Zane Halvorsen's fatigue since it's a key physical factor impacting Eastmoor Athletic's likely second-half performance, making it most relevant to fans and analysts alike."
+     }
+    },
+    {
+     "title": "Harbour City presses up the pitch",
+     "kind": "press_up",
+     "script": [
+      "Harbour City really ramps up the pressure after the 31st minute.",
+      "Their PPDA drops from 8.3 to 5.8 passes per action, showing more intense pressing.",
+      "Pressures per minute double from 3.52 to 7, especially in the opponent half where it rises from 26 to 44 total pressures.",
+      "This high press strategy is clearly putting Eastmoor Athletic under more pressure this half."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "Harbour City's PPDA decreased from 8.3 to 5.8 showing a significant increase in pressing intensity and pressure rate rising from 3.52 to 7, indicating a clear shift in control in the last 10 minutes leading up to minute 31",
+      "pick_reason": "Next, Harbour City's significant pressing increase shows a tactical shift and rising control, balancing the narrative with a strategic insight distinct from the fatigue lead."
+     }
+    },
+    {
+     "title": "Zane Strand's Big Chance",
+     "kind": "big_chance",
+     "script": [
+      "Here comes a big moment for Harbour City!",
+      "Zane Strand fires a shot with 0.26 xG, a really good chance.",
+      "Just past the 23rd minute, this could have changed the game.",
+      "Close but no goal yet, keep watching!"
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "The big chance with 0.26 xG for Zane Strand at minute 23 is a clear moment that could have decided the half with a scoring opportunity.",
+      "pick_reason": "Finish with the big chance by Zane Strand as the single goal/chance story that captures a crucial moment in the match, adding momentous excitement to the rundown."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612212.7974577,
+     "agent": "telestrator",
+     "action": "switched off",
+     "status": "killed",
+     "ms": null,
+     "why": "kill switch",
+     "event_ids": [],
+     "detail": {},
+     "seq": 0
+    },
+    {
+     "at": 1792612214.405722,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 1
+    },
+    {
+     "at": 1792612214.4057384,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 2
+    },
+    {
+     "at": 1792612214.4203238,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 3
+    },
+    {
+     "at": 1792612214.4203384,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 4
+    },
+    {
+     "at": 1792612216.7233157,
+     "agent": "telestrator",
+     "action": "planned the picture for big_chance (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 5
+    },
+    {
+     "at": 1792612216.7233295,
+     "agent": "telestrator",
+     "action": "planned the picture for big_chance (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 6
+    },
+    {
+     "at": 1792612216.7257676,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 7
+    },
+    {
+     "at": 1792612216.7257786,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 8
+    },
+    {
+     "at": 1792612216.7720783,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 2394,
+     "why": "",
+     "event_ids": [
+      "e00246",
+      "e00248",
+      "e00250"
+     ],
+     "detail": {
+      "in_tokens": 964,
+      "out_tokens": 125
+     },
+     "seq": 9
+    },
+    {
+     "at": 1792612218.2776065,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 3836,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 830,
+      "out_tokens": 149
+     },
+     "seq": 10
+    },
+    {
+     "at": 1792612218.2776322,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 11
+    },
+    {
+     "at": 1792612218.6352627,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in en, neutral cut",
+     "status": "retry",
+     "ms": 4197,
+     "why": "subtitle: 89 characters, the limit is 80; row 0: 1 in \"Defensive line height early 1st half (meters)\" is not one of the facts' values; row 0: 45 characters, the limit is 44; row 1: 1 in \"Defensive line height late 1st half (meters)\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 941,
+      "out_tokens": 202,
+      "errors": [
+       "subtitle: 89 characters, the limit is 80",
+       "row 0: 1 in \"Defensive line height early 1st half (meters)\" is not one of the facts' values",
+       "row 0: 45 characters, the limit is 44",
+       "row 1: 1 in \"Defensive line height late 1st half (meters)\" is not one of the facts' values",
+       "row 2: 1 in \"Harbour City field tilt early 1st half (%)\" is not one of the facts' values",
+       "row 3: 1 in \"Harbour City field tilt late 1st half (%)\" is not one of the facts' values"
+      ]
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612219.324682,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3599,
+     "why": "",
+     "event_ids": [
+      "e00299",
+      "e00300",
+      "e00301"
+     ],
+     "detail": {
+      "in_tokens": 619,
+      "out_tokens": 56
+     },
+     "seq": 13
+    },
+    {
+     "at": 1792612219.6678321,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 14
+    },
+    {
+     "at": 1792612219.6678534,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 15
+    },
+    {
+     "at": 1792612219.7857404,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3669,
+     "why": "",
+     "event_ids": [
+      "e00553"
+     ],
+     "detail": {
+      "in_tokens": 517,
+      "out_tokens": 55
+     },
+     "seq": 16
+    },
+    {
+     "at": 1792612221.3152976,
+     "agent": "writer",
+     "action": "wrote tempo_up (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 4587,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 830,
+      "out_tokens": 114
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612221.3153205,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:HAR:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 18
+    },
+    {
+     "at": 1792612221.3447247,
+     "agent": "writer",
+     "action": "wrote big_chance (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 4617,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 708,
+      "out_tokens": 110
+     },
+     "seq": 19
+    },
+    {
+     "at": 1792612221.3447492,
+     "agent": "writer",
+     "action": "wrote scripts/big_chance:HAR::HAR09:1:e00553|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 20
+    },
+    {
+     "at": 1792612221.504003,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4159,
+     "why": "",
+     "event_ids": [
+      "e00374",
+      "e00426",
+      "e00457"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 57
+     },
+     "seq": 21
+    },
+    {
+     "at": 1792612222.869826,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 22
+    },
+    {
+     "at": 1792612222.8698425,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 23
+    },
+    {
+     "at": 1792612223.852728,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in en, neutral cut",
+     "status": "failed",
+     "ms": 5217,
+     "why": "row 0: 1 in \"Line height early 1st half (meters)\" is not one of the facts' values; row 1: 1 in \"Line height late 1st half (meters)\" is not one of the facts' values; row 2: 1 in \"Harbour field tilt early 1st half (%)\" is not one of the facts' values; row 3: 1 in \"Harbour field tilt late 1st half (%)\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1318,
+      "out_tokens": 188,
+      "errors": [
+       "row 0: 1 in \"Line height early 1st half (meters)\" is not one of the facts' values",
+       "row 1: 1 in \"Line height late 1st half (meters)\" is not one of the facts' values",
+       "row 2: 1 in \"Harbour field tilt early 1st half (%)\" is not one of the facts' values",
+       "row 3: 1 in \"Harbour field tilt late 1st half (%)\" is not one of the facts' values"
+      ]
+     },
+     "seq": 24
+    },
+    {
+     "at": 1792612223.8527484,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in en, neutral cut",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Writer",
+     "event_ids": [],
+     "detail": {},
+     "seq": 25
+    },
+    {
+     "at": 1792612224.4690824,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4143,
+     "why": "",
+     "event_ids": [
+      "e00547",
+      "e00559",
+      "e00572"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 79
+     },
+     "seq": 26
+    },
+    {
+     "at": 1792612225.5643065,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 5882,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 975,
+      "out_tokens": 212
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612225.5643415,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:HAR:right::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 28
+    },
+    {
+     "at": 1792612225.9830437,
+     "agent": "writer",
+     "action": "wrote press_up (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 3111,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1016,
+      "out_tokens": 191
+     },
+     "seq": 29
+    },
+    {
+     "at": 1792612225.98307,
+     "agent": "writer",
+     "action": "wrote scripts/press_up:HAR:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 30
+    },
+    {
+     "at": 1792612226.3277335,
+     "agent": "telestrator",
+     "action": "planned the picture for fatigue (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 31
+    },
+    {
+     "at": 1792612226.327748,
+     "agent": "telestrator",
+     "action": "planned the picture for fatigue (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 32
+    },
+    {
+     "at": 1792612227.5278096,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1231,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 637,
+      "out_tokens": 67
+     },
+     "seq": 33
+    },
+    {
+     "at": 1792612228.6419291,
+     "agent": "writer",
+     "action": "wrote fatigue (EMA) in en, neutral cut",
+     "status": "retry",
+     "ms": 2312,
+     "why": "subtitle: 81 characters, the limit is 80; row 0: 30 in \"Sprints in first 30 mins\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 850,
+      "out_tokens": 178,
+      "errors": [
+       "subtitle: 81 characters, the limit is 80",
+       "row 0: 30 in \"Sprints in first 30 mins\" is not one of the facts' values"
+      ]
+     },
+     "seq": 34
+    },
+    {
+     "at": 1792612230.9523213,
+     "agent": "writer",
+     "action": "wrote fatigue (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 2310,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1094,
+      "out_tokens": 176
+     },
+     "seq": 35
+    },
+    {
+     "at": 1792612230.9523604,
+     "agent": "writer",
+     "action": "wrote scripts/fatigue:EMA::EMA04:1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 36
+    },
+    {
+     "at": 1792612233.662673,
+     "agent": "producer",
+     "action": "planned the neutral rundown",
+     "status": "ok",
+     "ms": 1433,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1206,
+      "out_tokens": 126
+     },
+     "seq": 37
+    },
+    {
+     "at": 1792612233.7056696,
+     "agent": "verifier",
+     "action": "checked s1 (fatigue)",
+     "status": "ok",
+     "ms": null,
+     "why": "2 facts recomputed, schema valid",
+     "event_ids": [],
+     "detail": {},
+     "seq": 38
+    },
+    {
+     "at": 1792612233.7449012,
+     "agent": "verifier",
+     "action": "checked s2 (press_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00784"
+     ],
+     "detail": {},
+     "seq": 39
+    },
+    {
+     "at": 1792612233.7735555,
+     "agent": "verifier",
+     "action": "checked s3 (big_chance)",
+     "status": "ok",
+     "ms": null,
+     "why": "1 facts recomputed, schema valid",
+     "event_ids": [
+      "e00549",
+      "e00550",
+      "e00552",
+      "e00553"
+     ],
+     "detail": {},
+     "seq": 40
+    },
+    {
+     "at": 1792612233.7744486,
+     "agent": "producer",
+     "action": "wrote rundowns/neutral|en",
+     "status": "ok",
+     "ms": null,
+     "why": "Lead with Zane Halvorsen's fatigue since it's a key physical factor impacting Eastmoor Athletic's likely second-half performance, making it most relevant to fans and analysts alike. / Next, Harbour City's significant pressing increase shows a tactical shift and rising control, balancing the narrative with a strategic insight distinct from the fatigue lead. / Finish with the big chance by Zane Strand as the single goal/chance story that captures a crucial moment in the match, adding momentous excitement to the rundown.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 41
+    }
+   ]
+  },
+  {
+   "match": "3",
+   "cut": "away",
+   "lang": "es",
+   "lock_s": 2.92,
+   "segments": [
+    {
+     "title": "Eastmoor se repliega más profundo",
+     "kind": "deep_block",
+     "script": [
+      "Miren cómo Eastmoor baja su línea defensiva de 36,5 metros a 32,4 metros.",
+      "Esto pasa justo al minuto 20 y refleja un repliegue más profundo para frenar a Harbour.",
+      "Harbour está ganando terreno, con un dominio del 50% que sube a 58,3%.",
+      "Eastmoor necesita contener esta presión mientras ajustan su defensa."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "Eastmoor Athletic dropping their defensive line from 36.5m to 32.4m at minute 20 signals a significant strategic shift increasing Harbour City's field tilt from 50% to 58.3%, indicating a pressure shift that could decide the half.",
+      "pick_reason": "Eastmoor Athletic dropping their defensive line significantly matters most to their fans; it signals a major tactical shift increasing the opponent's field tilt and pressure risks, making it the lead story for the away fans at Eastmoor Athletic."
+     }
+    },
+    {
+     "title": "Harbour incrementa ataques por la derecha",
+     "kind": "flank_overload",
+     "script": [
+      "Harbour City aumenta sus ataques por la derecha.",
+      "Antes del 26 solo era el 13,9%.",
+      "Después sube al 43,3%, un cambio claro.",
+      "Han creado 3 sobrecargas en esa banda.",
+      "Eastmoor debe vigilar la derecha."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "Harbour City increased their attacks down the right from 13.9 to 43.3 and created 3 overload episodes, indicating a clear pressure shift to that flank which the audience needs to understand.",
+      "pick_reason": "Harbour City increasing attacks down the right flank with a big overload pressure is a clear and impactful tactical move supporters need to understand, marking an important change in momentum and threat direction."
+     }
+    },
+    {
+     "title": "Sin piernas",
+     "kind": "fatigue",
+     "script": [
+      "Atención a Zane Halvorsen.",
+      "Su velocidad punta ha bajado de 27.1 a 20.5 km/h.",
+      "Y los sprints, de 8 a 0. Harbour lo va a buscar."
+     ],
+     "provenance": {
+      "made_by": "rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "rules"
+      },
+      "why": "Zane Halvorsen has faded significantly with top speed dropping from 27.1 km/h to 20.5 km/h and no sprints in the last period, indicating a key player losing effectiveness which matters greatly to control and attacking threat by minute 40.",
+      "pick_reason": "Zane Halvorsen fading notably reduces Eastmoor's attacking threat as a key player loses speed and sprints, a crucial story to the away fans about their team's weakening influence in the game."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612212.7998912,
+     "agent": "telestrator",
+     "action": "switched off",
+     "status": "killed",
+     "ms": null,
+     "why": "kill switch",
+     "event_ids": [],
+     "detail": {},
+     "seq": 0
+    },
+    {
+     "at": 1792612214.2338078,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 1
+    },
+    {
+     "at": 1792612214.2338204,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 2
+    },
+    {
+     "at": 1792612214.2353423,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 3
+    },
+    {
+     "at": 1792612214.2353504,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 4
+    },
+    {
+     "at": 1792612216.351972,
+     "agent": "telestrator",
+     "action": "planned the picture for big_chance (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 5
+    },
+    {
+     "at": 1792612216.3519905,
+     "agent": "telestrator",
+     "action": "planned the picture for big_chance (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 6
+    },
+    {
+     "at": 1792612216.9714649,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 2952,
+     "why": "",
+     "event_ids": [
+      "e00246",
+      "e00248",
+      "e00250"
+     ],
+     "detail": {
+      "in_tokens": 964,
+      "out_tokens": 131
+     },
+     "seq": 7
+    },
+    {
+     "at": 1792612217.3152847,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 3078,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 833,
+      "out_tokens": 146
+     },
+     "seq": 8
+    },
+    {
+     "at": 1792612217.3153222,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 9
+    },
+    {
+     "at": 1792612217.6148794,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 3372,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 944,
+      "out_tokens": 170
+     },
+     "seq": 10
+    },
+    {
+     "at": 1792612217.614973,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 11
+    },
+    {
+     "at": 1792612218.391652,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 2946,
+     "why": "",
+     "event_ids": [
+      "e00299",
+      "e00300",
+      "e00301"
+     ],
+     "detail": {
+      "in_tokens": 619,
+      "out_tokens": 58
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612219.1037674,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 13
+    },
+    {
+     "at": 1792612219.1037798,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 14
+    },
+    {
+     "at": 1792612219.1393762,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 15
+    },
+    {
+     "at": 1792612219.139395,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 16
+    },
+    {
+     "at": 1792612219.96548,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4101,
+     "why": "",
+     "event_ids": [
+      "e00553"
+     ],
+     "detail": {
+      "in_tokens": 517,
+      "out_tokens": 55
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612220.478237,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3590,
+     "why": "",
+     "event_ids": [
+      "e00374",
+      "e00426",
+      "e00457"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 65
+     },
+     "seq": 18
+    },
+    {
+     "at": 1792612221.6127388,
+     "agent": "writer",
+     "action": "wrote big_chance (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 5259,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 711,
+      "out_tokens": 117
+     },
+     "seq": 19
+    },
+    {
+     "at": 1792612221.6127632,
+     "agent": "writer",
+     "action": "wrote scripts/big_chance:HAR::HAR09:1:e00553|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 20
+    },
+    {
+     "at": 1792612222.1212962,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 21
+    },
+    {
+     "at": 1792612222.1213138,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 22
+    },
+    {
+     "at": 1792612222.833842,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in es, away cut",
+     "status": "retry",
+     "ms": 3692,
+     "why": "70 words; the budget is 52",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 978,
+      "out_tokens": 221,
+      "errors": [
+       "70 words; the budget is 52"
+      ]
+     },
+     "seq": 23
+    },
+    {
+     "at": 1792612224.0718296,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4088,
+     "why": "",
+     "event_ids": [
+      "e00547",
+      "e00559",
+      "e00572"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 75
+     },
+     "seq": 24
+    },
+    {
+     "at": 1792612224.8213875,
+     "agent": "writer",
+     "action": "wrote tempo_up (HAR) in es, away cut",
+     "status": "retry",
+     "ms": 5677,
+     "why": "title: 55 characters, the limit is 48",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 867,
+      "out_tokens": 183,
+      "errors": [
+       "title: 55 characters, the limit is 48"
+      ]
+     },
+     "seq": 25
+    },
+    {
+     "at": 1792612225.6973317,
+     "agent": "telestrator",
+     "action": "planned the picture for fatigue (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 26
+    },
+    {
+     "at": 1792612225.6973462,
+     "agent": "telestrator",
+     "action": "planned the picture for fatigue (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 27
+    },
+    {
+     "at": 1792612225.7834818,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 2950,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1237,
+      "out_tokens": 174
+     },
+     "seq": 28
+    },
+    {
+     "at": 1792612225.7835155,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:HAR:right::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 29
+    },
+    {
+     "at": 1792612226.2375522,
+     "agent": "writer",
+     "action": "wrote press_up (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 4114,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1019,
+      "out_tokens": 222
+     },
+     "seq": 30
+    },
+    {
+     "at": 1792612226.23758,
+     "agent": "writer",
+     "action": "wrote scripts/press_up:HAR:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 31
+    },
+    {
+     "at": 1792612227.2080517,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1531,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 637,
+      "out_tokens": 83
+     },
+     "seq": 32
+    },
+    {
+     "at": 1792612227.6154895,
+     "agent": "writer",
+     "action": "wrote tempo_up (HAR) in es, away cut",
+     "status": "failed",
+     "ms": 2794,
+     "why": "title: 49 characters, the limit is 48",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1090,
+      "out_tokens": 182,
+      "errors": [
+       "title: 49 characters, the limit is 48"
+      ]
+     },
+     "seq": 33
+    },
+    {
+     "at": 1792612227.6155055,
+     "agent": "writer",
+     "action": "wrote tempo_up (HAR) in es, away cut",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Writer",
+     "event_ids": [],
+     "detail": {},
+     "seq": 34
+    },
+    {
+     "at": 1792612228.008642,
+     "agent": "writer",
+     "action": "wrote fatigue (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 2309,
+     "why": "row 0: 30 in \"Sprints en primeros 30 minutos\" is not one of the facts' values; row 1: 48 characters, the limit is 44; row 2: 30 in \"Velocidad máxima en primeros 30 minutos (km/h)\" is not one of the facts' values; row 2: 46 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 853,
+      "out_tokens": 207,
+      "errors": [
+       "row 0: 30 in \"Sprints en primeros 30 minutos\" is not one of the facts' values",
+       "row 1: 48 characters, the limit is 44",
+       "row 2: 30 in \"Velocidad máxima en primeros 30 minutos (km/h)\" is not one of the facts' values",
+       "row 2: 46 characters, the limit is 44",
+       "row 3: 45 characters, the limit is 44",
+       "line 1: 30 in \"En sus primeros 30 minutos, corrió a 27.1 km/h.\" is not one of the facts' values"
+      ]
+     },
+     "seq": 35
+    },
+    {
+     "at": 1792612230.807759,
+     "agent": "writer",
+     "action": "wrote fatigue (EMA) in es, away cut",
+     "status": "failed",
+     "ms": 2799,
+     "why": "row 0: 30 in \"Sprints en primeros 30 minutos\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1223,
+      "out_tokens": 190,
+      "errors": [
+       "row 0: 30 in \"Sprints en primeros 30 minutos\" is not one of the facts' values"
+      ]
+     },
+     "seq": 36
+    },
+    {
+     "at": 1792612230.80778,
+     "agent": "writer",
+     "action": "wrote fatigue (EMA) in es, away cut",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Writer",
+     "event_ids": [],
+     "detail": {},
+     "seq": 37
+    },
+    {
+     "at": 1792612234.537296,
+     "agent": "producer",
+     "action": "planned the away rundown",
+     "status": "ok",
+     "ms": 2818,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1235,
+      "out_tokens": 149
+     },
+     "seq": 38
+    },
+    {
+     "at": 1792612234.57198,
+     "agent": "verifier",
+     "action": "checked s1 (deep_block)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [],
+     "detail": {},
+     "seq": 39
+    },
+    {
+     "at": 1792612234.6088047,
+     "agent": "verifier",
+     "action": "checked s2 (flank_overload)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [],
+     "detail": {},
+     "seq": 40
+    },
+    {
+     "at": 1792612234.6360462,
+     "agent": "verifier",
+     "action": "checked s3 (fatigue)",
+     "status": "ok",
+     "ms": null,
+     "why": "2 facts recomputed, schema valid",
+     "event_ids": [],
+     "detail": {},
+     "seq": 41
+    },
+    {
+     "at": 1792612234.6370091,
+     "agent": "producer",
+     "action": "wrote rundowns/away|es",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic dropping their defensive line significantly matters most to their fans; it signals a major tactical shift increasing the opponent's field tilt and pressure risks, making it the lead story for the away fans at Eastmoor Athletic. / Harbour City increasing attacks down the right flank with a big overload pressure is a clear and impactful tactical move supporters need to understand, marking an important change in momentum and threat direction. / Zane Halvorsen fading notably reduces Eastmoor's attacking threat as a key player loses speed and sprints, a crucial story to the away fans about their team's weakening influence in the game.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 42
+    }
+   ]
+  },
+  {
+   "match": "42",
+   "cut": "neutral",
+   "lang": "en",
+   "lock_s": 5.42,
+   "segments": [
+    {
+     "title": "Oskar Vidal's Goal Shakes The Half",
+     "kind": "goal",
+     "script": [
+      "At 47 minutes, Vidal nets a crucial goal for Harbour City.",
+      "This chance had a 0.281 expected goal value, quite significant.",
+      "That strike likely decided the half and swung momentum our way.",
+      "Harbour City fans, this is exactly the start we wanted!"
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "Oskar Vidal scoring with a 0.281 xG chance at 47 (first half stoppage time) likely decided the half and shifted momentum to Harbour City",
+      "pick_reason": "Lead with Oskar Vidal's goal because it was a key scoring chance that effectively shifted momentum in Harbour City's favor and decided the first half."
+     }
+    },
+    {
+     "title": "Backs to the wall",
+     "kind": "deep_block",
+     "script": [
+      "Harbour have taken a step back.",
+      "Their back line has dropped from 42.6 to 36.2 metres from goal.",
+      "Eastmoor now have 61.9% of the passes in the final third."
+     ],
+     "provenance": {
+      "made_by": "rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "rules"
+      },
+      "why": "Harbour City's defensive line dropping from 42.6 to 36.2 m indicates a significant change in defensive posture that likely shifted control towards Eastmoor Athletic, evidenced by field tilt increasing from 4.8 to 61.9 % in the last 10 minutes",
+      "pick_reason": "Next, Harbour City's defensive line dropping deeper shows a significant tactical change impacting control, crucial for understanding the match context after the goal."
+     }
+    },
+    {
+     "title": "Harbour City Steps Up Their Pressing Game",
+     "kind": "press_up",
+     "script": [
+      "At 27 minutes, Harbour City’s PPDA drops from 4.6 to 2.9.",
+      "This means fewer passes per pressing action, showing increased pressure.",
+      "They’ve forced more defensive actions against Eastmoor Athletic in the last 10 minutes.",
+      "Harbour’s pressing efforts clearly intensified to control the game better."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "Harbour City pressing higher with PPDA dropping from 4.6 to 2.9 indicates a clear pressure shift creating more defensive actions against Eastmoor Athletic in the last 10 minutes.",
+      "pick_reason": "Follow with Harbour City's increased pressing intensity evidenced by PPDA dropping, highlighting a clear pressure shift that likely contributed to maintaining their advantage."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612212.8724847,
+     "agent": "telestrator",
+     "action": "switched off",
+     "status": "killed",
+     "ms": null,
+     "why": "kill switch",
+     "event_ids": [],
+     "detail": {},
+     "seq": 0
+    },
+    {
+     "at": 1792612214.4707484,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 1
+    },
+    {
+     "at": 1792612214.4707646,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 2
+    },
+    {
+     "at": 1792612214.4783633,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 3
+    },
+    {
+     "at": 1792612214.4783769,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 4
+    },
+    {
+     "at": 1792612216.2787125,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 2288,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 726,
+      "out_tokens": 78
+     },
+     "seq": 5
+    },
+    {
+     "at": 1792612216.5250163,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 2517,
+     "why": "",
+     "event_ids": [
+      "e00215",
+      "e00217",
+      "e00219"
+     ],
+     "detail": {
+      "in_tokens": 619,
+      "out_tokens": 64
+     },
+     "seq": 6
+    },
+    {
+     "at": 1792612216.9121027,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 7
+    },
+    {
+     "at": 1792612216.91212,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 8
+    },
+    {
+     "at": 1792612218.4536135,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 3936,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 830,
+      "out_tokens": 136
+     },
+     "seq": 9
+    },
+    {
+     "at": 1792612218.4536433,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 10
+    },
+    {
+     "at": 1792612218.7143452,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in en, neutral cut",
+     "status": "retry",
+     "ms": 4198,
+     "why": "card title: 47 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 941,
+      "out_tokens": 166,
+      "errors": [
+       "card title: 47 characters, the limit is 44"
+      ]
+     },
+     "seq": 11
+    },
+    {
+     "at": 1792612219.7484643,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4765,
+     "why": "",
+     "event_ids": [
+      "e00300",
+      "e00348",
+      "e00395"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 72
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612219.8798096,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 13
+    },
+    {
+     "at": 1792612219.8798249,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 14
+    },
+    {
+     "at": 1792612219.8902297,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3319,
+     "why": "",
+     "event_ids": [
+      "e00363",
+      "e00406",
+      "e00429"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 68
+     },
+     "seq": 15
+    },
+    {
+     "at": 1792612221.7197778,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 3779,
+     "why": "",
+     "event_ids": [
+      "e00471",
+      "e00488",
+      "e00506",
+      "e00447",
+      "e00458",
+      "e00473"
+     ],
+     "detail": {
+      "in_tokens": 1013,
+      "out_tokens": 118
+     },
+     "seq": 16
+    },
+    {
+     "at": 1792612222.6529334,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 5738,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 975,
+      "out_tokens": 207
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612222.6529577,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:EMA:right::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 18
+    },
+    {
+     "at": 1792612222.9586182,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 19
+    },
+    {
+     "at": 1792612222.9586315,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 20
+    },
+    {
+     "at": 1792612223.621565,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in en, neutral cut",
+     "status": "failed",
+     "ms": 4907,
+     "why": "card title: 49 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1148,
+      "out_tokens": 166,
+      "errors": [
+       "card title: 49 characters, the limit is 44"
+      ]
+     },
+     "seq": 21
+    },
+    {
+     "at": 1792612223.6215887,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in en, neutral cut",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Writer",
+     "event_ids": [],
+     "detail": {},
+     "seq": 22
+    },
+    {
+     "at": 1792612223.8181973,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 3936,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1023,
+      "out_tokens": 139
+     },
+     "seq": 23
+    },
+    {
+     "at": 1792612223.8182216,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:HAR:left::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 24
+    },
+    {
+     "at": 1792612226.5571172,
+     "agent": "writer",
+     "action": "wrote press_up (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 3597,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1054,
+      "out_tokens": 187
+     },
+     "seq": 25
+    },
+    {
+     "at": 1792612226.5571418,
+     "agent": "writer",
+     "action": "wrote scripts/press_up:HAR:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 26
+    },
+    {
+     "at": 1792612228.7211561,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1399,
+     "why": "",
+     "event_ids": [
+      "e00832",
+      "e00854",
+      "e00873"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 76
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612230.3788352,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 28
+    },
+    {
+     "at": 1792612230.3789423,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 29
+    },
+    {
+     "at": 1792612231.6779928,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1374,
+     "why": "",
+     "event_ids": [
+      "e01003",
+      "e01007",
+      "e01008"
+     ],
+     "detail": {
+      "in_tokens": 760,
+      "out_tokens": 70
+     },
+     "seq": 30
+    },
+    {
+     "at": 1792612232.2010758,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 1820,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 979,
+      "out_tokens": 157
+     },
+     "seq": 31
+    },
+    {
+     "at": 1792612232.2011092,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:EMA:left::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 32
+    },
+    {
+     "at": 1792612233.3335013,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1064,
+     "why": "",
+     "event_ids": [
+      "e01231"
+     ],
+     "detail": {
+      "in_tokens": 518,
+      "out_tokens": 53
+     },
+     "seq": 33
+    },
+    {
+     "at": 1792612235.2207265,
+     "agent": "producer",
+     "action": "planned the neutral rundown",
+     "status": "retry",
+     "ms": 1884,
+     "why": "c1: the reason quotes a number; explain in words",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1508,
+      "out_tokens": 115,
+      "errors": [
+       "c1: the reason quotes a number; explain in words"
+      ]
+     },
+     "seq": 34
+    },
+    {
+     "at": 1792612236.9529972,
+     "agent": "producer",
+     "action": "planned the neutral rundown",
+     "status": "ok",
+     "ms": 1732,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1665,
+      "out_tokens": 110
+     },
+     "seq": 35
+    },
+    {
+     "at": 1792612236.9843602,
+     "agent": "verifier",
+     "action": "checked s2 (deep_block)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [],
+     "detail": {},
+     "seq": 36
+    },
+    {
+     "at": 1792612237.0095644,
+     "agent": "verifier",
+     "action": "checked s3 (press_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [],
+     "detail": {},
+     "seq": 37
+    },
+    {
+     "at": 1792612237.010598,
+     "agent": "telestrator",
+     "action": "planned the picture for goal (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 38
+    },
+    {
+     "at": 1792612237.0106084,
+     "agent": "telestrator",
+     "action": "planned the picture for goal (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 39
+    },
+    {
+     "at": 1792612238.7285008,
+     "agent": "writer",
+     "action": "wrote goal (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 1716,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 742,
+      "out_tokens": 119
+     },
+     "seq": 40
+    },
+    {
+     "at": 1792612238.7285259,
+     "agent": "writer",
+     "action": "wrote scripts/goal:HAR::HAR09:1:e01231|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 41
+    },
+    {
+     "at": 1792612238.7568567,
+     "agent": "verifier",
+     "action": "checked s1 (goal)",
+     "status": "ok",
+     "ms": null,
+     "why": "1 facts recomputed, schema valid",
+     "event_ids": [
+      "e01227",
+      "e01229",
+      "e01230",
+      "e01231"
+     ],
+     "detail": {},
+     "seq": 42
+    },
+    {
+     "at": 1792612238.7579794,
+     "agent": "producer",
+     "action": "wrote rundowns/neutral|en",
+     "status": "ok",
+     "ms": null,
+     "why": "Lead with Oskar Vidal's goal because it was a key scoring chance that effectively shifted momentum in Harbour City's favor and decided the first half. / Next, Harbour City's defensive line dropping deeper shows a significant tactical change impacting control, crucial for understanding the match context after the goal. / Follow with Harbour City's increased pressing intensity evidenced by PPDA dropping, highlighting a clear pressure shift that likely contributed to maintaining their advantage.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 43
+    }
+   ]
+  },
+  {
+   "match": "42",
+   "cut": "away",
+   "lang": "es",
+   "lock_s": 4.96,
+   "segments": [
+    {
+     "title": "Gol decisivo de Oskar Vidal en el descuento",
+     "kind": "goal",
+     "script": [
+      "Oskar Vidal abre el marcador en el descuento de la primera mitad.",
+      "Su disparo tiene una probabilidad de gol del 0,281, según la métrica xG.",
+      "Este gol cambia completamente el ritmo y dominio del partido a favor de Harbour City."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "Oskar Vidal's goal with an xG of 0.281 at 47 minutes was the key event that decided the half and shifted control to Harbour City",
+      "pick_reason": "Oskar Vidal's goal is the lead story because it decided the half and shifted control towards Harbour City, which matters most to Eastmoor fans as the away team is trailing."
+     }
+    },
+    {
+     "title": "Eastmoor acelera el ritmo en Harbor City",
+     "kind": "tempo_up",
+     "script": [
+      "Al principio, Eastmoor tocaba a 8,6 pases por minuto.",
+      "Al minuto 19, ya están en 12,6 pases por minuto.",
+      "Mueven el balón con más rapidez y controlan el juego.",
+      "Esto impulsa a Eastmoor a dominar el partido fuera de casa."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "Eastmoor accelerated their passing tempo from 8.6 to 12.6 passes per minute by minute 19, signaling a significant rhythm change that likely affects their attacking threat.",
+      "pick_reason": "Eastmoor increasing their passing tempo is the next significant positive momentum point for Eastmoor fans and shows a notable rhythm change influencing their attacking threat."
+     }
+    },
+    {
+     "title": "Harbour City presiona con más intensidad",
+     "kind": "press_up",
+     "script": [
+      "En el minuto 27, Harbour City ajusta su presión en campo rival.",
+      "La PPDA baja de 4,6 a 2,9, menos pases por defensa significa más presión.",
+      "Esto complica a Eastmoor Athletic la salida con balón y el control del juego.",
+      "Cada minuto, Harbour lanza hasta 4 presiones que ahogan a su rival.",
+      "Así vemos cómo Harbour se hace dueño del ritmo en esta primera mitad."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "rules",
+       "writer": "agent"
+      },
+      "why": "Harbour City has significantly improved pressing intensity, lowering PPDA from 4.6 to 2.9 recently, signaling a clear pressure shift likely impacting Eastmoor's ability to build play.",
+      "pick_reason": "Harbour City's significantly improved pressing intensity is chosen as a key factor limiting Eastmoor's build-up play, adding important context on the defensive pressure affecting Eastmoor."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612212.8844185,
+     "agent": "telestrator",
+     "action": "switched off",
+     "status": "killed",
+     "ms": null,
+     "why": "kill switch",
+     "event_ids": [],
+     "detail": {},
+     "seq": 0
+    },
+    {
+     "at": 1792612214.4966183,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 1
+    },
+    {
+     "at": 1792612214.496632,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 2
+    },
+    {
+     "at": 1792612214.515029,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 3
+    },
+    {
+     "at": 1792612214.5150445,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 4
+    },
+    {
+     "at": 1792612216.135941,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "retry",
+     "ms": 2139,
+     "why": "c1: 0 in \"Eastmoor accelerated their passing tempo from {F1} to {F2} b\" is not one of the facts' values",
+     "event_ids": [
+      "e00215",
+      "e00217",
+      "e00219"
+     ],
+     "detail": {
+      "in_tokens": 619,
+      "out_tokens": 58,
+      "errors": [
+       "c1: 0 in \"Eastmoor accelerated their passing tempo from {F1} to {F2} b\" is not one of the facts' values"
+      ]
+     },
+     "seq": 5
+    },
+    {
+     "at": 1792612216.236206,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 2672,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 726,
+      "out_tokens": 87
+     },
+     "seq": 6
+    },
+    {
+     "at": 1792612217.0221798,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 7
+    },
+    {
+     "at": 1792612217.0221925,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 8
+    },
+    {
+     "at": 1792612218.9143677,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 4378,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 944,
+      "out_tokens": 158
+     },
+     "seq": 9
+    },
+    {
+     "at": 1792612218.9143915,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:HAR:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 10
+    },
+    {
+     "at": 1792612219.406847,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4471,
+     "why": "",
+     "event_ids": [
+      "e00300",
+      "e00348",
+      "e00395"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 62
+     },
+     "seq": 11
+    },
+    {
+     "at": 1792612219.6428094,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 5105,
+     "why": "69 words; the budget is 52",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 833,
+      "out_tokens": 169,
+      "errors": [
+       "69 words; the budget is 52"
+      ]
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612219.7229993,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3587,
+     "why": "",
+     "event_ids": [
+      "e00215",
+      "e00217",
+      "e00219"
+     ],
+     "detail": {
+      "in_tokens": 740,
+      "out_tokens": 58
+     },
+     "seq": 13
+    },
+    {
+     "at": 1792612220.2222388,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 14
+    },
+    {
+     "at": 1792612220.222251,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 15
+    },
+    {
+     "at": 1792612221.1244097,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4860,
+     "why": "",
+     "event_ids": [
+      "e00363",
+      "e00406",
+      "e00429"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 65
+     },
+     "seq": 16
+    },
+    {
+     "at": 1792612222.7707763,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 4539,
+     "why": "",
+     "event_ids": [
+      "e00471",
+      "e00488",
+      "e00506",
+      "e00447",
+      "e00458",
+      "e00473"
+     ],
+     "detail": {
+      "in_tokens": 1013,
+      "out_tokens": 110
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612223.2465167,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 6223,
+     "why": "subtitle: 84 characters, the limit is 80",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 978,
+      "out_tokens": 165,
+      "errors": [
+       "subtitle: 84 characters, the limit is 80"
+      ]
+     },
+     "seq": 18
+    },
+    {
+     "at": 1792612223.288328,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 3646,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1040,
+      "out_tokens": 135
+     },
+     "seq": 19
+    },
+    {
+     "at": 1792612223.2883554,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 20
+    },
+    {
+     "at": 1792612223.383358,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 21
+    },
+    {
+     "at": 1792612223.3833718,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 22
+    },
+    {
+     "at": 1792612225.178165,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 4954,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1018,
+      "out_tokens": 169
+     },
+     "seq": 23
+    },
+    {
+     "at": 1792612225.178202,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:HAR:left::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 24
+    },
+    {
+     "at": 1792612226.4991524,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 3253,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1183,
+      "out_tokens": 164
+     },
+     "seq": 25
+    },
+    {
+     "at": 1792612226.4991992,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:EMA:right::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 26
+    },
+    {
+     "at": 1792612228.7024279,
+     "agent": "writer",
+     "action": "wrote press_up (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 5317,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1057,
+      "out_tokens": 187
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612228.7024615,
+     "agent": "writer",
+     "action": "wrote scripts/press_up:HAR:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 28
+    },
+    {
+     "at": 1792612230.0627513,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 2392,
+     "why": "",
+     "event_ids": [
+      "e00832",
+      "e00854",
+      "e00873"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 72
+     },
+     "seq": 29
+    },
+    {
+     "at": 1792612230.886112,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 30
+    },
+    {
+     "at": 1792612230.8861265,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 31
+    },
+    {
+     "at": 1792612232.152027,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1342,
+     "why": "",
+     "event_ids": [
+      "e01003",
+      "e01007",
+      "e01008"
+     ],
+     "detail": {
+      "in_tokens": 760,
+      "out_tokens": 67
+     },
+     "seq": 32
+    },
+    {
+     "at": 1792612233.2451575,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 2357,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 982,
+      "out_tokens": 217
+     },
+     "seq": 33
+    },
+    {
+     "at": 1792612233.2451828,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:EMA:left::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 34
+    },
+    {
+     "at": 1792612233.464529,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1074,
+     "why": "",
+     "event_ids": [
+      "e01231"
+     ],
+     "detail": {
+      "in_tokens": 518,
+      "out_tokens": 52
+     },
+     "seq": 35
+    },
+    {
+     "at": 1792612235.86157,
+     "agent": "producer",
+     "action": "planned the away rundown",
+     "status": "ok",
+     "ms": 2394,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1484,
+      "out_tokens": 125
+     },
+     "seq": 36
+    },
+    {
+     "at": 1792612235.9124575,
+     "agent": "verifier",
+     "action": "checked s2 (tempo_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "2 facts recomputed, schema valid",
+     "event_ids": [
+      "e00259",
+      "e00259",
+      "e00261",
+      "e00263",
+      "e00265",
+      "e00267",
+      "e00261",
+      "e00263",
+      "e00265",
+      "e00267"
+     ],
+     "detail": {},
+     "seq": 37
+    },
+    {
+     "at": 1792612235.937741,
+     "agent": "verifier",
+     "action": "checked s3 (press_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [],
+     "detail": {},
+     "seq": 38
+    },
+    {
+     "at": 1792612235.9386976,
+     "agent": "telestrator",
+     "action": "planned the picture for goal (HAR)",
+     "status": "killed",
+     "ms": null,
+     "why": "switched off; routing around it",
+     "event_ids": [],
+     "detail": {},
+     "seq": 39
+    },
+    {
+     "at": 1792612235.9387083,
+     "agent": "telestrator",
+     "action": "planned the picture for goal (HAR)",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Telestrator draws this one",
+     "event_ids": [],
+     "detail": {},
+     "seq": 40
+    },
+    {
+     "at": 1792612238.3933194,
+     "agent": "writer",
+     "action": "wrote goal (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 2453,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 744,
+      "out_tokens": 123
+     },
+     "seq": 41
+    },
+    {
+     "at": 1792612238.393345,
+     "agent": "writer",
+     "action": "wrote scripts/goal:HAR::HAR09:1:e01231|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 42
+    },
+    {
+     "at": 1792612238.4283714,
+     "agent": "verifier",
+     "action": "checked s1 (goal)",
+     "status": "ok",
+     "ms": null,
+     "why": "1 facts recomputed, schema valid",
+     "event_ids": [
+      "e01227",
+      "e01229",
+      "e01230",
+      "e01231"
+     ],
+     "detail": {},
+     "seq": 43
+    },
+    {
+     "at": 1792612238.4294302,
+     "agent": "producer",
+     "action": "wrote rundowns/away|es",
+     "status": "ok",
+     "ms": null,
+     "why": "Oskar Vidal's goal is the lead story because it decided the half and shifted control towards Harbour City, which matters most to Eastmoor fans as the away team is trailing. / Eastmoor increasing their passing tempo is the next significant positive momentum point for Eastmoor fans and shows a notable rhythm change influencing their attacking threat. / Harbour City's significantly improved pressing intensity is chosen as a key factor limiting Eastmoor's build-up play, adding important context on the defensive pressure affecting Eastmoor.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 44
+    }
+   ]
+  }
+ ]
+}

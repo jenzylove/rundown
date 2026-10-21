@@ -10,3 +10,4 @@
 | 21 Oct | Azure connected: Foundry project with gpt-4.1-mini, and Speech, in Sweden Central. |
 | 21 Oct | Spike S2 passed with conditions: an Agent Framework agent on gpt-4.1-mini writes Overlay Script segments for 92 real talking points (EN/ES); 73% valid first try, 96% after one Verifier retry, 6.3 s per call (p50). Code must own timing and geometry. |
 | 21 Oct | Spike S3 passed: Azure Speech word timings in EN/ES/FR/PT land within 150 ms of the heard word (median 37 to 64 ms). |
+| 21 Oct | Agent crew on Microsoft Agent Framework: Analyst, Producer, Telestrator and Writer agents on gpt-4.1-mini, gated by a code Verifier that recomputes every number from the engine. On 4 seeds × 2 cuts: 24/24 agent pictures, 21/24 agent scripts, 24/24 verified, lock median 1.9 s after the whistle. Kill-the-Telestrator recovers with every segment verified. Live API streams the crew's trail; the desk shows who made what and why. |

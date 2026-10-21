@@ -1,0 +1,5227 @@
+{
+ "summary": {
+  "rundowns": [
+   {
+    "match": "3",
+    "cut": "neutral",
+    "lang": "en",
+    "segments": 3,
+    "agent_pictures": 3,
+    "agent_words": 2,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 1.88
+   },
+   {
+    "match": "3",
+    "cut": "away",
+    "lang": "es",
+    "segments": 3,
+    "agent_pictures": 3,
+    "agent_words": 3,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 2.15
+   },
+   {
+    "match": "11",
+    "cut": "neutral",
+    "lang": "en",
+    "segments": 3,
+    "agent_pictures": 3,
+    "agent_words": 1,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 1.87
+   },
+   {
+    "match": "11",
+    "cut": "away",
+    "lang": "es",
+    "segments": 3,
+    "agent_pictures": 3,
+    "agent_words": 2,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 1.57
+   },
+   {
+    "match": "21",
+    "cut": "neutral",
+    "lang": "en",
+    "segments": 3,
+    "agent_pictures": 3,
+    "agent_words": 3,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 1.62
+   },
+   {
+    "match": "21",
+    "cut": "away",
+    "lang": "es",
+    "segments": 3,
+    "agent_pictures": 3,
+    "agent_words": 3,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 1.74
+   },
+   {
+    "match": "42",
+    "cut": "neutral",
+    "lang": "en",
+    "segments": 3,
+    "agent_pictures": 3,
+    "agent_words": 3,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 8.06
+   },
+   {
+    "match": "42",
+    "cut": "away",
+    "lang": "es",
+    "segments": 3,
+    "agent_pictures": 3,
+    "agent_words": 3,
+    "verified": 3,
+    "duration_s": 90.01,
+    "lock_s": 8.26
+   }
+  ],
+  "agents": {
+   "analyst": {
+    "jobs": 46,
+    "first_try": 41,
+    "after_retry": 43,
+    "routed_around": 3
+   },
+   "producer": {
+    "jobs": 8,
+    "first_try": 7,
+    "after_retry": 8,
+    "routed_around": 0
+   },
+   "telestrator": {
+    "jobs": 45,
+    "first_try": 45,
+    "after_retry": 45,
+    "routed_around": 0
+   },
+   "writer": {
+    "jobs": 45,
+    "first_try": 21,
+    "after_retry": 41,
+    "routed_around": 4
+   }
+  },
+  "lock_median_s": 1.88,
+  "lock_max_s": 8.26
+ },
+ "runs": [
+  {
+   "match": "3",
+   "cut": "neutral",
+   "lang": "en",
+   "lock_s": 1.88,
+   "segments": [
+    {
+     "title": "Backs to the wall",
+     "kind": "deep_block",
+     "script": [
+      "Eastmoor have taken a step back.",
+      "Their back line has dropped from 36.5 to 32.4 metres from goal.",
+      "Harbour now have 58.3% of the passes in the final third."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "rules"
+      },
+      "why": "Eastmoor dropping their defensive line from 36.5 m to 32.4 m at 20 minutes corresponds with Harbour's field tilt increase from 50% to 58.3%, indicating a significant pressure and control shift favoring Harbour.",
+      "pick_reason": "Eastmoor Athletic dropping their defensive line substantially and losing field control to Harbour City is the pivotal narrative impacting both teams' prospects, making this the crucial lead story for a neutral audience."
+     }
+    },
+    {
+     "title": "Harbour City's aggressive press intensifies",
+     "kind": "press_up",
+     "script": [
+      "Look at Harbour City pressing high in midfield around 31 mins.",
+      "Their PPDA falls from 8.3 to 5.8, meaning fewer passes allowed per defensive action.",
+      "Pressures per minute have doubled from 3.52 to 7, squeezing Eastmoor tightly.",
+      "This forces Eastmoor's midfielder back, then under pressure to go long."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Harbour City's PPDA dropped from 8.3 to 5.8 and pressures per minute doubled from 3.52 to 7 in the last 10 minutes, showing a strong shift to higher pressing and increased opponent pressure.",
+      "pick_reason": "Harbour City's increased pressing intensity following their defensive line drop signals an aggressive shift in tactics, highlighting their strategic adjustment to capitalize on Eastmoor's positioning."
+     }
+    },
+    {
+     "title": "Zane Halvorsen's sharp slowdown at halftime",
+     "kind": "fatigue",
+     "script": [
+      "Here’s Zane Halvorsen on the ball at 40 minutes, but look at that drop in pace.",
+      "He was hitting a top speed of 27.1 km/h early on, really pushing the game forward.",
+      "Now his top speed falls to 20.5 km/h — that kind of slowdown tells a story about fatigue.",
+      "Eastmoor Athletic could see their threat dip unless Zane finds new legs after halftime."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Zane Halvorsen showing a drop in top speed from 27.1 to 20.5 km/h over the half indicates a significant reduction in physical impact, which could reduce Eastmoor Athletic's attacking threat or defensive coverage at the break.",
+      "pick_reason": "Zane Halvorsen's noticeable fatigue undermines Eastmoor Athletic's effectiveness and could influence second-half dynamics, offering an important individual impact angle after the tactical stories."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612009.307103,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 2245,
+     "why": "",
+     "event_ids": [
+      "e00246",
+      "e00248",
+      "e00250"
+     ],
+     "detail": {
+      "in_tokens": 964,
+      "out_tokens": 126
+     },
+     "seq": 0
+    },
+    {
+     "at": 1792612009.8682373,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "ok",
+     "ms": 2765,
+     "why": "",
+     "event_ids": [
+      "e00246",
+      "e00248",
+      "e00250",
+      "e00252",
+      "e00254",
+      "e00256",
+      "e00258",
+      "e00260",
+      "e00262",
+      "e00264"
+     ],
+     "detail": {
+      "in_tokens": 2557,
+      "out_tokens": 133
+     },
+     "seq": 1
+    },
+    {
+     "at": 1792612009.8682816,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic accelerating their passing rhythm with quick, precise sequences.",
+     "event_ids": [
+      "e00246",
+      "e00248",
+      "e00250",
+      "e00252"
+     ],
+     "detail": {},
+     "seq": 2
+    },
+    {
+     "at": 1792612009.8897069,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (EMA)",
+     "status": "ok",
+     "ms": 2805,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2314,
+      "out_tokens": 95
+     },
+     "seq": 3
+    },
+    {
+     "at": 1792612009.8897374,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic's defensive line drops deeper by about 4 meters between 0 and 5 seconds.",
+     "event_ids": [
+      "e00461"
+     ],
+     "detail": {},
+     "seq": 4
+    },
+    {
+     "at": 1792612011.629549,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3426,
+     "why": "",
+     "event_ids": [
+      "e00299",
+      "e00300",
+      "e00301"
+     ],
+     "detail": {
+      "in_tokens": 619,
+      "out_tokens": 57
+     },
+     "seq": 5
+    },
+    {
+     "at": 1792612012.2392561,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3504,
+     "why": "",
+     "event_ids": [
+      "e00553"
+     ],
+     "detail": {
+      "in_tokens": 517,
+      "out_tokens": 62
+     },
+     "seq": 6
+    },
+    {
+     "at": 1792612013.1888828,
+     "agent": "telestrator",
+     "action": "planned the picture for big_chance (HAR)",
+     "status": "ok",
+     "ms": 3908,
+     "why": "",
+     "event_ids": [
+      "e00553"
+     ],
+     "detail": {
+      "in_tokens": 2440,
+      "out_tokens": 104
+     },
+     "seq": 7
+    },
+    {
+     "at": 1792612013.1889136,
+     "agent": "telestrator",
+     "action": "wrote plans/big_chance:HAR::HAR09:1:e00553",
+     "status": "ok",
+     "ms": null,
+     "why": "Zane Strand receives a cross and takes a shot just off target, creating a big chance with 0.26 xG.",
+     "event_ids": [
+      "e00552",
+      "e00553"
+     ],
+     "detail": {},
+     "seq": 8
+    },
+    {
+     "at": 1792612013.339523,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (HAR)",
+     "status": "ok",
+     "ms": 4035,
+     "why": "",
+     "event_ids": [
+      "e00299",
+      "e00300",
+      "e00301",
+      "e00302",
+      "e00303",
+      "e00304",
+      "e00306",
+      "e00307",
+      "e00308",
+      "e00309"
+     ],
+     "detail": {
+      "in_tokens": 2702,
+      "out_tokens": 92
+     },
+     "seq": 9
+    },
+    {
+     "at": 1792612013.339551,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City speeds up their play with a sequence of quick passes starting from Ugo Okafor (slot 4) moving the ball forward rapidly.",
+     "event_ids": [
+      "e00367",
+      "e00368"
+     ],
+     "detail": {},
+     "seq": 10
+    },
+    {
+     "at": 1792612014.7870934,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 5091,
+     "why": "",
+     "event_ids": [
+      "e00374",
+      "e00426",
+      "e00457"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 67
+     },
+     "seq": 11
+    },
+    {
+     "at": 1792612015.915178,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 6040,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 871,
+      "out_tokens": 173
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612015.9152036,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 13
+    },
+    {
+     "at": 1792612016.740584,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in en, neutral cut",
+     "status": "retry",
+     "ms": 6845,
+     "why": "card title: 53 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1003,
+      "out_tokens": 161,
+      "errors": [
+       "card title: 53 characters, the limit is 44"
+      ]
+     },
+     "seq": 14
+    },
+    {
+     "at": 1792612017.0982103,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "ok",
+     "ms": 5276,
+     "why": "",
+     "event_ids": [
+      "e00374",
+      "e00426",
+      "e00457",
+      "e00461",
+      "e00489",
+      "e00537",
+      "e00552",
+      "e00609",
+      "e00613",
+      "e00615"
+     ],
+     "detail": {
+      "in_tokens": 2361,
+      "out_tokens": 114
+     },
+     "seq": 15
+    },
+    {
+     "at": 1792612017.0982544,
+     "agent": "telestrator",
+     "action": "wrote plans/flank_overload:HAR:right::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City attacks much more down the right flank, illustrated by the ball progression and player positions on the right wing.",
+     "event_ids": [
+      "e00549"
+     ],
+     "detail": {},
+     "seq": 16
+    },
+    {
+     "at": 1792612017.73621,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 5408,
+     "why": "",
+     "event_ids": [
+      "e00547",
+      "e00559",
+      "e00572"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 73
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612019.5132513,
+     "agent": "writer",
+     "action": "wrote big_chance (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 6319,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 766,
+      "out_tokens": 129
+     },
+     "seq": 18
+    },
+    {
+     "at": 1792612019.513273,
+     "agent": "writer",
+     "action": "wrote scripts/big_chance:HAR::HAR09:1:e00553|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 19
+    },
+    {
+     "at": 1792612020.5738156,
+     "agent": "writer",
+     "action": "wrote tempo_up (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 7228,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 888,
+      "out_tokens": 163
+     },
+     "seq": 20
+    },
+    {
+     "at": 1792612020.57385,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:HAR:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 21
+    },
+    {
+     "at": 1792612021.2535923,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "ok",
+     "ms": 6278,
+     "why": "",
+     "event_ids": [
+      "e00547",
+      "e00559",
+      "e00572",
+      "e00595",
+      "e00603",
+      "e00658",
+      "e00698",
+      "e00726",
+      "e00739",
+      "e00784"
+     ],
+     "detail": {
+      "in_tokens": 2481,
+      "out_tokens": 116
+     },
+     "seq": 22
+    },
+    {
+     "at": 1792612021.2536333,
+     "agent": "telestrator",
+     "action": "wrote plans/press_up:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City pressing high in midfield zone forces Eastmoor Athletic's midfielder to carry back and then pass long under pressure.",
+     "event_ids": [
+      "e00783",
+      "e00785"
+     ],
+     "detail": {},
+     "seq": 23
+    },
+    {
+     "at": 1792612022.0975378,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in en, neutral cut",
+     "status": "failed",
+     "ms": 5357,
+     "why": "card title: 46 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1205,
+      "out_tokens": 160,
+      "errors": [
+       "card title: 46 characters, the limit is 44"
+      ]
+     },
+     "seq": 24
+    },
+    {
+     "at": 1792612022.0975516,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in en, neutral cut",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Writer",
+     "event_ids": [],
+     "detail": {},
+     "seq": 25
+    },
+    {
+     "at": 1792612023.4024036,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4928,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 637,
+      "out_tokens": 80
+     },
+     "seq": 26
+    },
+    {
+     "at": 1792612024.1308806,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in en, neutral cut",
+     "status": "retry",
+     "ms": 7026,
+     "why": "subtitle: 14 in \"Harbour attacks more on the right from 14% to 43% by 26th mi\" is not one of the facts' values; subtitle: 43 in \"Harbour attacks more on the right from 14% to 43% by 26th mi\" is not one of the facts' values; line 0: 14 in \"Look at Harbour City's right side at minute 26, their attack\" is not one of the facts' values; line 0: 43 in \"Look at Harbour City's right side at minute 26, their attack\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1035,
+      "out_tokens": 166,
+      "errors": [
+       "subtitle: 14 in \"Harbour attacks more on the right from 14% to 43% by 26th mi\" is not one of the facts' values",
+       "subtitle: 43 in \"Harbour attacks more on the right from 14% to 43% by 26th mi\" is not one of the facts' values",
+       "line 0: 14 in \"Look at Harbour City's right side at minute 26, their attack\" is not one of the facts' values",
+       "line 0: 43 in \"Look at Harbour City's right side at minute 26, their attack\" is not one of the facts' values",
+       "line 1: number spelled out (three); write fact values in digits"
+      ]
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612024.4022853,
+     "agent": "telestrator",
+     "action": "planned the picture for fatigue (EMA)",
+     "status": "ok",
+     "ms": 5842,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2318,
+      "out_tokens": 98
+     },
+     "seq": 28
+    },
+    {
+     "at": 1792612024.402318,
+     "agent": "telestrator",
+     "action": "wrote plans/fatigue:EMA::EMA04:1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Zane Halvorsen's significant drop in top speed over the displayed possession.",
+     "event_ids": [
+      "e01037"
+     ],
+     "detail": {},
+     "seq": 29
+    },
+    {
+     "at": 1792612025.9765253,
+     "agent": "writer",
+     "action": "wrote press_up (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 4718,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1079,
+      "out_tokens": 162
+     },
+     "seq": 30
+    },
+    {
+     "at": 1792612025.9765494,
+     "agent": "writer",
+     "action": "wrote scripts/press_up:HAR:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 31
+    },
+    {
+     "at": 1792612027.571807,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 3441,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1383,
+      "out_tokens": 175
+     },
+     "seq": 32
+    },
+    {
+     "at": 1792612027.5718548,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:HAR:right::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 33
+    },
+    {
+     "at": 1792612028.0820851,
+     "agent": "writer",
+     "action": "wrote fatigue (EMA) in en, neutral cut",
+     "status": "retry",
+     "ms": 3670,
+     "why": "row 0: 30 in \"Sprints in first 30 mins\" is not one of the facts' values; row 1: 30 in \"Distance covered first 30 mins (m)\" is not one of the facts' values; row 2: 30 in \"Top speed first 30 mins (km/h)\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 907,
+      "out_tokens": 230,
+      "errors": [
+       "row 0: 30 in \"Sprints in first 30 mins\" is not one of the facts' values",
+       "row 1: 30 in \"Distance covered first 30 mins (m)\" is not one of the facts' values",
+       "row 2: 30 in \"Top speed first 30 mins (km/h)\" is not one of the facts' values"
+      ]
+     },
+     "seq": 34
+    },
+    {
+     "at": 1792612030.5384288,
+     "agent": "writer",
+     "action": "wrote fatigue (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 2456,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1245,
+      "out_tokens": 227
+     },
+     "seq": 35
+    },
+    {
+     "at": 1792612030.5384603,
+     "agent": "writer",
+     "action": "wrote scripts/fatigue:EMA::EMA04:1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 36
+    },
+    {
+     "at": 1792612032.105929,
+     "agent": "producer",
+     "action": "planned the neutral rundown",
+     "status": "ok",
+     "ms": 1553,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1230,
+      "out_tokens": 129
+     },
+     "seq": 37
+    },
+    {
+     "at": 1792612032.206703,
+     "agent": "verifier",
+     "action": "checked s1 (deep_block)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00461"
+     ],
+     "detail": {},
+     "seq": 38
+    },
+    {
+     "at": 1792612032.2400155,
+     "agent": "verifier",
+     "action": "checked s2 (press_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00783",
+      "e00785"
+     ],
+     "detail": {},
+     "seq": 39
+    },
+    {
+     "at": 1792612032.2781575,
+     "agent": "verifier",
+     "action": "checked s3 (fatigue)",
+     "status": "ok",
+     "ms": null,
+     "why": "2 facts recomputed, schema valid",
+     "event_ids": [
+      "e01037"
+     ],
+     "detail": {},
+     "seq": 40
+    },
+    {
+     "at": 1792612032.4300394,
+     "agent": "producer",
+     "action": "wrote rundowns/neutral|en",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic dropping their defensive line substantially and losing field control to Harbour City is the pivotal narrative impacting both teams' prospects, making this the crucial lead story for a neutral audience. / Harbour City's increased pressing intensity following their defensive line drop signals an aggressive shift in tactics, highlighting their strategic adjustment to capitalize on Eastmoor's positioning. / Zane Halvorsen's noticeable fatigue undermines Eastmoor Athletic's effectiveness and could influence second-half dynamics, offering an important individual impact angle after the tactical stories.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 41
+    }
+   ]
+  },
+  {
+   "match": "3",
+   "cut": "away",
+   "lang": "es",
+   "lock_s": 2.15,
+   "segments": [
+    {
+     "title": "Eastmoor retrocede en bloque defensivo",
+     "kind": "deep_block",
+     "script": [
+      "Hasta el minuto 20, Eastmoor mantenía su línea defensiva en 36,5 metros.",
+      "Pero luego bajan a 32,4 metros, están retrocediendo para ser más compactos.",
+      "Esto refleja una subida de Harbour City en posesión: su presión sube del 50 al 58,3 %.",
+      "Un cambio táctico claro que abre espacios para Harbour y pone a Eastmoor a prueba."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Eastmoor Athletic's defensive line dropped from 36.5m to 32.4m around 20, signalling a tactical change likely increasing Harbour City's field tilt from 50% to 58.3%, indicating a pressure shift creating more space for Harbour City.",
+      "pick_reason": "Eastmoor Athletic fans will want to know their team has dropped deeper defensively, allowing Harbour City to increase possession territory and pressure. This tactical shift is crucial as it indicates the home side is gaining an advantage, which matters most to away fans at halftime."
+     }
+    },
+    {
+     "title": "Zane Halvorsen pierde velocidad",
+     "kind": "fatigue",
+     "script": [
+      "Aquí vemos a Zane Halvorsen, que aparece claramente fatigado en el minuto 40.",
+      "Su velocidad máxima cae de 27,1 a 20,5 km/h, una señal clara de cansancio.",
+      "Esto limita su movilidad y podría permitir a Harbour City presionar más.",
+      "Eastmoor debe cuidar a Zane para mantener la intensidad en este tramo."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Zane Halvorsen showed a marked drop in top speed from 27.1 to 20.5 km/h indicating he is physically fading, which could lead to a pressure shift if exploited by Harbour City.",
+      "pick_reason": "Zane Halvorsen's fatigue is significant for Eastmoor Athletic since his decreased speed could weaken their defense and allow Harbour City to press their advantage. This physical decline sets up potential changes in pressure and game dynamics."
+     }
+    },
+    {
+     "title": "Harbour City acelera su juego",
+     "kind": "tempo_up",
+     "script": [
+      "Miren cómo Harbour City acelera su juego desde el minuto 23.",
+      "Pasan el balón más rápido, de 10,7 a 13,4 pases por minuto de posesión.",
+      "Eso significa más velocidad y presión sobre Eastmoor.",
+      "Fíjense en esta secuencia rápida, el balón se mueve muy rápido por la banda izquierda."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Harbour City increasing its passing tempo from 10.7 to 13.4 indicates a rhythm change that could be shifting control by speeding up play and increasing pressure",
+      "pick_reason": "Harbour City's increased passing tempo shows their intent to speed up play and apply pressure, creating a potential momentum swing against Eastmoor. This pace change complements the earlier points about tactical and physical shifts that could affect the second half."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612010.8592293,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 3487,
+     "why": "",
+     "event_ids": [
+      "e00246",
+      "e00248",
+      "e00250"
+     ],
+     "detail": {
+      "in_tokens": 964,
+      "out_tokens": 133
+     },
+     "seq": 0
+    },
+    {
+     "at": 1792612011.5057294,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "ok",
+     "ms": 4106,
+     "why": "",
+     "event_ids": [
+      "e00246",
+      "e00248",
+      "e00250",
+      "e00252",
+      "e00254",
+      "e00256",
+      "e00258",
+      "e00260",
+      "e00262",
+      "e00264"
+     ],
+     "detail": {
+      "in_tokens": 2557,
+      "out_tokens": 80
+     },
+     "seq": 1
+    },
+    {
+     "at": 1792612011.5057647,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic increase tempo by quickly stringing completed passes starting at clip time 1.5s.",
+     "event_ids": [
+      "e00246"
+     ],
+     "detail": {},
+     "seq": 2
+    },
+    {
+     "at": 1792612011.6040912,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 2969,
+     "why": "",
+     "event_ids": [
+      "e00299",
+      "e00300",
+      "e00301"
+     ],
+     "detail": {
+      "in_tokens": 619,
+      "out_tokens": 55
+     },
+     "seq": 3
+    },
+    {
+     "at": 1792612012.401726,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (EMA)",
+     "status": "ok",
+     "ms": 4995,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2314,
+      "out_tokens": 114
+     },
+     "seq": 4
+    },
+    {
+     "at": 1792612012.4017549,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic's defensive line shifts deeper from 36.5 m to 32.4 m, showing a drop in their defensive positioning.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 5
+    },
+    {
+     "at": 1792612013.6393342,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4477,
+     "why": "",
+     "event_ids": [
+      "e00553"
+     ],
+     "detail": {
+      "in_tokens": 517,
+      "out_tokens": 55
+     },
+     "seq": 6
+    },
+    {
+     "at": 1792612014.3211515,
+     "agent": "telestrator",
+     "action": "planned the picture for big_chance (HAR)",
+     "status": "ok",
+     "ms": 4546,
+     "why": "",
+     "event_ids": [
+      "e00553"
+     ],
+     "detail": {
+      "in_tokens": 2440,
+      "out_tokens": 107
+     },
+     "seq": 7
+    },
+    {
+     "at": 1792612014.3211803,
+     "agent": "telestrator",
+     "action": "wrote plans/big_chance:HAR::HAR09:1:e00553",
+     "status": "ok",
+     "ms": null,
+     "why": "Zane Strand's big chance created by a cross from Nico Weller leading to an off-target shot at 10.0 seconds.",
+     "event_ids": [
+      "e00552",
+      "e00553"
+     ],
+     "detail": {},
+     "seq": 8
+    },
+    {
+     "at": 1792612014.9300349,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4544,
+     "why": "",
+     "event_ids": [
+      "e00374",
+      "e00426",
+      "e00457"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 66
+     },
+     "seq": 9
+    },
+    {
+     "at": 1792612016.1173809,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 4604,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 886,
+      "out_tokens": 144
+     },
+     "seq": 10
+    },
+    {
+     "at": 1792612016.1174004,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 11
+    },
+    {
+     "at": 1792612017.9007077,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 5492,
+     "why": "subtitle: 83 characters, the limit is 80",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1018,
+      "out_tokens": 215,
+      "errors": [
+       "subtitle: 83 characters, the limit is 80"
+      ]
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612018.4593353,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "ok",
+     "ms": 5859,
+     "why": "",
+     "event_ids": [
+      "e00374",
+      "e00426",
+      "e00457",
+      "e00461",
+      "e00489",
+      "e00537",
+      "e00552",
+      "e00609",
+      "e00613",
+      "e00615"
+     ],
+     "detail": {
+      "in_tokens": 2361,
+      "out_tokens": 137
+     },
+     "seq": 13
+    },
+    {
+     "at": 1792612018.4593735,
+     "agent": "telestrator",
+     "action": "wrote plans/flank_overload:HAR:right::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City progresses attack down the right flank with key passes and player movement increasing right-side attacks from 13.9% to 43.3%.",
+     "event_ids": [
+      "e00549"
+     ],
+     "detail": {},
+     "seq": 14
+    },
+    {
+     "at": 1792612019.0664294,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 5854,
+     "why": "",
+     "event_ids": [
+      "e00547",
+      "e00559",
+      "e00572"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 83
+     },
+     "seq": 15
+    },
+    {
+     "at": 1792612019.3588114,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (HAR)",
+     "status": "ok",
+     "ms": 6727,
+     "why": "",
+     "event_ids": [
+      "e00299",
+      "e00300",
+      "e00301",
+      "e00302",
+      "e00303",
+      "e00304",
+      "e00306",
+      "e00307",
+      "e00308",
+      "e00309"
+     ],
+     "detail": {
+      "in_tokens": 2702,
+      "out_tokens": 111
+     },
+     "seq": 16
+    },
+    {
+     "at": 1792612019.358869,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City speeding up their passing with quick successive passes starting at 1.5s, highlighting the swift ball movement from the left back through the left wing.",
+     "event_ids": [
+      "e00367",
+      "e00368"
+     ],
+     "detail": {},
+     "seq": 17
+    },
+    {
+     "at": 1792612021.7845385,
+     "agent": "writer",
+     "action": "wrote big_chance (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 7458,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 763,
+      "out_tokens": 130
+     },
+     "seq": 18
+    },
+    {
+     "at": 1792612021.784561,
+     "agent": "writer",
+     "action": "wrote scripts/big_chance:HAR::HAR09:1:e00553|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 19
+    },
+    {
+     "at": 1792612023.254035,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (HAR)",
+     "status": "ok",
+     "ms": 7717,
+     "why": "",
+     "event_ids": [
+      "e00547",
+      "e00559",
+      "e00572",
+      "e00595",
+      "e00603",
+      "e00658",
+      "e00698",
+      "e00726",
+      "e00739",
+      "e00784"
+     ],
+     "detail": {
+      "in_tokens": 2481,
+      "out_tokens": 89
+     },
+     "seq": 20
+    },
+    {
+     "at": 1792612023.254066,
+     "agent": "telestrator",
+     "action": "wrote plans/press_up:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City's high pressing is evidenced by pressure events near the opponent's ball carrier and a contested tackle at x=55 m.",
+     "event_ids": [
+      "e00783",
+      "e00785"
+     ],
+     "detail": {},
+     "seq": 21
+    },
+    {
+     "at": 1792612023.7853875,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 5313,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1048,
+      "out_tokens": 184
+     },
+     "seq": 22
+    },
+    {
+     "at": 1792612023.7854095,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:HAR:right::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 23
+    },
+    {
+     "at": 1792612024.0443466,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 6144,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1273,
+      "out_tokens": 213
+     },
+     "seq": 24
+    },
+    {
+     "at": 1792612024.044378,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 25
+    },
+    {
+     "at": 1792612024.6553023,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 5614,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 637,
+      "out_tokens": 73
+     },
+     "seq": 26
+    },
+    {
+     "at": 1792612026.2500956,
+     "agent": "telestrator",
+     "action": "planned the picture for fatigue (EMA)",
+     "status": "ok",
+     "ms": 7199,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2318,
+      "out_tokens": 116
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612026.250141,
+     "agent": "telestrator",
+     "action": "wrote plans/fatigue:EMA::EMA04:1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Zane Halvorsen's reduced top speed is evident in his limited movement from 6.0s to 10.0s compared to earlier in the clip.",
+     "event_ids": [
+      "e01037"
+     ],
+     "detail": {},
+     "seq": 28
+    },
+    {
+     "at": 1792612026.5518956,
+     "agent": "writer",
+     "action": "wrote tempo_up (HAR) in es, away cut",
+     "status": "retry",
+     "ms": 7175,
+     "why": "row 0: 45 characters, the limit is 44; line 3: 1.5 in \"Fíjense en esta secuencia rápida, el balón va de defensa izq\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 891,
+      "out_tokens": 173,
+      "errors": [
+       "row 0: 45 characters, the limit is 44",
+       "line 3: 1.5 in \"Fíjense en esta secuencia rápida, el balón va de defensa izq\" is not one of the facts' values"
+      ]
+     },
+     "seq": 29
+    },
+    {
+     "at": 1792612027.0956194,
+     "agent": "writer",
+     "action": "wrote press_up (HAR) in es, away cut",
+     "status": "retry",
+     "ms": 3836,
+     "why": "69 words; the budget is 52",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1095,
+      "out_tokens": 191,
+      "errors": [
+       "69 words; the budget is 52"
+      ]
+     },
+     "seq": 30
+    },
+    {
+     "at": 1792612028.0943465,
+     "agent": "writer",
+     "action": "wrote fatigue (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 1841,
+     "why": "card title: 51 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 921,
+      "out_tokens": 180,
+      "errors": [
+       "card title: 51 characters, the limit is 44"
+      ]
+     },
+     "seq": 31
+    },
+    {
+     "at": 1792612028.3088868,
+     "agent": "writer",
+     "action": "wrote tempo_up (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 1757,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1144,
+      "out_tokens": 165
+     },
+     "seq": 32
+    },
+    {
+     "at": 1792612028.3089178,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:HAR:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 33
+    },
+    {
+     "at": 1792612028.6104238,
+     "agent": "writer",
+     "action": "wrote press_up (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 1515,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1324,
+      "out_tokens": 152
+     },
+     "seq": 34
+    },
+    {
+     "at": 1792612028.6104512,
+     "agent": "writer",
+     "action": "wrote scripts/press_up:HAR:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 35
+    },
+    {
+     "at": 1792612030.2819033,
+     "agent": "writer",
+     "action": "wrote fatigue (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 2188,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1142,
+      "out_tokens": 179
+     },
+     "seq": 36
+    },
+    {
+     "at": 1792612030.2819433,
+     "agent": "writer",
+     "action": "wrote scripts/fatigue:EMA::EMA04:1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 37
+    },
+    {
+     "at": 1792612032.284042,
+     "agent": "producer",
+     "action": "planned the away rundown",
+     "status": "ok",
+     "ms": 1995,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1238,
+      "out_tokens": 169
+     },
+     "seq": 38
+    },
+    {
+     "at": 1792612032.3247705,
+     "agent": "verifier",
+     "action": "checked s1 (deep_block)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [],
+     "detail": {},
+     "seq": 39
+    },
+    {
+     "at": 1792612032.3593988,
+     "agent": "verifier",
+     "action": "checked s2 (fatigue)",
+     "status": "ok",
+     "ms": null,
+     "why": "2 facts recomputed, schema valid",
+     "event_ids": [
+      "e01037"
+     ],
+     "detail": {},
+     "seq": 40
+    },
+    {
+     "at": 1792612032.4291701,
+     "agent": "verifier",
+     "action": "checked s3 (tempo_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "2 facts recomputed, schema valid",
+     "event_ids": [
+      "e00367",
+      "e00368"
+     ],
+     "detail": {},
+     "seq": 41
+    },
+    {
+     "at": 1792612032.4306655,
+     "agent": "producer",
+     "action": "wrote rundowns/away|es",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic fans will want to know their team has dropped deeper defensively, allowing Harbour City to increase possession territory and pressure. This tactical shift is crucial as it indicates the home side is gaining an advantage, which matters most to away fans at halftime. / Zane Halvorsen's fatigue is significant for Eastmoor Athletic since his decreased speed could weaken their defense and allow Harbour City to press their advantage. This physical decline sets up potential changes in pressure and game dynamics. / Harbour City's increased passing tempo shows their intent to speed up play and apply pressure, creating a potential momentum swing against Eastmoor. This pace change complements the earlier points about tactical and physical shifts that could affect the second half.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 42
+    }
+   ]
+  },
+  {
+   "match": "11",
+   "cut": "neutral",
+   "lang": "en",
+   "lock_s": 1.87,
+   "segments": [
+    {
+     "title": "Harbour City's Left Flank Surge",
+     "kind": "flank_overload",
+     "script": [
+      "Watch Harbour City ramp up their left-side offense from 18.9% to 48.6% of total attacks by the 29th minute.",
+      "This clear increase features zero overloads early on, then two solid left side overloads.",
+      "They’re controlling the tempo through this strong tactical shift as we head towards halftime."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Harbour City's attacks down the left increased significantly from 18.9% to 48.6% of their total, marking a clear tactical shift in control and pressure that likely dictates the rhythm going into halftime.",
+      "pick_reason": "Harbour City's significant tactical shift to attacking predominantly down the left flank sets the match's rhythm, delivering a key narrative on their control and pressure—perfect as the lead story for a neutral audience interested in strategic changes."
+     }
+    },
+    {
+     "title": "Backs to the wall",
+     "kind": "deep_block",
+     "script": [
+      "Harbour have taken a step back.",
+      "Their back line has dropped from 44.2 to 38.5 metres from goal.",
+      "Eastmoor now have 41.2% of the passes in the final third."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "rules"
+      },
+      "why": "Harbour City's defensive line has dropped from 44.2 m to 38.5 m, coinciding with Eastmoor's field tilt increasing from 30% to 41.2%, indicating a clear pressure shift in the last 10 minutes.",
+      "pick_reason": "Following the flank overload, Harbour City's drop in defensive line depth marked a defensive posture change against Eastmoor's increased pressure, highlighting the evolving battle dynamics on the field."
+     }
+    },
+    {
+     "title": "Faster, faster",
+     "kind": "tempo_up",
+     "script": [
+      "Eastmoor have turned up the tempo.",
+      "From 10.3 to 12.4 passes for every minute on the ball."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "rules"
+      },
+      "why": "Eastmoor Athletic increased tempo from 10.3 to 12.4 passes per possession minute, suggesting a rhythm change but less impactful than the defensive deepening on control so far.",
+      "pick_reason": "Eastmoor Athletic's increase in passing tempo adds nuance on how they are trying to respond offensively, rounding out the top three points with a focus on rhythm and pace changes."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612009.0271559,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 2572,
+     "why": "",
+     "event_ids": [
+      "e00218",
+      "e00220",
+      "e00222"
+     ],
+     "detail": {
+      "in_tokens": 964,
+      "out_tokens": 127
+     },
+     "seq": 0
+    },
+    {
+     "at": 1792612009.961681,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "ok",
+     "ms": 2718,
+     "why": "",
+     "event_ids": [
+      "e00218",
+      "e00220",
+      "e00222",
+      "e00224",
+      "e00233",
+      "e00235",
+      "e00237",
+      "e00239",
+      "e00241",
+      "e00243"
+     ],
+     "detail": {
+      "in_tokens": 2621,
+      "out_tokens": 133
+     },
+     "seq": 1
+    },
+    {
+     "at": 1792612009.9617186,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic's quick passing start with three rapid passes within the first 14 seconds",
+     "event_ids": [
+      "e00249",
+      "e00250",
+      "e00254",
+      "e00256"
+     ],
+     "detail": {},
+     "seq": 2
+    },
+    {
+     "at": 1792612010.1132874,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "ok",
+     "ms": 2881,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2538,
+      "out_tokens": 137
+     },
+     "seq": 3
+    },
+    {
+     "at": 1792612010.1133227,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City defenders have dropped deeper, shown by their average line moving from 44.2 m to 38.5 m on the pitch.",
+     "event_ids": [
+      "e00450"
+     ],
+     "detail": {},
+     "seq": 4
+    },
+    {
+     "at": 1792612011.2578793,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3195,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 726,
+      "out_tokens": 81
+     },
+     "seq": 5
+    },
+    {
+     "at": 1792612013.6517315,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in en, neutral cut",
+     "status": "retry",
+     "ms": 3533,
+     "why": "card title: 47 characters, the limit is 44; line 2: number spelled out (ten); write fact values in digits",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1013,
+      "out_tokens": 164,
+      "errors": [
+       "card title: 47 characters, the limit is 44",
+       "line 2: number spelled out (ten); write fact values in digits"
+      ]
+     },
+     "seq": 6
+    },
+    {
+     "at": 1792612013.7044523,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in en, neutral cut",
+     "status": "retry",
+     "ms": 3736,
+     "why": "line 3: 14 in \"Their three quick passes inside the first 14 seconds highlig\" is not one of the facts' values; line 3: number spelled out (three); write fact values in digits",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 876,
+      "out_tokens": 178,
+      "errors": [
+       "line 3: 14 in \"Their three quick passes inside the first 14 seconds highlig\" is not one of the facts' values",
+       "line 3: number spelled out (three); write fact values in digits"
+      ]
+     },
+     "seq": 7
+    },
+    {
+     "at": 1792612014.500003,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 2970,
+     "why": "",
+     "event_ids": [
+      "e00555",
+      "e00557",
+      "e00561"
+     ],
+     "detail": {
+      "in_tokens": 760,
+      "out_tokens": 63
+     },
+     "seq": 8
+    },
+    {
+     "at": 1792612016.2564857,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "ok",
+     "ms": 4061,
+     "why": "",
+     "event_ids": [
+      "e00555",
+      "e00557",
+      "e00561",
+      "e00564",
+      "e00571",
+      "e00576",
+      "e00581",
+      "e00662",
+      "e00688",
+      "e00719"
+     ],
+     "detail": {
+      "in_tokens": 2367,
+      "out_tokens": 124
+     },
+     "seq": 9
+    },
+    {
+     "at": 1792612016.2565184,
+     "agent": "telestrator",
+     "action": "wrote plans/flank_overload:HAR:left::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City exploits a strong left flank overload, increasing attacks on that side from 18.9% to 48.6%.",
+     "event_ids": [
+      "e00560"
+     ],
+     "detail": {},
+     "seq": 10
+    },
+    {
+     "at": 1792612017.7038999,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4428,
+     "why": "",
+     "event_ids": [
+      "e00622",
+      "e00632",
+      "e00642"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 79
+     },
+     "seq": 11
+    },
+    {
+     "at": 1792612018.227468,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (EMA)",
+     "status": "ok",
+     "ms": 6029,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2434,
+      "out_tokens": 112
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612018.2274985,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic's defensive line has dropped deeper from 34.0 m to 29.9 m, shown by the position of players 13 and 14 at 5.0 s.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 13
+    },
+    {
+     "at": 1792612018.6121464,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in en, neutral cut",
+     "status": "failed",
+     "ms": 4960,
+     "why": "card title: 51 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1235,
+      "out_tokens": 164,
+      "errors": [
+       "card title: 51 characters, the limit is 44"
+      ]
+     },
+     "seq": 14
+    },
+    {
+     "at": 1792612018.612169,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in en, neutral cut",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Writer",
+     "event_ids": [],
+     "detail": {},
+     "seq": 15
+    },
+    {
+     "at": 1792612019.9295273,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in en, neutral cut",
+     "status": "failed",
+     "ms": 6225,
+     "why": "line 2: 3 in \"Their 3 quick passes inside the first {MIN} seconds highligh\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1129,
+      "out_tokens": 180,
+      "errors": [
+       "line 2: 3 in \"Their 3 quick passes inside the first {MIN} seconds highligh\" is not one of the facts' values"
+      ]
+     },
+     "seq": 16
+    },
+    {
+     "at": 1792612019.9295573,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in en, neutral cut",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Writer",
+     "event_ids": [],
+     "detail": {},
+     "seq": 17
+    },
+    {
+     "at": 1792612021.9538734,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (EMA)",
+     "status": "ok",
+     "ms": 6753,
+     "why": "",
+     "event_ids": [
+      "e00622",
+      "e00632",
+      "e00642",
+      "e00690",
+      "e00703",
+      "e00787",
+      "e00810",
+      "e00844",
+      "e00859",
+      "e00640"
+     ],
+     "detail": {
+      "in_tokens": 2413,
+      "out_tokens": 184
+     },
+     "seq": 18
+    },
+    {
+     "at": 1792612021.9539256,
+     "agent": "telestrator",
+     "action": "wrote plans/press_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic pressing higher up the pitch, squeezing Harbour City's build-up around their left central back.",
+     "event_ids": [
+      "e00858"
+     ],
+     "detail": {},
+     "seq": 19
+    },
+    {
+     "at": 1792612022.7371898,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 6463,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1041,
+      "out_tokens": 147
+     },
+     "seq": 20
+    },
+    {
+     "at": 1792612022.737223,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:HAR:left::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 21
+    },
+    {
+     "at": 1792612023.275574,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in en, neutral cut",
+     "status": "retry",
+     "ms": 5030,
+     "why": "title: 49 characters, the limit is 48",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1030,
+      "out_tokens": 164,
+      "errors": [
+       "title: 49 characters, the limit is 48"
+      ]
+     },
+     "seq": 22
+    },
+    {
+     "at": 1792612026.1033127,
+     "agent": "writer",
+     "action": "wrote press_up (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 4145,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1084,
+      "out_tokens": 168
+     },
+     "seq": 23
+    },
+    {
+     "at": 1792612026.1033351,
+     "agent": "writer",
+     "action": "wrote scripts/press_up:EMA:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 24
+    },
+    {
+     "at": 1792612026.4376335,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 3162,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1234,
+      "out_tokens": 164
+     },
+     "seq": 25
+    },
+    {
+     "at": 1792612026.4376752,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:EMA:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 26
+    },
+    {
+     "at": 1792612028.198694,
+     "agent": "producer",
+     "action": "planned the neutral rundown",
+     "status": "ok",
+     "ms": 1757,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 985,
+      "out_tokens": 141
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612028.2363546,
+     "agent": "verifier",
+     "action": "checked s1 (flank_overload)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00560"
+     ],
+     "detail": {},
+     "seq": 28
+    },
+    {
+     "at": 1792612028.2653015,
+     "agent": "verifier",
+     "action": "checked s2 (deep_block)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00450"
+     ],
+     "detail": {},
+     "seq": 29
+    },
+    {
+     "at": 1792612028.306425,
+     "agent": "verifier",
+     "action": "checked s3 (tempo_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "2 facts recomputed, schema valid",
+     "event_ids": [
+      "e00249",
+      "e00250",
+      "e00254",
+      "e00256"
+     ],
+     "detail": {},
+     "seq": 30
+    },
+    {
+     "at": 1792612028.3094409,
+     "agent": "producer",
+     "action": "wrote rundowns/neutral|en",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City's significant tactical shift to attacking predominantly down the left flank sets the match's rhythm, delivering a key narrative on their control and pressure—perfect as the lead story for a neutral audience interested in strategic changes. / Following the flank overload, Harbour City's drop in defensive line depth marked a defensive posture change against Eastmoor's increased pressure, highlighting the evolving battle dynamics on the field. / Eastmoor Athletic's increase in passing tempo adds nuance on how they are trying to respond offensively, rounding out the top three points with a focus on rhythm and pace changes.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 31
+    }
+   ]
+  },
+  {
+   "match": "11",
+   "cut": "away",
+   "lang": "es",
+   "lock_s": 1.57,
+   "segments": [
+    {
+     "title": "Línea defensiva más baja en Eastmoor",
+     "kind": "deep_block",
+     "script": [
+      "Eastmoor baja su línea defensiva de 34 m a 29,9 m en el minuto 22.",
+      "Este cambio apunta a una táctica más segura para su defensa.",
+      "Harbour City aumenta su control del campo del 64,3% al 69,6%.",
+      "A pesar de la defensa profunda, Harbour lleva la iniciativa.",
+      "Atentos fans de Eastmoor a esta lucha táctica."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Eastmoor dropping their defensive line from 34 m to 29.9 m suggests a tactical change that made their defense more conservative, which likely impacted spatial control but did not decisively alter momentum given Harbour's increased field tilt from 64.3% to 69.6%.",
+      "pick_reason": "Lead with Eastmoor's defensive drop as it shows a tactical shift that fans will want to understand first about their team's shape and impact on the game."
+     }
+    },
+    {
+     "title": "Harbour City domina la banda izquierda",
+     "kind": "flank_overload",
+     "script": [
+      "Harbour City cambia su enfoque de ataque hacia la banda izquierda.",
+      "Los ataques suben de 18,9% a 48,6% en esta primera mitad.",
+      "El jugador 10 aporta centros desde la banda, presionando mucho.",
+      "Harbour ha generado dos sobrecargas que complican a la defensa.",
+      "Esta presión puede ser clave antes del descanso."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Harbour City shifted their attacks from 18.9% to 48.6% on the left flank recently indicating a major pressure shift and tactical adjustment that could change the rhythm and control of the half",
+      "pick_reason": "Next highlight Harbour City's significant flank overload on the left, a strong attacking tactical moment that contrasts with Eastmoor's deep block and is important to the narrative."
+     }
+    },
+    {
+     "title": "La presión aprieta",
+     "kind": "press_up",
+     "script": [
+      "Mira cómo ha cambiado Eastmoor en los últimos diez minutos.",
+      "Dejaban 8.1 pases por acción defensiva. Ahora solo 4.7.",
+      "Presionan más alto y Harbour no tiene tiempo para salir."
+     ],
+     "provenance": {
+      "made_by": "agents+rules",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "rules"
+      },
+      "why": "Eastmoor Athletic's PPDA dropped from 8.1 to 4.7 in the last 10 minutes indicating a strong increase in pressing intensity but pressures per minute actually decreased slightly from 1.77 to 1.4, suggesting a mixed but potentially effective pressure strategy shift influencing the half-time narrative.",
+      "pick_reason": "End with Eastmoor's pressing increase showing an energetic change in their approach to regain control, offering a different angle on their tactics."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612009.4419496,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 2600,
+     "why": "",
+     "event_ids": [
+      "e00218",
+      "e00220",
+      "e00222"
+     ],
+     "detail": {
+      "in_tokens": 964,
+      "out_tokens": 142
+     },
+     "seq": 0
+    },
+    {
+     "at": 1792612010.1939795,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "ok",
+     "ms": 2845,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2538,
+      "out_tokens": 139
+     },
+     "seq": 1
+    },
+    {
+     "at": 1792612010.194011,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City defenders have dropped deeper, with the defensive line moving from 44.2 m to 38.5 m, effectively compressing the space against Eastmoor Athletic.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 2
+    },
+    {
+     "at": 1792612010.6047704,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "ok",
+     "ms": 3243,
+     "why": "",
+     "event_ids": [
+      "e00218",
+      "e00220",
+      "e00222",
+      "e00224",
+      "e00233",
+      "e00235",
+      "e00237",
+      "e00239",
+      "e00241",
+      "e00243"
+     ],
+     "detail": {
+      "in_tokens": 2621,
+      "out_tokens": 83
+     },
+     "seq": 3
+    },
+    {
+     "at": 1792612010.6048033,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic's increased tempo shown by a sequence of quick completed passes starting at 1.5s.",
+     "event_ids": [
+      "e00249",
+      "e00250"
+     ],
+     "detail": {},
+     "seq": 4
+    },
+    {
+     "at": 1792612011.620281,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3466,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 726,
+      "out_tokens": 80
+     },
+     "seq": 5
+    },
+    {
+     "at": 1792612013.5174682,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 2905,
+     "why": "line 3: 1.5 in \"Se refleja en una secuencia rápida que arranca a 1.5 segundo\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 891,
+      "out_tokens": 147,
+      "errors": [
+       "line 3: 1.5 in \"Se refleja en una secuencia rápida que arranca a 1.5 segundo\" is not one of the facts' values"
+      ]
+     },
+     "seq": 6
+    },
+    {
+     "at": 1792612013.6231825,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 3423,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1028,
+      "out_tokens": 166
+     },
+     "seq": 7
+    },
+    {
+     "at": 1792612013.6232102,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:HAR:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 8
+    },
+    {
+     "at": 1792612014.8293307,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3091,
+     "why": "",
+     "event_ids": [
+      "e00555",
+      "e00557",
+      "e00561"
+     ],
+     "detail": {
+      "in_tokens": 760,
+      "out_tokens": 63
+     },
+     "seq": 9
+    },
+    {
+     "at": 1792612016.2814398,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 2834,
+     "why": "",
+     "event_ids": [
+      "e00622",
+      "e00632",
+      "e00642"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 85
+     },
+     "seq": 10
+    },
+    {
+     "at": 1792612016.7866542,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "ok",
+     "ms": 4519,
+     "why": "",
+     "event_ids": [
+      "e00555",
+      "e00557",
+      "e00561",
+      "e00564",
+      "e00571",
+      "e00576",
+      "e00581",
+      "e00662",
+      "e00688",
+      "e00719"
+     ],
+     "detail": {
+      "in_tokens": 2367,
+      "out_tokens": 143
+     },
+     "seq": 11
+    },
+    {
+     "at": 1792612016.786687,
+     "agent": "telestrator",
+     "action": "wrote plans/flank_overload:HAR:left::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City overloads attack down the left flank with player 10 providing crosses and player 4 advancing in the left channel.",
+     "event_ids": [
+      "e00560",
+      "e00557"
+     ],
+     "detail": {},
+     "seq": 12
+    },
+    {
+     "at": 1792612017.653292,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (EMA)",
+     "status": "ok",
+     "ms": 5385,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2434,
+      "out_tokens": 135
+     },
+     "seq": 13
+    },
+    {
+     "at": 1792612017.653322,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic's defensive line drops deeper from 34.0 m to 29.9 m at the moment of the key pass.",
+     "event_ids": [
+      "e00581"
+     ],
+     "detail": {},
+     "seq": 14
+    },
+    {
+     "at": 1792612019.2931507,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 5776,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1102,
+      "out_tokens": 130
+     },
+     "seq": 15
+    },
+    {
+     "at": 1792612019.2931798,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 16
+    },
+    {
+     "at": 1792612021.1322718,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (EMA)",
+     "status": "ok",
+     "ms": 5846,
+     "why": "",
+     "event_ids": [
+      "e00622",
+      "e00632",
+      "e00642",
+      "e00690",
+      "e00703",
+      "e00787",
+      "e00810",
+      "e00844",
+      "e00859",
+      "e00640"
+     ],
+     "detail": {
+      "in_tokens": 2413,
+      "out_tokens": 178
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612021.132304,
+     "agent": "telestrator",
+     "action": "wrote plans/press_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic press high to reduce Harbour City's passing options and shorten the passing lanes.",
+     "event_ids": [
+      "e00858"
+     ],
+     "detail": {},
+     "seq": 18
+    },
+    {
+     "at": 1792612021.7311432,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 4046,
+     "why": "subtitle: 81 characters, the limit is 80; card title: 56 characters, the limit is 44; 69 words; the budget is 52",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1021,
+      "out_tokens": 193,
+      "errors": [
+       "subtitle: 81 characters, the limit is 80",
+       "card title: 56 characters, the limit is 44",
+       "69 words; the budget is 52"
+      ]
+     },
+     "seq": 19
+    },
+    {
+     "at": 1792612021.809649,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in es, away cut",
+     "status": "retry",
+     "ms": 5016,
+     "why": "subtitle: 84 characters, the limit is 80; card title: 54 characters, the limit is 44; line 2: 4 in \"El jugador 10 centra desde la banda mientras el jugador 4 av\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1041,
+      "out_tokens": 181,
+      "errors": [
+       "subtitle: 84 characters, the limit is 80",
+       "card title: 54 characters, the limit is 44",
+       "line 2: 4 in \"El jugador 10 centra desde la banda mientras el jugador 4 av\" is not one of the facts' values"
+      ]
+     },
+     "seq": 20
+    },
+    {
+     "at": 1792612024.416115,
+     "agent": "writer",
+     "action": "wrote press_up (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 3277,
+     "why": "card title: 48 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1090,
+      "out_tokens": 191,
+      "errors": [
+       "card title: 48 characters, the limit is 44"
+      ]
+     },
+     "seq": 21
+    },
+    {
+     "at": 1792612025.5081298,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 3698,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1309,
+      "out_tokens": 165
+     },
+     "seq": 22
+    },
+    {
+     "at": 1792612025.5081651,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:HAR:left::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 23
+    },
+    {
+     "at": 1792612025.549194,
+     "agent": "writer",
+     "action": "wrote deep_block (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 3818,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1279,
+      "out_tokens": 173
+     },
+     "seq": 24
+    },
+    {
+     "at": 1792612025.5492415,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 25
+    },
+    {
+     "at": 1792612028.5159674,
+     "agent": "writer",
+     "action": "wrote press_up (EMA) in es, away cut",
+     "status": "failed",
+     "ms": 4100,
+     "why": "card title: 45 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1322,
+      "out_tokens": 190,
+      "errors": [
+       "card title: 45 characters, the limit is 44"
+      ]
+     },
+     "seq": 26
+    },
+    {
+     "at": 1792612028.5159822,
+     "agent": "writer",
+     "action": "wrote press_up (EMA) in es, away cut",
+     "status": "fallback",
+     "ms": null,
+     "why": "routed around: rules Writer",
+     "event_ids": [],
+     "detail": {},
+     "seq": 27
+    },
+    {
+     "at": 1792612029.9714153,
+     "agent": "producer",
+     "action": "planned the away rundown",
+     "status": "ok",
+     "ms": 1453,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1007,
+      "out_tokens": 117
+     },
+     "seq": 28
+    },
+    {
+     "at": 1792612030.005538,
+     "agent": "verifier",
+     "action": "checked s1 (deep_block)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00581"
+     ],
+     "detail": {},
+     "seq": 29
+    },
+    {
+     "at": 1792612030.0502903,
+     "agent": "verifier",
+     "action": "checked s2 (flank_overload)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00557",
+      "e00560"
+     ],
+     "detail": {},
+     "seq": 30
+    },
+    {
+     "at": 1792612030.0781636,
+     "agent": "verifier",
+     "action": "checked s3 (press_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00858"
+     ],
+     "detail": {},
+     "seq": 31
+    },
+    {
+     "at": 1792612030.0813146,
+     "agent": "producer",
+     "action": "wrote rundowns/away|es",
+     "status": "ok",
+     "ms": null,
+     "why": "Lead with Eastmoor's defensive drop as it shows a tactical shift that fans will want to understand first about their team's shape and impact on the game. / Next highlight Harbour City's significant flank overload on the left, a strong attacking tactical moment that contrasts with Eastmoor's deep block and is important to the narrative. / End with Eastmoor's pressing increase showing an energetic change in their approach to regain control, offering a different angle on their tactics.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 32
+    }
+   ]
+  },
+  {
+   "match": "21",
+   "cut": "neutral",
+   "lang": "en",
+   "lock_s": 1.62,
+   "segments": [
+    {
+     "title": "Zane Lund's Sharp Finish Lights Up First Half",
+     "kind": "goal",
+     "script": [
+      "At minute 34, Zane Lund seizes a high-quality chance with 0.22 xG.",
+      "He calmly finishes after a precise pass near the box.",
+      "This goal sets Harbour City firmly in control heading into halftime."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Zane Lund's goal at minute 34 with a 0.22 xG is a crucial moment that decided the first half, significantly impacting control and momentum.",
+      "pick_reason": "Lead with the goal by Zane Lund as it is the crucial moment that decided the first half and set the match's tone."
+     }
+    },
+    {
+     "title": "Eastmoor Athletic Pressing Higher at Half",
+     "kind": "press_up",
+     "script": [
+      "Eastmoor Athletic steps up the pressure as the first half unfolds.",
+      "You can see here how Eastmoor presses high in the middle channel to intercept.",
+      "Their PPDA drops from 7.8 to 4.9 in the last 10 minutes, showing more intense pressing.",
+      "This means fewer opponent passes before Eastmoor acts, key to shifting control.",
+      "Pressures per minute also rise, highlighting Eastmoor's aggressive approach so far."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Eastmoor Pressing higher seen in PPDA drop from 7.8 to 4.9 indicates a significant pressure shift in the last 10 minutes which can change control dynamics, crucial to highlight at half-time.",
+      "pick_reason": "Highlight Eastmoor Athletic's increased pressing, which marks a significant pressure shift and is key to understanding the current control dynamics."
+     }
+    },
+    {
+     "title": "Samir Esposito's sharp drop in pace",
+     "kind": "fatigue",
+     "script": [
+      "Here's Samir Esposito in action this half: note his top speed drops from 27.5 to 21.1 km/h.",
+      "No sprints recorded just before minute 40, showing his energy levels are low already.",
+      "This visible slow-down means Harbour City could miss his usual spark in attack.",
+      "Keep an eye on Esposito's fitness as the game progresses."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Samir Esposito's top speed dropped from {F1.detail.top_speed_kmh} to {F2.detail.top_speed_kmh} km/h between the first and last 10 minutes of the half, indicating a significant player fading that could weaken Harbour City's attacking threat",
+      "pick_reason": "Include Samir Esposito's loss of speed indicating fatigue, which could weaken Harbour City's attacking threat going forward, adding tactical insight for the fans."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612029.904915,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1413,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 726,
+      "out_tokens": 84
+     },
+     "seq": 0
+    },
+    {
+     "at": 1792612030.0806944,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1407,
+     "why": "",
+     "event_ids": [
+      "e00289",
+      "e00319",
+      "e00376"
+     ],
+     "detail": {
+      "in_tokens": 769,
+      "out_tokens": 67
+     },
+     "seq": 1
+    },
+    {
+     "at": 1792612030.448932,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "ok",
+     "ms": 1745,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2351,
+      "out_tokens": 137
+     },
+     "seq": 2
+    },
+    {
+     "at": 1792612030.4489655,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City's defensive line drops significantly deeper, reducing the defensive line position from 41.6 m to 36.1 m in this sequence.",
+     "event_ids": [
+      "e00448"
+     ],
+     "detail": {},
+     "seq": 3
+    },
+    {
+     "at": 1792612030.7631795,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (EMA)",
+     "status": "ok",
+     "ms": 2053,
+     "why": "",
+     "event_ids": [
+      "e00289",
+      "e00319",
+      "e00376",
+      "e00437",
+      "e00453",
+      "e00468",
+      "e00496",
+      "e00518",
+      "e00527",
+      "e00315"
+     ],
+     "detail": {
+      "in_tokens": 2290,
+      "out_tokens": 87
+     },
+     "seq": 4
+    },
+    {
+     "at": 1792612030.763215,
+     "agent": "telestrator",
+     "action": "wrote plans/press_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic press high to intercept the ball in the middle channel.",
+     "event_ids": [
+      "e00526"
+     ],
+     "detail": {},
+     "seq": 5
+    },
+    {
+     "at": 1792612031.5109744,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1202,
+     "why": "",
+     "event_ids": [
+      "e00614",
+      "e00616",
+      "e00618"
+     ],
+     "detail": {
+      "in_tokens": 621,
+      "out_tokens": 72
+     },
+     "seq": 6
+    },
+    {
+     "at": 1792612031.7400794,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1087,
+     "why": "",
+     "event_ids": [
+      "e00987"
+     ],
+     "detail": {
+      "in_tokens": 514,
+      "out_tokens": 55
+     },
+     "seq": 7
+    },
+    {
+     "at": 1792612032.6788597,
+     "agent": "writer",
+     "action": "wrote press_up (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 1914,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1061,
+      "out_tokens": 179
+     },
+     "seq": 8
+    },
+    {
+     "at": 1792612032.6788843,
+     "agent": "writer",
+     "action": "wrote scripts/press_up:EMA:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 9
+    },
+    {
+     "at": 1792612032.935326,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 2485,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1023,
+      "out_tokens": 188
+     },
+     "seq": 10
+    },
+    {
+     "at": 1792612032.9353557,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:HAR:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 11
+    },
+    {
+     "at": 1792612033.872292,
+     "agent": "telestrator",
+     "action": "planned the picture for goal (HAR)",
+     "status": "ok",
+     "ms": 2846,
+     "why": "",
+     "event_ids": [
+      "e00987"
+     ],
+     "detail": {
+      "in_tokens": 2483,
+      "out_tokens": 81
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612033.872337,
+     "agent": "telestrator",
+     "action": "wrote plans/goal:HAR::HAR09:1:e00987",
+     "status": "ok",
+     "ms": null,
+     "why": "Zane Lund finishes the move with a goal from a high-quality shot after a key pass near the box.",
+     "event_ids": [
+      "e00985",
+      "e00987"
+     ],
+     "detail": {},
+     "seq": 13
+    },
+    {
+     "at": 1792612034.4203181,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "ok",
+     "ms": 3382,
+     "why": "",
+     "event_ids": [
+      "e00614",
+      "e00616",
+      "e00618",
+      "e00620",
+      "e00622",
+      "e00624",
+      "e00645",
+      "e00647",
+      "e00666",
+      "e00669"
+     ],
+     "detail": {
+      "in_tokens": 2736,
+      "out_tokens": 101
+     },
+     "seq": 14
+    },
+    {
+     "at": 1792612034.4203615,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic's faster ball movement is shown by quick consecutive passes within 1.5 seconds freeze.",
+     "event_ids": [
+      "e00614",
+      "e00616"
+     ],
+     "detail": {},
+     "seq": 15
+    },
+    {
+     "at": 1792612034.656426,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "retry",
+     "ms": 1258,
+     "why": "c1: 30 in \"Samir Esposito's top speed dropped from 27.5 to 21.1 km/h be\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 633,
+      "out_tokens": 68,
+      "errors": [
+       "c1: 30 in \"Samir Esposito's top speed dropped from 27.5 to 21.1 km/h be\" is not one of the facts' values"
+      ]
+     },
+     "seq": 16
+    },
+    {
+     "at": 1792612035.6326876,
+     "agent": "telestrator",
+     "action": "planned the picture for fatigue (HAR)",
+     "status": "ok",
+     "ms": 2183,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2788,
+      "out_tokens": 107
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612035.6327775,
+     "agent": "telestrator",
+     "action": "wrote plans/fatigue:HAR::HAR01:1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Samir Esposito (slot 1) is visibly slowed down by 6.0s compared to his earlier pace, illustrating his fatigue.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 18
+    },
+    {
+     "at": 1792612038.4483695,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3792,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 768,
+      "out_tokens": 77
+     },
+     "seq": 19
+    },
+    {
+     "at": 1792612040.1073692,
+     "agent": "writer",
+     "action": "wrote fatigue (HAR) in en, neutral cut",
+     "status": "retry",
+     "ms": 4451,
+     "why": "row 0: 30 in \"Sprints in first 30 mins\" is not one of the facts' values; row 1: 30 in \"Top speed first 30 mins (km/h)\" is not one of the facts' values; row 2: 30 in \"Sprints from min 30 to 40\" is not one of the facts' values; row 3: 30 in \"Top speed min 30-40 (km/h)\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 867,
+      "out_tokens": 216,
+      "errors": [
+       "row 0: 30 in \"Sprints in first 30 mins\" is not one of the facts' values",
+       "row 1: 30 in \"Top speed first 30 mins (km/h)\" is not one of the facts' values",
+       "row 2: 30 in \"Sprints from min 30 to 40\" is not one of the facts' values",
+       "row 3: 30 in \"Top speed min 30-40 (km/h)\" is not one of the facts' values",
+       "line 1: 30 in \"No sprints recorded between minute 30 and 40, showing his en\" is not one of the facts' values"
+      ]
+     },
+     "seq": 20
+    },
+    {
+     "at": 1792612043.2632945,
+     "agent": "writer",
+     "action": "wrote fatigue (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 3156,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1255,
+      "out_tokens": 203
+     },
+     "seq": 21
+    },
+    {
+     "at": 1792612043.2633283,
+     "agent": "writer",
+     "action": "wrote scripts/fatigue:HAR::HAR01:1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 22
+    },
+    {
+     "at": 1792612076.7430382,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 42307,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 893,
+      "out_tokens": 119
+     },
+     "seq": 23
+    },
+    {
+     "at": 1792612076.7430656,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 24
+    },
+    {
+     "at": 1792612076.9398935,
+     "agent": "writer",
+     "action": "wrote goal (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 43052,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 751,
+      "out_tokens": 115
+     },
+     "seq": 25
+    },
+    {
+     "at": 1792612076.9399185,
+     "agent": "writer",
+     "action": "wrote scripts/goal:HAR::HAR09:1:e00987|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 26
+    },
+    {
+     "at": 1792612078.4632294,
+     "agent": "producer",
+     "action": "planned the neutral rundown",
+     "status": "ok",
+     "ms": 1521,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 977,
+      "out_tokens": 109
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612078.500304,
+     "agent": "verifier",
+     "action": "checked s1 (goal)",
+     "status": "ok",
+     "ms": null,
+     "why": "1 facts recomputed, schema valid",
+     "event_ids": [
+      "e00985",
+      "e00987"
+     ],
+     "detail": {},
+     "seq": 28
+    },
+    {
+     "at": 1792612078.5324516,
+     "agent": "verifier",
+     "action": "checked s2 (press_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00526"
+     ],
+     "detail": {},
+     "seq": 29
+    },
+    {
+     "at": 1792612078.5588477,
+     "agent": "verifier",
+     "action": "checked s3 (fatigue)",
+     "status": "ok",
+     "ms": null,
+     "why": "2 facts recomputed, schema valid",
+     "event_ids": [],
+     "detail": {},
+     "seq": 30
+    },
+    {
+     "at": 1792612078.5598946,
+     "agent": "producer",
+     "action": "wrote rundowns/neutral|en",
+     "status": "ok",
+     "ms": null,
+     "why": "Lead with the goal by Zane Lund as it is the crucial moment that decided the first half and set the match's tone. / Highlight Eastmoor Athletic's increased pressing, which marks a significant pressure shift and is key to understanding the current control dynamics. / Include Samir Esposito's loss of speed indicating fatigue, which could weaken Harbour City's attacking threat going forward, adding tactical insight for the fans.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 31
+    }
+   ]
+  },
+  {
+   "match": "21",
+   "cut": "away",
+   "lang": "es",
+   "lock_s": 1.74,
+   "segments": [
+    {
+     "title": "Harbour City se repliega atrás",
+     "kind": "deep_block",
+     "script": [
+      "Harbour City baja su línea defensiva de 41,6 m a 36,1 m.",
+      "Este cambio muestra que buscan mayor seguridad atrás.",
+      "Mientras tanto, Eastmoor incrementa su control del campo del 23,5% al 57,9%.",
+      "Eastmoor domina y presiona en esta media hora inicial."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Harbour City's defensive line dropping from 41.6 m to 36.1 m signals a clear shift in their defensive approach and likely increased pressure from Eastmoor, accentuated by Eastmoor's field tilt increasing from 23.5 % to 57.9 %, indicating a momentum and control swing that significantly shaped the half.",
+      "pick_reason": "Harbour City's defensive line dropping deeper early in the half signals a strategic shift influenced by Eastmoor's growing pressure—this momentum change is crucial for Eastmoor fans to understand how the half evolved before the goal."
+     }
+    },
+    {
+     "title": "Eastmoor sube el ritmo de pases",
+     "kind": "tempo_up",
+     "script": [
+      "Mira cómo Eastmoor mueve el balón más rápido ahora.",
+      "Antes del minuto 33, tenían 10,4 pases por cada minuto que controlaban la pelota.",
+      "Después del minuto 33, el ritmo sube a 13,1 pases por minuto.",
+      "Este aumento de velocidad puede cambiar el partido a nuestro favor.",
+      "Están dominando la posesión con pases rápidos y precisos."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Eastmoor Athletic's tempo increased from 10.4 to 13.1 passes per possession minute around minute 33, indicating a significant rhythm change that could shift the match dynamics",
+      "pick_reason": "Eastmoor Athletic's increased tempo just before the goal showcases their effort to regain control and push forward, reflecting a positive tactical adjustment that Eastmoor supporters will find encouraging."
+     }
+    },
+    {
+     "title": "Gol de Zane Lund cambia el partido",
+     "kind": "goal",
+     "script": [
+      "Zane Lund aprovecha una gran oportunidad cerca del área.",
+      "Al minuto 34, su disparo termina en gol para Harbour City.",
+      "Con un xG de 0,22, este fue un momento clave antes del descanso.",
+      "El gol cambia el control y el momentum del encuentro a favor de Harbour City."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Zane Lund's goal with 0.22 xG at minute 34 is a decisive moment that likely changed control and momentum before half-time",
+      "pick_reason": "Zane Lund's goal was the decisive event that altered the scoreline; though it favored the opposition, it's essential for Eastmoor fans to know when and how this key moment occurred in the half."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612031.9160736,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1337,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 726,
+      "out_tokens": 89
+     },
+     "seq": 0
+    },
+    {
+     "at": 1792612032.282331,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1313,
+     "why": "",
+     "event_ids": [
+      "e00289",
+      "e00319",
+      "e00376"
+     ],
+     "detail": {
+      "in_tokens": 769,
+      "out_tokens": 64
+     },
+     "seq": 1
+    },
+    {
+     "at": 1792612033.0307581,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "ok",
+     "ms": 2041,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2351,
+      "out_tokens": 121
+     },
+     "seq": 2
+    },
+    {
+     "at": 1792612033.0307953,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City defenders drop deeper from line 41.6m to 36.1m, closing space against Eastmoor's carry.",
+     "event_ids": [
+      "e00447"
+     ],
+     "detail": {},
+     "seq": 3
+    },
+    {
+     "at": 1792612033.7798948,
+     "agent": "telestrator",
+     "action": "planned the picture for press_up (EMA)",
+     "status": "ok",
+     "ms": 2789,
+     "why": "",
+     "event_ids": [
+      "e00289",
+      "e00319",
+      "e00376",
+      "e00437",
+      "e00453",
+      "e00468",
+      "e00496",
+      "e00518",
+      "e00527",
+      "e00315"
+     ],
+     "detail": {
+      "in_tokens": 2290,
+      "out_tokens": 75
+     },
+     "seq": 4
+    },
+    {
+     "at": 1792612033.7799253,
+     "agent": "telestrator",
+     "action": "wrote plans/press_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic's pressing cut passing options leading to an interception by their striker.",
+     "event_ids": [
+      "e00526"
+     ],
+     "detail": {},
+     "seq": 5
+    },
+    {
+     "at": 1792612035.4242957,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in es, away cut",
+     "status": "retry",
+     "ms": 2391,
+     "why": "66 words; the budget is 52",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1030,
+      "out_tokens": 194,
+      "errors": [
+       "66 words; the budget is 52"
+      ]
+     },
+     "seq": 6
+    },
+    {
+     "at": 1792612039.4816794,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1754,
+     "why": "",
+     "event_ids": [
+      "e00987"
+     ],
+     "detail": {
+      "in_tokens": 514,
+      "out_tokens": 49
+     },
+     "seq": 7
+    },
+    {
+     "at": 1792612040.6507092,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3638,
+     "why": "",
+     "event_ids": [
+      "e00614",
+      "e00616",
+      "e00618"
+     ],
+     "detail": {
+      "in_tokens": 621,
+      "out_tokens": 58
+     },
+     "seq": 8
+    },
+    {
+     "at": 1792612040.804009,
+     "agent": "telestrator",
+     "action": "planned the picture for goal (HAR)",
+     "status": "ok",
+     "ms": 2276,
+     "why": "",
+     "event_ids": [
+      "e00987"
+     ],
+     "detail": {
+      "in_tokens": 2483,
+      "out_tokens": 81
+     },
+     "seq": 9
+    },
+    {
+     "at": 1792612040.8040435,
+     "agent": "telestrator",
+     "action": "wrote plans/goal:HAR::HAR09:1:e00987",
+     "status": "ok",
+     "ms": null,
+     "why": "Zane Lund scores from a close-range shot after receiving the ball near the penalty area.",
+     "event_ids": [
+      "e00985",
+      "e00987"
+     ],
+     "detail": {},
+     "seq": 10
+    },
+    {
+     "at": 1792612041.3581417,
+     "agent": "writer",
+     "action": "wrote press_up (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 7573,
+     "why": "row 0: 46 characters, the limit is 44; row 1: 45 characters, the limit is 44",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1064,
+      "out_tokens": 198,
+      "errors": [
+       "row 0: 46 characters, the limit is 44",
+       "row 1: 45 characters, the limit is 44"
+      ]
+     },
+     "seq": 11
+    },
+    {
+     "at": 1792612043.606275,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "ok",
+     "ms": 5074,
+     "why": "",
+     "event_ids": [
+      "e00614",
+      "e00616",
+      "e00618",
+      "e00620",
+      "e00622",
+      "e00624",
+      "e00645",
+      "e00647",
+      "e00666",
+      "e00669"
+     ],
+     "detail": {
+      "in_tokens": 2736,
+      "out_tokens": 94
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612043.6063244,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic increasing their pass tempo early in the clip with quick successive passes.",
+     "event_ids": [
+      "e00614",
+      "e00616"
+     ],
+     "detail": {},
+     "seq": 13
+    },
+    {
+     "at": 1792612045.6964345,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 4114,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 633,
+      "out_tokens": 65
+     },
+     "seq": 14
+    },
+    {
+     "at": 1792612046.8007228,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 11376,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1262,
+      "out_tokens": 157
+     },
+     "seq": 15
+    },
+    {
+     "at": 1792612046.8007622,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:HAR:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 16
+    },
+    {
+     "at": 1792612047.0421832,
+     "agent": "telestrator",
+     "action": "planned the picture for fatigue (HAR)",
+     "status": "ok",
+     "ms": 5431,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2788,
+      "out_tokens": 96
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612047.0422146,
+     "agent": "telestrator",
+     "action": "wrote plans/fatigue:HAR::HAR01:1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Samir Esposito's reduced top speed is evident as he fails to keep up with play progress during the clip's key moment.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 18
+    },
+    {
+     "at": 1792612049.7797782,
+     "agent": "writer",
+     "action": "wrote fatigue (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 2736,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 909,
+      "out_tokens": 187
+     },
+     "seq": 19
+    },
+    {
+     "at": 1792612049.7798057,
+     "agent": "writer",
+     "action": "wrote scripts/fatigue:HAR::HAR01:1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 20
+    },
+    {
+     "at": 1792612052.7826734,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 9164,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 879,
+      "out_tokens": 149
+     },
+     "seq": 21
+    },
+    {
+     "at": 1792612052.7827072,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 22
+    },
+    {
+     "at": 1792612057.0699027,
+     "agent": "writer",
+     "action": "wrote goal (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 16253,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 747,
+      "out_tokens": 132
+     },
+     "seq": 23
+    },
+    {
+     "at": 1792612057.0699277,
+     "agent": "writer",
+     "action": "wrote scripts/goal:HAR::HAR09:1:e00987|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 24
+    },
+    {
+     "at": 1792612068.950451,
+     "agent": "writer",
+     "action": "wrote press_up (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 27592,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1319,
+      "out_tokens": 186
+     },
+     "seq": 25
+    },
+    {
+     "at": 1792612068.9504843,
+     "agent": "writer",
+     "action": "wrote scripts/press_up:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 26
+    },
+    {
+     "at": 1792612070.5820374,
+     "agent": "producer",
+     "action": "planned the away rundown",
+     "status": "ok",
+     "ms": 1628,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 957,
+      "out_tokens": 145
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612070.6187623,
+     "agent": "verifier",
+     "action": "checked s1 (deep_block)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00447"
+     ],
+     "detail": {},
+     "seq": 28
+    },
+    {
+     "at": 1792612070.6639874,
+     "agent": "verifier",
+     "action": "checked s2 (tempo_up)",
+     "status": "ok",
+     "ms": null,
+     "why": "2 facts recomputed, schema valid",
+     "event_ids": [
+      "e00614",
+      "e00616"
+     ],
+     "detail": {},
+     "seq": 29
+    },
+    {
+     "at": 1792612070.6870556,
+     "agent": "verifier",
+     "action": "checked s3 (goal)",
+     "status": "ok",
+     "ms": null,
+     "why": "1 facts recomputed, schema valid",
+     "event_ids": [
+      "e00985",
+      "e00987"
+     ],
+     "detail": {},
+     "seq": 30
+    },
+    {
+     "at": 1792612070.688009,
+     "agent": "producer",
+     "action": "wrote rundowns/away|es",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City's defensive line dropping deeper early in the half signals a strategic shift influenced by Eastmoor's growing pressure—this momentum change is crucial for Eastmoor fans to understand how the half evolved before the goal. / Eastmoor Athletic's increased tempo just before the goal showcases their effort to regain control and push forward, reflecting a positive tactical adjustment that Eastmoor supporters will find encouraging. / Zane Lund's goal was the decisive event that altered the scoreline; though it favored the opposition, it's essential for Eastmoor fans to know when and how this key moment occurred in the half.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 31
+    }
+   ]
+  },
+  {
+   "match": "42",
+   "cut": "neutral",
+   "lang": "en",
+   "lock_s": 8.06,
+   "segments": [
+    {
+     "title": "Oskar Vidal's First-Half Stunner",
+     "kind": "goal",
+     "script": [
+      "Here comes Oskar Vidal, timed that run to perfection!",
+      "Ugo Castillo's cross finds Vidal right on cue.",
+      "Vidal scores with a chance quality of 0.281 xG.",
+      "That goal gives Harbour City the lead going into the break!"
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Oskar Vidal's goal with an xG of 0.281 at minute 47 (first half stoppage time) is a moment that decided the half by putting Harbour City ahead going into the break",
+      "pick_reason": "Lead with Oskar Vidal's goal as it decisively impacts the half by giving Harbour City the lead, which is the main story for neutral fans."
+     }
+    },
+    {
+     "title": "Harbour City Defend Deeper to Contain Eastmoor",
+     "kind": "deep_block",
+     "script": [
+      "Look here at Harbour City's defensive line dropping from 42.6 meters to 36.2 meters.",
+      "This deeper line squeezes space around their penalty box and changes the game flow.",
+      "Eastmoor responds, pushing forward as their field tilt swings from 4.8% to 61.9%.",
+      "This shift shows Harbour adapting with a stricter defensive stance at 18 minutes."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Harbour City dropping their defensive line from 42.6 m to 36.2 m represents a significant change in defensive strategy and triggers a shift in pressure and territory control as shown by Eastmoor's field tilt increasing from 4.8 % to 61.9 % in the last 10 minutes.",
+      "pick_reason": "Next, cover Harbour City's strategic defensive drop, a high-matters point showing a key tactical shift affecting game control and pressure."
+     }
+    },
+    {
+     "title": "Eastmoor pushing harder down the left",
+     "kind": "flank_overload",
+     "script": [
+      "Eastmoor started with 29.3% of their attacks down the left flank.",
+      "By the 45th minute, this rose sharply to 43.5%.",
+      "Overloads on the left have increased from 2 to 3 episodes.",
+      "This picture shows a completed pass in the left channel during the match.",
+      "Eastmoor are clearly focusing their first-half threat strongly down this side."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Eastmoor's increase from 29.3 to 43.5 in attacks down the left shows a clear shift in tactical focus and pressure in the last 10 minutes, marking a momentum change heading into half-time.",
+      "pick_reason": "Then highlight Eastmoor's tactical shift attacking down the left flank, a significant momentum change noted by the analyst, giving insight into their efforts to respond."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612034.6894336,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1492,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 726,
+      "out_tokens": 86
+     },
+     "seq": 0
+    },
+    {
+     "at": 1792612043.1082814,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "retry",
+     "ms": 9539,
+     "why": "c1: 0 in \"Eastmoor Athletic increased their tempo from {F1} to {F2} pa\" is not one of the facts' values; c1: 9 in \"Eastmoor Athletic increased their tempo from {F1} to {F2} pa\" is not one of the facts' values; c1: 9 in \"Eastmoor Athletic increased their tempo from {F1} to {F2} pa\" is not one of the facts' values",
+     "event_ids": [
+      "e00215",
+      "e00217",
+      "e00219"
+     ],
+     "detail": {
+      "in_tokens": 619,
+      "out_tokens": 67,
+      "errors": [
+       "c1: 0 in \"Eastmoor Athletic increased their tempo from {F1} to {F2} pa\" is not one of the facts' values",
+       "c1: 9 in \"Eastmoor Athletic increased their tempo from {F1} to {F2} pa\" is not one of the facts' values",
+       "c1: 9 in \"Eastmoor Athletic increased their tempo from {F1} to {F2} pa\" is not one of the facts' values"
+      ]
+     },
+     "seq": 1
+    },
+    {
+     "at": 1792612045.2946987,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 10664,
+     "why": "",
+     "event_ids": [
+      "e00300",
+      "e00348",
+      "e00395"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 59
+     },
+     "seq": 2
+    },
+    {
+     "at": 1792612049.515972,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "retry",
+     "ms": 13347,
+     "why": "c1: 600 in \"Eastmoor Athletic's increased attacks down the right from 27\" is not one of the facts' values",
+     "event_ids": [
+      "e00363",
+      "e00406",
+      "e00429"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 68,
+      "errors": [
+       "c1: 600 in \"Eastmoor Athletic's increased attacks down the right from 27\" is not one of the facts' values"
+      ]
+     },
+     "seq": 3
+    },
+    {
+     "at": 1792612050.1843634,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "ok",
+     "ms": 16066,
+     "why": "",
+     "event_ids": [
+      "e00215",
+      "e00217",
+      "e00219",
+      "e00247",
+      "e00249",
+      "e00251",
+      "e00253",
+      "e00256",
+      "e00259",
+      "e00261"
+     ],
+     "detail": {
+      "in_tokens": 2814,
+      "out_tokens": 80
+     },
+     "seq": 4
+    },
+    {
+     "at": 1792612050.184396,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic quickly progressing the ball through sharp carries and precise passes starting from the left wing.",
+     "event_ids": [
+      "e00258",
+      "e00259"
+     ],
+     "detail": {},
+     "seq": 5
+    },
+    {
+     "at": 1792612054.6860757,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "failed",
+     "ms": 11578,
+     "why": "c1: 9 in \"Eastmoor Athletic increased their tempo from 8.6 to 12.6 pas\" is not one of the facts' values",
+     "event_ids": [
+      "e00215",
+      "e00217",
+      "e00219"
+     ],
+     "detail": {
+      "in_tokens": 819,
+      "out_tokens": 68,
+      "errors": [
+       "c1: 9 in \"Eastmoor Athletic increased their tempo from 8.6 to 12.6 pas\" is not one of the facts' values"
+      ]
+     },
+     "seq": 6
+    },
+    {
+     "at": 1792612054.6861086,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "fallback",
+     "ms": null,
+     "why": "used detector strength and headline",
+     "event_ids": [],
+     "detail": {},
+     "seq": 7
+    },
+    {
+     "at": 1792612056.1544397,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 18130,
+     "why": "",
+     "event_ids": [
+      "e00471",
+      "e00488",
+      "e00506",
+      "e00447",
+      "e00458",
+      "e00473"
+     ],
+     "detail": {
+      "in_tokens": 1013,
+      "out_tokens": 112
+     },
+     "seq": 8
+    },
+    {
+     "at": 1792612059.0007033,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "ok",
+     "ms": 24959,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2353,
+      "out_tokens": 141
+     },
+     "seq": 9
+    },
+    {
+     "at": 1792612059.000738,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City is dropping their defensive line deeper, moving from around the 42.6 m mark to 36.2 m, tightening space in their defensive half.",
+     "event_ids": [
+      "e00406"
+     ],
+     "detail": {},
+     "seq": 10
+    },
+    {
+     "at": 1792612060.8452473,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (HAR)",
+     "status": "ok",
+     "ms": 15159,
+     "why": "",
+     "event_ids": [
+      "e00300",
+      "e00348",
+      "e00395",
+      "e00420",
+      "e00525",
+      "e00551",
+      "e00553",
+      "e00554"
+     ],
+     "detail": {
+      "in_tokens": 2313,
+      "out_tokens": 122
+     },
+     "seq": 11
+    },
+    {
+     "at": 1792612060.8452814,
+     "agent": "telestrator",
+     "action": "wrote plans/flank_overload:HAR:left::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City increases their attacks down the left side, as shown by player Omar Adeyemi's advancing position and key pass.",
+     "event_ids": [
+      "e00551"
+     ],
+     "detail": {},
+     "seq": 12
+    },
+    {
+     "at": 1792612062.606616,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 16249,
+     "why": "",
+     "event_ids": [
+      "e00832",
+      "e00854",
+      "e00873"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 73
+     },
+     "seq": 13
+    },
+    {
+     "at": 1792612063.494688,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "ok",
+     "ms": 15647,
+     "why": "",
+     "event_ids": [
+      "e01003",
+      "e01007",
+      "e01008",
+      "e01035",
+      "e01036",
+      "e01058",
+      "e01071",
+      "e01093",
+      "e01095",
+      "e01096"
+     ],
+     "detail": {
+      "in_tokens": 2372,
+      "out_tokens": 134
+     },
+     "seq": 14
+    },
+    {
+     "at": 1792612063.4947226,
+     "agent": "telestrator",
+     "action": "wrote plans/flank_overload:EMA:left::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic increasing their attacks down the left flank, demonstrated by a completed pass to the left channel at 5.7s.",
+     "event_ids": [
+      "e01067"
+     ],
+     "detail": {},
+     "seq": 15
+    },
+    {
+     "at": 1792612065.0417213,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 17198,
+     "why": "",
+     "event_ids": [
+      "e01003",
+      "e01007",
+      "e01008"
+     ],
+     "detail": {
+      "in_tokens": 760,
+      "out_tokens": 67
+     },
+     "seq": 16
+    },
+    {
+     "at": 1792612065.9511447,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "failed",
+     "ms": 16435,
+     "why": "c1: 600 in \"Eastmoor Athletic's increased attacks down the right from 27\" is not one of the facts' values",
+     "event_ids": [
+      "e00363",
+      "e00406",
+      "e00429"
+     ],
+     "detail": {
+      "in_tokens": 882,
+      "out_tokens": 68,
+      "errors": [
+       "c1: 600 in \"Eastmoor Athletic's increased attacks down the right from 27\" is not one of the facts' values"
+      ]
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612065.951164,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "fallback",
+     "ms": null,
+     "why": "used detector strength and headline",
+     "event_ids": [],
+     "detail": {},
+     "seq": 18
+    },
+    {
+     "at": 1792612067.3129623,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in en, neutral cut",
+     "status": "retry",
+     "ms": 17123,
+     "why": "subtitle: 93 characters, the limit is 80; line 3: 3 in \"From 24 passes in under 3 minutes to 70 passes in just over \" is not one of the facts' values; line 3: 5 in \"From 24 passes in under 3 minutes to 70 passes in just over \" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 841,
+      "out_tokens": 185,
+      "errors": [
+       "subtitle: 93 characters, the limit is 80",
+       "line 3: 3 in \"From 24 passes in under 3 minutes to 70 passes in just over \" is not one of the facts' values",
+       "line 3: 5 in \"From 24 passes in under 3 minutes to 70 passes in just over \" is not one of the facts' values"
+      ]
+     },
+     "seq": 19
+    },
+    {
+     "at": 1792612068.2592995,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 9254,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1029,
+      "out_tokens": 170
+     },
+     "seq": 20
+    },
+    {
+     "at": 1792612068.2593384,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:HAR:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 21
+    },
+    {
+     "at": 1792612069.1384406,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 20186,
+     "why": "",
+     "event_ids": [
+      "e01231"
+     ],
+     "detail": {
+      "in_tokens": 518,
+      "out_tokens": 61
+     },
+     "seq": 22
+    },
+    {
+     "at": 1792612070.924527,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in en, neutral cut",
+     "status": "retry",
+     "ms": 7424,
+     "why": "line 3: 5.7 in \"This picture shows a key pass completed in the left channel \" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 998,
+      "out_tokens": 167,
+      "errors": [
+       "line 3: 5.7 in \"This picture shows a key pass completed in the left channel \" is not one of the facts' values"
+      ]
+     },
+     "seq": 23
+    },
+    {
+     "at": 1792612071.2462695,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 3933,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1136,
+      "out_tokens": 184
+     },
+     "seq": 24
+    },
+    {
+     "at": 1792612071.2463207,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 25
+    },
+    {
+     "at": 1792612072.507592,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in en, neutral cut",
+     "status": "retry",
+     "ms": 11655,
+     "why": "row 0: 11 in \"Left flank attacks first 11 mins\" is not one of the facts' values; row 1: 11 in \"Left flank attacks next 11 mins\" is not one of the facts' values; row 2: 11 in \"Left flank overload episodes first 11 mins\" is not one of the facts' values; row 3: 11 in \"Left flank overload episodes next 11 mins\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1026,
+      "out_tokens": 197,
+      "errors": [
+       "row 0: 11 in \"Left flank attacks first 11 mins\" is not one of the facts' values",
+       "row 1: 11 in \"Left flank attacks next 11 mins\" is not one of the facts' values",
+       "row 2: 11 in \"Left flank overload episodes first 11 mins\" is not one of the facts' values",
+       "row 3: 11 in \"Left flank overload episodes next 11 mins\" is not one of the facts' values"
+      ]
+     },
+     "seq": 26
+    },
+    {
+     "at": 1792612072.7576332,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 1833,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1224,
+      "out_tokens": 163
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612072.7577314,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:EMA:left::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 28
+    },
+    {
+     "at": 1792612074.7119076,
+     "agent": "writer",
+     "action": "wrote flank_overload (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 2204,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1356,
+      "out_tokens": 197
+     },
+     "seq": 29
+    },
+    {
+     "at": 1792612074.712051,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:HAR:left::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 30
+    },
+    {
+     "at": 1792612087.8896954,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "ok",
+     "ms": 51285,
+     "why": "",
+     "event_ids": [
+      "e00363",
+      "e00406",
+      "e00429",
+      "e00455",
+      "e00462",
+      "e00595",
+      "e00599",
+      "e00601"
+     ],
+     "detail": {
+      "in_tokens": 2555,
+      "out_tokens": 106
+     },
+     "seq": 31
+    },
+    {
+     "at": 1792612087.889739,
+     "agent": "telestrator",
+     "action": "wrote plans/flank_overload:EMA:right::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic progresses their attack down the right flank with key passes illustrating increased usage from 27.8% to 44.4%.",
+     "event_ids": [
+      "e00361",
+      "e00363"
+     ],
+     "detail": {},
+     "seq": 32
+    },
+    {
+     "at": 1792612090.1527662,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in en, neutral cut",
+     "status": "retry",
+     "ms": 2261,
+     "why": "line 2: number spelled out (three); write fact values in digits",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1016,
+      "out_tokens": 216,
+      "errors": [
+       "line 2: number spelled out (three); write fact values in digits"
+      ]
+     },
+     "seq": 33
+    },
+    {
+     "at": 1792612092.702719,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in en, neutral cut",
+     "status": "ok",
+     "ms": 2550,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1276,
+      "out_tokens": 218
+     },
+     "seq": 34
+    },
+    {
+     "at": 1792612092.7027507,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:EMA:right::1:|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 35
+    },
+    {
+     "at": 1792612095.1746025,
+     "agent": "producer",
+     "action": "planned the neutral rundown",
+     "status": "ok",
+     "ms": 2469,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1444,
+      "out_tokens": 116
+     },
+     "seq": 36
+    },
+    {
+     "at": 1792612095.2042942,
+     "agent": "verifier",
+     "action": "checked s2 (deep_block)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00406"
+     ],
+     "detail": {},
+     "seq": 37
+    },
+    {
+     "at": 1792612095.2496655,
+     "agent": "verifier",
+     "action": "checked s3 (flank_overload)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e01067"
+     ],
+     "detail": {},
+     "seq": 38
+    },
+    {
+     "at": 1792612097.3922288,
+     "agent": "telestrator",
+     "action": "planned the picture for goal (HAR)",
+     "status": "ok",
+     "ms": 2141,
+     "why": "",
+     "event_ids": [
+      "e01231"
+     ],
+     "detail": {
+      "in_tokens": 2433,
+      "out_tokens": 119
+     },
+     "seq": 39
+    },
+    {
+     "at": 1792612097.392281,
+     "agent": "telestrator",
+     "action": "wrote plans/goal:HAR::HAR09:1:e01231",
+     "status": "ok",
+     "ms": null,
+     "why": "Oskar Vidal scores after timing his run perfectly to meet the cross from Ugo Castillo.",
+     "event_ids": [
+      "e01230",
+      "e01231"
+     ],
+     "detail": {},
+     "seq": 40
+    },
+    {
+     "at": 1792612099.0403707,
+     "agent": "writer",
+     "action": "wrote goal (HAR) in en, neutral cut",
+     "status": "retry",
+     "ms": 1645,
+     "why": "line 3: 1 in \"That goal puts Harbour City 1-0 up going into half-time!\" is not one of the facts' values; line 3: 0 in \"That goal puts Harbour City 1-0 up going into half-time!\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 760,
+      "out_tokens": 115,
+      "errors": [
+       "line 3: 1 in \"That goal puts Harbour City 1-0 up going into half-time!\" is not one of the facts' values",
+       "line 3: 0 in \"That goal puts Harbour City 1-0 up going into half-time!\" is not one of the facts' values"
+      ]
+     },
+     "seq": 41
+    },
+    {
+     "at": 1792612100.7288008,
+     "agent": "writer",
+     "action": "wrote goal (HAR) in en, neutral cut",
+     "status": "ok",
+     "ms": 1688,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 968,
+      "out_tokens": 108
+     },
+     "seq": 42
+    },
+    {
+     "at": 1792612100.7288299,
+     "agent": "writer",
+     "action": "wrote scripts/goal:HAR::HAR09:1:e01231|en|neutral",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 43
+    },
+    {
+     "at": 1792612100.757566,
+     "agent": "verifier",
+     "action": "checked s1 (goal)",
+     "status": "ok",
+     "ms": null,
+     "why": "1 facts recomputed, schema valid",
+     "event_ids": [
+      "e01230",
+      "e01231"
+     ],
+     "detail": {},
+     "seq": 44
+    },
+    {
+     "at": 1792612100.7586517,
+     "agent": "producer",
+     "action": "wrote rundowns/neutral|en",
+     "status": "ok",
+     "ms": null,
+     "why": "Lead with Oskar Vidal's goal as it decisively impacts the half by giving Harbour City the lead, which is the main story for neutral fans. / Next, cover Harbour City's strategic defensive drop, a high-matters point showing a key tactical shift affecting game control and pressure. / Then highlight Eastmoor's tactical shift attacking down the left flank, a significant momentum change noted by the analyst, giving insight into their efforts to respond.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 45
+    }
+   ]
+  },
+  {
+   "match": "42",
+   "cut": "away",
+   "lang": "es",
+   "lock_s": 8.26,
+   "segments": [
+    {
+     "title": "Gol decisivo al final de la primera parte",
+     "kind": "goal",
+     "script": [
+      "Aquí vemos a Oskar Vidal rematando de cabeza tras el centro de Ugo Castillo.",
+      "Un gol con una calidad de ocasión de 0,281 xG, nada fácil.",
+      "Este tanto al minuto 47 de la primera parte cambia el marcador y puede marcar el ritmo para Harbor City.",
+      "Los aficionados de Eastmoor Athletic saben que ahora toca reaccionar en la segunda mitad."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Oskar Vidal's 0.281 xG goal in first half stoppage time is a defining moment that changes the scoreline and likely affects momentum going into half-time",
+      "pick_reason": "Oskar Vidal's early stoppage time goal is the defining moment impacting the score and momentum, crucial for Eastmoor fans to understand why they're trailing at half-time, so it leads the show."
+     }
+    },
+    {
+     "title": "Harbour se repliega en defensa y cede terreno",
+     "kind": "deep_block",
+     "script": [
+      "Miren cómo Harbour City retrocede su línea defensiva de 42,6 m a 36,2 m en el minuto 18.",
+      "Esto refleja un repliegue profundo para contener el avance de Eastmoor.",
+      "Justo en ese momento, la inclinación del campo para Eastmoor explota del 4,8% a 61,9%.",
+      "Esto señala un gran cambio en el control del partido a favor de nuestra visita."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Harbour City's defensive line dropped from 42.6m to 36.2m at 18, coinciding with a shift in Eastmoor's field tilt from 4.8% to 61.9%, indicating a significant pressure shift and change in control in the game.",
+      "pick_reason": "Harbour City's defensive line moving notably deeper led to Eastmoor gaining much more control and territorial advantage, a key tactical shift that explains why Eastmoor is pressing harder, so it's essential context."
+     }
+    },
+    {
+     "title": "Eastmoor aumenta ataques por la banda izquierda",
+     "kind": "flank_overload",
+     "script": [
+      "Aquí vemos cómo Eastmoor aumenta su juego por la banda izquierda.",
+      "Al inicio del partido, el 29,3% de ataques vienen por la izquierda, luego sube a 43,5%.",
+      "También incrementan las acciones en el canal y episodios de sobrecarga de 2 a 3.",
+      "Esto muestra una clara intención de dominar esa zona para crear oportunidades."
+     ],
+     "provenance": {
+      "made_by": "agents",
+      "verified": true,
+      "crew": {
+       "telestrator": "agent",
+       "writer": "agent"
+      },
+      "why": "Eastmoor Athletic increasing attacks down the left from 29.3% to 43.5% shows a clear shift in attacking focus, indicating a pressure change that could influence the game's momentum before half-time.",
+      "pick_reason": "Eastmoor's clear increase in attacks down their left flank before half-time indicates a strategic attacking focus and pressure shift, providing positive tactical insight particularly relevant for their fans to watch in the second half."
+     }
+    }
+   ],
+   "trail": [
+    {
+     "at": 1792612034.4899948,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 1360,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 726,
+      "out_tokens": 79
+     },
+     "seq": 0
+    },
+    {
+     "at": 1792612036.7740307,
+     "agent": "telestrator",
+     "action": "planned the picture for deep_block (HAR)",
+     "status": "ok",
+     "ms": 2830,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 2353,
+      "out_tokens": 96
+     },
+     "seq": 1
+    },
+    {
+     "at": 1792612036.7740612,
+     "agent": "telestrator",
+     "action": "wrote plans/deep_block:HAR:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Harbour City defenders drop from 42.6 m to 36.2 m line to block deeper attacks.",
+     "event_ids": [
+      "e00406"
+     ],
+     "detail": {},
+     "seq": 2
+    },
+    {
+     "at": 1792612039.816349,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 3931,
+     "why": "",
+     "event_ids": [
+      "e00363",
+      "e00406",
+      "e00429"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 69
+     },
+     "seq": 3
+    },
+    {
+     "at": 1792612042.9845982,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "retry",
+     "ms": 9469,
+     "why": "c1: 0 in \"Eastmoor accelerated their passing tempo notably from {F1} t\" is not one of the facts' values",
+     "event_ids": [
+      "e00215",
+      "e00217",
+      "e00219"
+     ],
+     "detail": {
+      "in_tokens": 619,
+      "out_tokens": 66,
+      "errors": [
+       "c1: 0 in \"Eastmoor accelerated their passing tempo notably from {F1} t\" is not one of the facts' values"
+      ]
+     },
+     "seq": 4
+    },
+    {
+     "at": 1792612049.7534075,
+     "agent": "writer",
+     "action": "wrote deep_block (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 12911,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1016,
+      "out_tokens": 182
+     },
+     "seq": 5
+    },
+    {
+     "at": 1792612049.7534313,
+     "agent": "writer",
+     "action": "wrote scripts/deep_block:HAR:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 6
+    },
+    {
+     "at": 1792612052.3298264,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 18010,
+     "why": "",
+     "event_ids": [
+      "e00300",
+      "e00348",
+      "e00395"
+     ],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 62
+     },
+     "seq": 7
+    },
+    {
+     "at": 1792612053.8319929,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "failed",
+     "ms": 10847,
+     "why": "c1: 0 in \"Eastmoor accelerated their passing tempo notably from 8.6 to\" is not one of the facts' values",
+     "event_ids": [
+      "e00215",
+      "e00217",
+      "e00219"
+     ],
+     "detail": {
+      "in_tokens": 744,
+      "out_tokens": 69,
+      "errors": [
+       "c1: 0 in \"Eastmoor accelerated their passing tempo notably from 8.6 to\" is not one of the facts' values"
+      ]
+     },
+     "seq": 8
+    },
+    {
+     "at": 1792612053.832019,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "fallback",
+     "ms": null,
+     "why": "used detector strength and headline",
+     "event_ids": [],
+     "detail": {},
+     "seq": 9
+    },
+    {
+     "at": 1792612054.443756,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "ok",
+     "ms": 17918,
+     "why": "",
+     "event_ids": [
+      "e00363",
+      "e00406",
+      "e00429",
+      "e00455",
+      "e00462",
+      "e00595",
+      "e00599",
+      "e00601"
+     ],
+     "detail": {
+      "in_tokens": 2555,
+      "out_tokens": 125
+     },
+     "seq": 10
+    },
+    {
+     "at": 1792612054.443809,
+     "agent": "telestrator",
+     "action": "wrote plans/flank_overload:EMA:right::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor's attacks clearly shift towards the right flank in this sequence.",
+     "event_ids": [
+      "e00361",
+      "e00363"
+     ],
+     "detail": {},
+     "seq": 11
+    },
+    {
+     "at": 1792612055.4681644,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "retry",
+     "ms": 17591,
+     "why": "c1: 17 in \"Harbour City reduced PPDA from 4.6 to 2.9 recently showing a\" is not one of the facts' values",
+     "event_ids": [
+      "e00471",
+      "e00488",
+      "e00506",
+      "e00447",
+      "e00458",
+      "e00473"
+     ],
+     "detail": {
+      "in_tokens": 1013,
+      "out_tokens": 117,
+      "errors": [
+       "c1: 17 in \"Harbour City reduced PPDA from 4.6 to 2.9 recently showing a\" is not one of the facts' values"
+      ]
+     },
+     "seq": 12
+    },
+    {
+     "at": 1792612057.2788932,
+     "agent": "telestrator",
+     "action": "planned the picture for flank_overload (EMA)",
+     "status": "ok",
+     "ms": 9663,
+     "why": "",
+     "event_ids": [
+      "e01003",
+      "e01007",
+      "e01008",
+      "e01035",
+      "e01036",
+      "e01058",
+      "e01071",
+      "e01093",
+      "e01095",
+      "e01096"
+     ],
+     "detail": {
+      "in_tokens": 2372,
+      "out_tokens": 102
+     },
+     "seq": 13
+    },
+    {
+     "at": 1792612057.279,
+     "agent": "telestrator",
+     "action": "wrote plans/flank_overload:EMA:left::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic overloads attacks down the left flank, increasing their share of attacks from 29.3% to 43.5%.",
+     "event_ids": [
+      "e01067"
+     ],
+     "detail": {},
+     "seq": 14
+    },
+    {
+     "at": 1792612059.7414484,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 10911,
+     "why": "",
+     "event_ids": [
+      "e01231"
+     ],
+     "detail": {
+      "in_tokens": 518,
+      "out_tokens": 54
+     },
+     "seq": 15
+    },
+    {
+     "at": 1792612061.3800812,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 13769,
+     "why": "",
+     "event_ids": [
+      "e01003",
+      "e01007",
+      "e01008"
+     ],
+     "detail": {
+      "in_tokens": 760,
+      "out_tokens": 62
+     },
+     "seq": 16
+    },
+    {
+     "at": 1792612062.9803557,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 8530,
+     "why": "line 2: number spelled out (diez); write fact values in digits",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1030,
+      "out_tokens": 167,
+      "errors": [
+       "line 2: number spelled out (diez); write fact values in digits"
+      ]
+     },
+     "seq": 17
+    },
+    {
+     "at": 1792612065.4299047,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 8143,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1003,
+      "out_tokens": 184
+     },
+     "seq": 18
+    },
+    {
+     "at": 1792612065.4299412,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:EMA:left::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 19
+    },
+    {
+     "at": 1792612066.711763,
+     "agent": "analyst",
+     "action": "scored 1 talking points",
+     "status": "ok",
+     "ms": 20688,
+     "why": "",
+     "event_ids": [
+      "e00832",
+      "e00854",
+      "e00873"
+     ],
+     "detail": {
+      "in_tokens": 773,
+      "out_tokens": 80
+     },
+     "seq": 20
+    },
+    {
+     "at": 1792612068.0265462,
+     "agent": "writer",
+     "action": "wrote flank_overload (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 5046,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1242,
+      "out_tokens": 168
+     },
+     "seq": 21
+    },
+    {
+     "at": 1792612068.026612,
+     "agent": "writer",
+     "action": "wrote scripts/flank_overload:EMA:right::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 22
+    },
+    {
+     "at": 1792612073.4162138,
+     "agent": "analyst",
+     "action": "scored 2 talking points",
+     "status": "ok",
+     "ms": 17948,
+     "why": "",
+     "event_ids": [
+      "e00471",
+      "e00488",
+      "e00506",
+      "e00447",
+      "e00458",
+      "e00473"
+     ],
+     "detail": {
+      "in_tokens": 1195,
+      "out_tokens": 119
+     },
+     "seq": 23
+    },
+    {
+     "at": 1792612077.3676326,
+     "agent": "telestrator",
+     "action": "planned the picture for tempo_up (EMA)",
+     "status": "ok",
+     "ms": 43420,
+     "why": "",
+     "event_ids": [
+      "e00215",
+      "e00217",
+      "e00219",
+      "e00247",
+      "e00249",
+      "e00251",
+      "e00253",
+      "e00256",
+      "e00259",
+      "e00261"
+     ],
+     "detail": {
+      "in_tokens": 2814,
+      "out_tokens": 72
+     },
+     "seq": 24
+    },
+    {
+     "at": 1792612077.3676775,
+     "agent": "telestrator",
+     "action": "wrote plans/tempo_up:EMA:::1:",
+     "status": "ok",
+     "ms": null,
+     "why": "Eastmoor Athletic increases tempo with quick, sharp passes early in the attack.",
+     "event_ids": [
+      "e00259"
+     ],
+     "detail": {},
+     "seq": 25
+    },
+    {
+     "at": 1792612079.0843568,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in es, away cut",
+     "status": "retry",
+     "ms": 1715,
+     "why": "line 1: 9 in \"En los primeros 9 minutos lograron 8.6 pases por minuto.\" is not one of the facts' values; line 2: 9 in \"Del minuto 9 al 19, suben a 12.6 pases por minuto.\" is not one of the facts' values",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 861,
+      "out_tokens": 117,
+      "errors": [
+       "line 1: 9 in \"En los primeros 9 minutos lograron 8.6 pases por minuto.\" is not one of the facts' values",
+       "line 2: 9 in \"Del minuto 9 al 19, suben a 12.6 pases por minuto.\" is not one of the facts' values"
+      ]
+     },
+     "seq": 26
+    },
+    {
+     "at": 1792612080.7793427,
+     "agent": "writer",
+     "action": "wrote tempo_up (EMA) in es, away cut",
+     "status": "ok",
+     "ms": 1695,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1076,
+      "out_tokens": 117
+     },
+     "seq": 27
+    },
+    {
+     "at": 1792612080.7793767,
+     "agent": "writer",
+     "action": "wrote scripts/tempo_up:EMA:::1:|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 28
+    },
+    {
+     "at": 1792612083.3200333,
+     "agent": "producer",
+     "action": "planned the away rundown",
+     "status": "retry",
+     "ms": 2538,
+     "why": "c2: the reason quotes a number; explain in words",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1481,
+      "out_tokens": 148,
+      "errors": [
+       "c2: the reason quotes a number; explain in words"
+      ]
+     },
+     "seq": 29
+    },
+    {
+     "at": 1792612085.3790941,
+     "agent": "producer",
+     "action": "planned the away rundown",
+     "status": "ok",
+     "ms": 2059,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 1671,
+      "out_tokens": 146
+     },
+     "seq": 30
+    },
+    {
+     "at": 1792612085.4444098,
+     "agent": "verifier",
+     "action": "checked s2 (deep_block)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e00406"
+     ],
+     "detail": {},
+     "seq": 31
+    },
+    {
+     "at": 1792612085.5468762,
+     "agent": "verifier",
+     "action": "checked s3 (flank_overload)",
+     "status": "ok",
+     "ms": null,
+     "why": "4 facts recomputed, schema valid",
+     "event_ids": [
+      "e01067"
+     ],
+     "detail": {},
+     "seq": 32
+    },
+    {
+     "at": 1792612086.9992075,
+     "agent": "telestrator",
+     "action": "planned the picture for goal (HAR)",
+     "status": "ok",
+     "ms": 1450,
+     "why": "",
+     "event_ids": [
+      "e01231"
+     ],
+     "detail": {
+      "in_tokens": 2433,
+      "out_tokens": 96
+     },
+     "seq": 33
+    },
+    {
+     "at": 1792612086.9992383,
+     "agent": "telestrator",
+     "action": "wrote plans/goal:HAR::HAR09:1:e01231",
+     "status": "ok",
+     "ms": null,
+     "why": "Oskar Vidal scores from a well-placed header following a cross from Ugo Castillo.",
+     "event_ids": [
+      "e01230",
+      "e01231"
+     ],
+     "detail": {},
+     "seq": 34
+    },
+    {
+     "at": 1792612088.9810996,
+     "agent": "writer",
+     "action": "wrote goal (HAR) in es, away cut",
+     "status": "ok",
+     "ms": 1980,
+     "why": "",
+     "event_ids": [],
+     "detail": {
+      "in_tokens": 756,
+      "out_tokens": 139
+     },
+     "seq": 35
+    },
+    {
+     "at": 1792612088.9811344,
+     "agent": "writer",
+     "action": "wrote scripts/goal:HAR::HAR09:1:e01231|es|away",
+     "status": "ok",
+     "ms": null,
+     "why": "",
+     "event_ids": [],
+     "detail": {},
+     "seq": 36
+    },
+    {
+     "at": 1792612089.0339937,
+     "agent": "verifier",
+     "action": "checked s1 (goal)",
+     "status": "ok",
+     "ms": null,
+     "why": "1 facts recomputed, schema valid",
+     "event_ids": [
+      "e01230",
+      "e01231"
+     ],
+     "detail": {},
+     "seq": 37
+    },
+    {
+     "at": 1792612089.035644,
+     "agent": "producer",
+     "action": "wrote rundowns/away|es",
+     "status": "ok",
+     "ms": null,
+     "why": "Oskar Vidal's early stoppage time goal is the defining moment impacting the score and momentum, crucial for Eastmoor fans to understand why they're trailing at half-time, so it leads the show. / Harbour City's defensive line moving notably deeper led to Eastmoor gaining much more control and territorial advantage, a key tactical shift that explains why Eastmoor is pressing harder, so it's essential context. / Eastmoor's clear increase in attacks down their left flank before half-time indicates a strategic attacking focus and pressure shift, providing positive tactical insight particularly relevant for their fans to watch in the second half.",
+     "event_ids": [],
+     "detail": {},
+     "seq": 38
+    }
+   ]
+  }
+ ]
+}

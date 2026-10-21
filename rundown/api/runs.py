@@ -5,6 +5,7 @@ the half-time whistle."""
 from __future__ import annotations
 
 import asyncio
+import os
 import threading
 import time
 import uuid
@@ -12,6 +13,9 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
+from ..agents import llm
+from ..agents.crew import Crew, cand_key
+from ..agents.state import Store
 from ..engine import detect
 from ..engine.data import MatchData
 from ..sim.match import Sim
@@ -38,6 +42,8 @@ class Run:
     stop: bool = False
     lock: threading.Lock = field(default_factory=threading.Lock)
     subscribers: list[asyncio.Queue] = field(default_factory=list)
+    crew: Crew | None = None
+    store: Store | None = None
 
     def match_data(self) -> MatchData:
         with self.lock:
@@ -50,17 +56,34 @@ class Run:
         return dict(id=self.id, seed=self.seed, speed=self.speed, status=self.status,
                     clock=round(self.sim.clock, 1), period=self.sim.period, score=list(m.score),
                     meta=m.meta(), feed=self.feed[-60:], locked_at=self.locked_at, whistle_at=self.whistle_at,
-                    candidates=[c.to_dict() for c in self.candidates.values()])
+                    candidates=[c.to_dict() for c in self.candidates.values()],
+                    crew=dict(mode="agents" if self.crew else "rules", model=self.crew.models.model if self.crew else None,
+                              killed=sorted(self.crew.killed) if self.crew else []))
+
+
+# Trail statuses worth a line in the live feed; everything goes out on the "trail" channel.
+FEED_STATUSES = {"fallback", "killed", "failed"}
 
 
 class RunManager:
     def __init__(self):
         self.runs: dict[str, Run] = {}
         self.loop: asyncio.AbstractEventLoop | None = None
+        self._models: llm.Models | None = None
+
+    def models(self) -> llm.Models | None:
+        """The crew's models, when Azure is configured and RUNDOWN_CREW isn't 'rules'."""
+        if self._models is None and llm.configured() and os.environ.get("RUNDOWN_CREW") != "rules":
+            self._models = llm.Models()
+        return self._models
 
     def create(self, seed: int | None, speed: float) -> Run:
         seed = int(seed if seed is not None else np.random.default_rng().integers(1000, 99999))
         run = Run(id=uuid.uuid4().hex[:10], seed=seed, speed=speed, sim=Sim(seed))
+        run.store = Store(on_record=lambda item: self._trail(run, item))
+        models = self.models()
+        if models:
+            run.crew = Crew(models, run.store)
         self.runs[run.id] = run
         threading.Thread(target=self._drive, args=(run,), daemon=True).start()
         return run
@@ -71,6 +94,12 @@ class RunManager:
             return
         for q in list(run.subscribers):
             self.loop.call_soon_threadsafe(_put, q, msg)
+
+    def _trail(self, run: Run, item: dict):
+        self.publish(run, dict(type="trail", item=item))
+        if item["status"] in FEED_STATUSES:
+            self._log(run, "agent", f"{item['agent'].capitalize()} {item['status']}: {item['action']}",
+                      agent=item["agent"], status=item["status"], why=item["why"])
 
     def _log(self, run: Run, kind: str, text: str, **kw):
         item = dict(kind=kind, text=text, clock=round(run.sim.clock, 1), at=time.time(), **kw)
@@ -136,14 +165,20 @@ class RunManager:
     def _scan(self, run: Run, period: int, t: float):
         md = run.match_data()
         found = detect.scan(md, period, t) + detect.moments(md, period, t - SCAN_EVERY_S, t)
+        new = []
         for c in found:
-            key = (c.kind, c.team, c.side, c.player, period, c.evidence[0] if c.kind in ("goal", "big_chance") else None)
+            key = cand_key(c)
             if key not in run.candidates:
                 run.candidates[key] = c
+                new.append(c)
                 self._log(run, "candidate", c.headline, candidate=c.to_dict())
         if period == 1:
             pick = producer.pick(md, [c for c in run.candidates.values() if c.period == 1], t)
             self.publish(run, dict(type="provisional", picks=[c.to_dict() for c in pick]))
+            if run.crew:  # score new points and start writing the likely segments now, not at the whistle
+                if new:
+                    run.crew.analyse(md, new)
+                run.crew.draft(md, [c for c in run.candidates.values() if c.period == 1], t)
 
     def _half_time(self, run: Run):
         run.status = "half_time"
@@ -164,7 +199,14 @@ class RunManager:
             md = md or run.match_data()
             t_end = float(md.frames[md.frame_index(1, 1e9), 1])
             cands = [c for c in run.candidates.values() if c.period == 1]
-            run.rundowns[key] = producer.rundown(md, cands, t_end, 90.0, cut, lang)
+            r = None
+            if run.crew:
+                try:
+                    r = run.crew.rundown(md, cands, t_end, 90.0, cut, lang)
+                except Exception as e:  # the crew as a whole failed: the rules crew takes the half
+                    run.store.record("producer", f"{cut} rundown in {lang}", "fallback",
+                                     why=f"crew failed ({type(e).__name__}); rules rundown")
+            run.rundowns[key] = r or producer.rundown(md, cands, t_end, 90.0, cut, lang)
         return run.rundowns[key]
 
 
@@ -191,7 +233,13 @@ class RunManager:
                 continue  # same variety rules as the Producer
             run.swapped[(cut, lang)].add((old["provenance"]["candidate"]["kind"], old["provenance"]["candidate"]["team"],
                                           old["provenance"]["candidate"]["t"]))
-            seg = telestrate.build(md, c, lang=lang, target_s=old["duration_s"], seg_id=segment_id)
+            seg = None
+            if run.crew:
+                try:
+                    seg = run.crew.segment(md, c, lang, cut, old["duration_s"], segment_id)
+                except Exception as e:
+                    run.store.record("producer", f"swap {segment_id}", "fallback", why=f"{type(e).__name__}; rules segment")
+            seg = seg or telestrate.build(md, c, lang=lang, target_s=old["duration_s"], seg_id=segment_id)
             r["segments"][idx] = seg
             r["duration_s"] = round(producer.INTRO_S + sum(s["duration_s"] for s in r["segments"]), 2)
             self._log(run, "swap", f"Swapped in: {c.headline}")

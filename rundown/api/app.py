@@ -13,6 +13,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+from ..agents.crew import ROLES
 from .runs import RunManager
 
 app = FastAPI(title="Rundown")
@@ -32,7 +33,7 @@ class NewRun(BaseModel):
 
 @app.get("/api/health")
 def health():
-    return dict(ok=True, runs=len(runs.runs))
+    return dict(ok=True, runs=len(runs.runs), crew="agents" if runs.models() else "rules")
 
 
 @app.post("/api/runs")
@@ -97,6 +98,38 @@ def swap_segment(run_id: str, body: Swap):
         raise HTTPException(404, "no such segment")
     except LookupError as e:
         raise HTTPException(409, str(e))
+
+
+@app.get("/api/runs/{run_id}/trail")
+def get_trail(run_id: str, after: int = -1):
+    """The crew's audit trail: every agent call, retry, fallback and Verifier check."""
+    run = _get(run_id)
+    return dict(mode="agents" if run.crew else "rules", trail=[it for it in run.store.trail if it["seq"] > after])
+
+
+class Switch(BaseModel):
+    role: str
+
+
+@app.post("/api/runs/{run_id}/crew/kill")
+def kill_agent(run_id: str, body: Switch):
+    """Switch an agent off mid-run; the crew routes around it and the trail shows how."""
+    run = _get(run_id)
+    if not run.crew:
+        raise HTTPException(409, "this run uses the rules crew")
+    if body.role not in ROLES:
+        raise HTTPException(400, f"role must be one of {', '.join(ROLES)}")
+    run.crew.kill(body.role)
+    return dict(killed=sorted(run.crew.killed))
+
+
+@app.post("/api/runs/{run_id}/crew/revive")
+def revive_agent(run_id: str, body: Switch):
+    run = _get(run_id)
+    if not run.crew:
+        raise HTTPException(409, "this run uses the rules crew")
+    run.crew.revive(body.role)
+    return dict(killed=sorted(run.crew.killed))
 
 
 @app.websocket("/api/runs/{run_id}/ws")

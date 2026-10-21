@@ -28,7 +28,10 @@ export interface Segment {
   duration_s: number
   clip: { period: number; t0: number; t1: number; hz: number; slots: string[]; frames: number[][] }
   cues: Cue[]; script: ScriptLine[]; facts: Fact[]
-  provenance: { made_by: string; candidate?: Candidate; verified?: boolean }
+  provenance: {
+    made_by: string; candidate?: Candidate; verified?: boolean
+    crew?: { telestrator: 'agent' | 'rules'; writer: 'agent' | 'rules' }; why?: string | null; pick_reason?: string
+  }
 }
 
 export interface Rundown {
@@ -37,12 +40,21 @@ export interface Rundown {
   segments: Segment[]; duration_s: number
 }
 
-export interface FeedItem { kind: string; text: string; clock: number; at: number; candidate?: Candidate; seconds_after_whistle?: number }
+export interface FeedItem {
+  kind: string; text: string; clock: number; at: number; candidate?: Candidate; seconds_after_whistle?: number
+  agent?: string; status?: string; why?: string
+}
+
+export interface TrailItem {
+  seq: number; at: number; agent: string; action: string; status: string; ms: number | null; why: string; event_ids: string[]
+}
+
+export interface CrewInfo { mode: 'agents' | 'rules'; model: string | null; killed: string[] }
 
 export interface RunSnapshot {
   id: string; seed: number; speed: number; status: string; clock: number; period: number
   score: [number, number]; meta: Meta; feed: FeedItem[]; candidates: Candidate[]
-  locked_at: number | null; whistle_at: number | null
+  locked_at: number | null; whistle_at: number | null; crew: CrewInfo
 }
 
 export interface MatchEvent { id: string; t: number; period: number; minute: number; type: string; team: string | null; player: string | null; [k: string]: unknown }

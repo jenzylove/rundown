@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { bug, Pitch, readTheme, renderSegment } from './renderer'
-import type { Candidate, FeedItem, MatchEvent, Meta, Rundown, RunSnapshot, Segment } from './types'
+import type { Candidate, FeedItem, MatchEvent, Meta, Rundown, RunSnapshot, Segment, TrailItem } from './types'
 
 type View = 'live' | 'studio'
 type Decision = 'pending' | 'approved' | 'dropped'
@@ -31,6 +31,7 @@ function shirtNumbers(meta: Meta, events: MatchEvent[]): number[] {
 export default function App() {
   const [run, setRun] = useState<RunSnapshot | null>(null)
   const [feed, setFeed] = useState<FeedItem[]>([])
+  const [trail, setTrail] = useState<TrailItem[]>([])
   const [picks, setPicks] = useState<Candidate[]>([])
   const [status, setStatus] = useState('idle')
   const [score, setScore] = useState<[number, number]>([0, 0])
@@ -53,7 +54,7 @@ export default function App() {
       const r = await fetch('/api/runs', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ seed, speed: 8 }) })
       if (!r.ok) throw new Error(`Could not start a match (${r.status})`)
       const snap: RunSnapshot = await r.json()
-      setRun(snap); setFeed([]); setPicks([]); setRundown(null); setDecisions({}); setStatus(snap.status)
+      setRun(snap); setFeed([]); setTrail([]); setPicks([]); setRundown(null); setDecisions({}); setStatus(snap.status)
       setScore([0, 0]); setView('live'); eventsRef.current = []; frameRef.current = null
       const ws = new WebSocket(`${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/api/runs/${snap.id}/ws`)
       wsRef.current = ws
@@ -69,6 +70,7 @@ export default function App() {
             const [h, a] = String(e.score).split('-').map(Number); setScore([h, a])
           }
         } else if (msg.type === 'feed') setFeed(f => [...f, msg.item].slice(-80))
+        else if (msg.type === 'trail') setTrail(t => [...t, msg.item].slice(-40))
         else if (msg.type === 'provisional') setPicks(msg.picks)
         else if (msg.type === 'status') setStatus(msg.status)
         else if (msg.type === 'rundown') { setRundown(msg.rundown); setStatus('half_time') }
@@ -126,7 +128,7 @@ export default function App() {
           <p className="caption-note">Seed {run?.seed ?? '…'} · synthetic match, fictional clubs · 8× speed</p>
         </section>
         <aside className="desk">
-          {!rundown ? <Building feed={feed} picks={picks} run={run} /> :
+          {!rundown ? <Building feed={feed} picks={picks} run={run} trail={trail} status={status} /> :
             <Desk rundown={rundown} decisions={decisions} setDecisions={setDecisions} swap={swap}
               cut={cut} lang={lang} loadCut={loadCut} lockItem={lockItem} run={run}
               goStudio={() => setView('studio')} onAirCount={onAir.length} />}
@@ -171,12 +173,19 @@ function Strength({ v }: { v: number }) {
   return <span className="strength" aria-label={`strength ${Math.round(v * 100)}%`}><i style={{ width: `${Math.round(v * 100)}%` }} /></span>
 }
 
-function Building({ feed, picks, run }: { feed: FeedItem[]; picks: Candidate[]; run: RunSnapshot | null }) {
+const AGENT_LABEL: Record<string, string> = {
+  analyst: 'Analyst', producer: 'Producer', telestrator: 'Telestrator', writer: 'Writer', verifier: 'Verifier',
+}
+
+function Building({ feed, picks, run, trail, status }: {
+  feed: FeedItem[]; picks: Candidate[]; run: RunSnapshot | null; trail: TrailItem[]; status: string
+}) {
   const cands = feed.filter(f => f.kind === 'candidate')
+  const work = trail.filter(t => !t.action.startsWith('wrote ') || t.agent === 'writer').slice(-5).reverse()
   return <>
     <div className="desk-head">
       <h2>The rundown</h2>
-      <span className="pill live-pill">Building live</span>
+      <span className="pill live-pill">{status === 'half_time' ? 'Writing the rundown' : 'Building live'}</span>
     </div>
     <p className="muted small">Talking points the crew is tracking. The best three lock at the half-time whistle.</p>
     <ol className="picks">
@@ -198,8 +207,28 @@ function Building({ feed, picks, run }: { feed: FeedItem[]; picks: Candidate[]; 
         <span>{f.text}</span>
       </li>)}
     </ul>
-    <p className="muted small mode">Crew mode: <b>rules</b> (agents offline until Azure Foundry is connected). {run ? `Seed ${run.seed}.` : ''}</p>
+    {run?.crew.mode === 'agents' && <>
+      <h3>Crew at work</h3>
+      <ul className="crew-log" aria-live="polite">
+        {work.length === 0 && <li className="muted">The Analyst scores each talking point as it is spotted.</li>}
+        {work.map(t => <li key={t.seq} className={`st-${t.status}`}>
+          <b>{AGENT_LABEL[t.agent] ?? t.agent}</b>
+          <span>{t.action}{t.status !== 'ok' && <em> · {t.status}</em>}</span>
+          {t.ms !== null && <span className="ms">{(t.ms / 1000).toFixed(1)} s</span>}
+        </li>)}
+      </ul>
+    </>}
+    <p className="muted small mode">{run?.crew.mode === 'agents'
+      ? <>Crew: <b>agents</b> on {run.crew.model} (Microsoft Agent Framework), checked by the Verifier.</>
+      : <>Crew: <b>rules</b> (agents offline until Azure is configured).</>} {run ? `Seed ${run.seed}.` : ''}</p>
   </>
+}
+
+function crewLine(r: Rundown) {
+  if (r.made_by !== 'crew') return 'rules crew'
+  const n = r.segments.length
+  const a = (k: 'telestrator' | 'writer') => r.segments.filter(s => s.provenance.crew?.[k] === 'agent').length
+  return `agents · pictures ${a('telestrator')}/${n} by the Telestrator, words ${a('writer')}/${n} by the Writer, the rest by the rules crew`
 }
 
 function Desk({ rundown, decisions, setDecisions, swap, cut, lang, loadCut, lockItem, goStudio, onAirCount }: {
@@ -225,7 +254,7 @@ function Desk({ rundown, decisions, setDecisions, swap, cut, lang, loadCut, lock
     </ol>
     <div className="slotfit"><span>Slot 90 s</span><b className={Math.abs(total - 90) <= 3 ? 'ok' : 'warn'}>{total.toFixed(1)} s</b></div>
     <button className="go" onClick={goStudio} disabled={onAirCount === 0}>Go to studio ▸</button>
-    <p className="muted small mode">Built by: <b>{rundown.made_by}</b>. Every number links to the match events behind it.</p>
+    <p className="muted small mode">Built by: <b>{crewLine(rundown)}</b>. Every number comes from the stats engine and links to the match events behind it.</p>
   </>
 }
 
@@ -241,12 +270,15 @@ function SegmentRow({ s, i, d, approve, drop, swap }: { s: Segment; i: number; d
       </div>
     </div>
     <p className="line">“{s.script[1]?.text ?? s.script[0]?.text}”</p>
+    {s.provenance.pick_reason && s.provenance.pick_reason !== 'rules ranking' &&
+      <p className="why small"><b>Producer:</b> {s.provenance.pick_reason}</p>}
     <div className="seg-actions">
       <button onClick={approve} className={d === 'approved' ? 'on' : ''}>{d === 'approved' ? 'Approved' : 'Approve'}</button>
       <button onClick={swap}>Swap</button>
       <button onClick={drop} className={d === 'dropped' ? 'on' : ''}>{d === 'dropped' ? 'Dropped' : 'Drop'}</button>
       <button className="ghost" onClick={() => setOpen(!open)} aria-expanded={open}>Evidence</button>
     </div>
+    {open && s.provenance.why && <p className="why small"><b>Analyst:</b> {s.provenance.why}</p>}
     {open && <ul className="evidence">
       {s.facts.slice(0, 6).map(f => <li key={f.key}><b>{String(f.value)} {f.unit}</b> {f.label}<code>{f.key}</code>{f.evidence.length > 0 && <span className="muted"> · {f.evidence.length} events</span>}</li>)}
     </ul>}

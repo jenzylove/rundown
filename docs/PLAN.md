@@ -26,6 +26,11 @@ Each phase ends with a check that proves it is done.
 - The Verifier gate, retries and recovery.
 - **Check:** a full half on a seed produces a locked rundown in valid Overlay Script; the trace is
   visible in Foundry; the kill-the-Telestrator run recovers.
+- **Status 21 Oct: done, except Foundry-side traces and Cosmos.** Locked, verified rundowns on four
+  seeds in two cuts, lock median 1.9 s after the whistle; the kill-the-Telestrator run recovers with
+  every segment verified (`docs/CREW.md`). The trail is ours (API, WebSocket, desk); Foundry tracing
+  waits on the Application Insights connection string. The shared store is in memory; Cosmos DB moves
+  to Phase 4 with the rest of the infrastructure.
 
 ## Phase 3. Renderer, voice and studio (23 to 24 Oct)
 - Pitch replay, overlay playback, Speech voice-over with captions, approval desk, EN/ES

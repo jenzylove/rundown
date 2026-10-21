@@ -110,26 +110,22 @@ def _arrow(ev, tl: Timeline, clip_t0: float, d: float = 2.5) -> dict:
                 **{"from": [ev["x"], ev["y"]], "to": [ev["end_x"], ev["end_y"]]}, event_ids=[ev["id"]])
 
 
-def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None = None,
-          seg_id: str = "seg") -> dict:
+def moment(md: MatchData, c: Candidate) -> tuple[float, float, float]:
+    """The moment that best shows the talking point: (anchor, clip start, clip end), match clock."""
     period = c.period
-    cues: list[dict] = []
-    facts = list(c.facts)
     rec_t0 = max(c.t - 600.0, 0.0)
-
     if c.kind == "flank_overload":
         over = next(f for f in reversed(c.facts) if f.stat == "overloads")
         eps = over.detail["episodes"] or [dict(t=c.t - 30)]
         ep = max(eps, key=lambda e: e.get("attackers", 0) - e.get("defenders", 0))
         anchor = ep["t"]
-        t0, t1 = anchor - 6, anchor + 6
-    elif c.kind == "press_up":
+        return anchor, anchor - 6, anchor + 6
+    if c.kind == "press_up":
         acts = [md.by_id[i] for i in c.facts[1].evidence if i in md.by_id]
         acts = [e for e in acts if md.to_team(c.team, e["x"], e["y"])[0] > 52.5] or acts
         anchor = acts[-1]["t"] if acts else c.t - 30
-        t0, t1 = anchor - 7, anchor + 3
-    elif c.kind == "fatigue":
-        side = md.side(c.team)
+        return anchor, anchor - 7, anchor + 3
+    if c.kind == "fatigue":
         opp = md.opponent(c.team)
         near = []
         for e in md.window(period, rec_t0, c.t, ("pass", "carry", "cross"), opp):
@@ -140,13 +136,13 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
             if np.hypot(p[0] - e["x"], p[1] - e["y"]) < 15:
                 near.append(e)
         anchor = near[-1]["t"] if near else c.t - 30
-        t0, t1 = anchor - 6, anchor + 4
-    elif c.kind == "deep_block":
+        return anchor, anchor - 6, anchor + 4
+    if c.kind == "deep_block":
         opp = md.opponent(c.team)
         ft = [e for e in md.window(period, rec_t0, c.t, ("pass",), opp) if md.to_team(opp, e["x"], e["y"])[0] > 70]
         anchor = ft[-1]["t"] if ft else c.t - 30
-        t0, t1 = anchor - 5, anchor + 5
-    elif c.kind == "tempo_up":
+        return anchor, anchor - 5, anchor + 5
+    if c.kind == "tempo_up":
         passes = md.window(period, rec_t0, c.t, ("pass",), c.team)
         best, run = [], []
         for e in passes:
@@ -156,20 +152,34 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
             if len(run) > len(best) and run[-1]["t"] - run[0]["t"] < 14:
                 best = list(run)
         anchor = best[0]["t"] if best else c.t - 30
-        t0, t1 = anchor - 1.5, (best[-1]["t"] + 2.5) if best else anchor + 10
-    else:  # goal / big chance
-        shot = md.by_id[c.evidence[0]]
-        anchor = shot["t"]
-        flight = float(np.hypot(shot["end_x"] - shot["x"], shot["end_y"] - shot["y"])) / max(shot["speed_kmh"] / 3.6, 1.0)
-        t0, t1 = anchor - 10, anchor + flight - 0.1  # end as the ball arrives, before the restart
+        return anchor, anchor - 1.5, (best[-1]["t"] + 2.5) if best else anchor + 10
+    # goal / big chance
+    shot = md.by_id[c.evidence[0]]
+    anchor = shot["t"]
+    flight = float(np.hypot(shot["end_x"] - shot["x"], shot["end_y"] - shot["y"])) / max(shot["speed_kmh"] / 3.6, 1.0)
+    return anchor, anchor - 10, anchor + flight - 0.1  # end as the ball arrives, before the restart
 
-    cl = clip(md, period, t0, t1)
+
+def options(md: MatchData, c: Candidate, cl: dict, anchor: float) -> dict:
+    """Named zones and lines a Telestrator may place, with the geometry worked out here."""
+    period = cl["period"]
+    bx_team = float(md.to_team(c.team, *md.ball(md.frame_index(period, anchor))[:2])[0])
+    zones = {f"{side} channel": _channel_rect(md, c.team, side, bx_team) for side in S.CHANNELS}
+    lines = {"halfway": 52.5}
+    if c.kind == "deep_block":
+        lx, _ = _team_abs(md, c.team, c.facts[1].value, 34.0)
+        lines["back line"] = round(lx, 1)
+    return dict(zones=zones, lines=lines)
+
+
+def _rules_layout(md: MatchData, c: Candidate, cl: dict, tl: Timeline, anchor: float) -> list[dict]:
+    period = c.period
     clip_t0 = cl["t0"]
-    tl = Timeline(cl["t1"] - clip_t0)
+    t0, t1 = cl["t0"], cl["t1"]
     a = anchor - clip_t0
-
-    # layout per kind
+    cues: list[dict] = []
     if c.kind == "flank_overload":
+        over = next(f for f in reversed(c.facts) if f.stat == "overloads")
         tl.freeze(a, 3.2)
         ft = tl.seg_at_freeze(a)
         bx_team = md.to_team(c.team, *md.ball(md.frame_index(period, anchor))[:2])[0]
@@ -196,7 +206,7 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
         x_line = 52.5
         cues.append(dict(t=round(ft, 2), d=2.8, kind="line", x=x_line, text="halfway"))
         turn = md.by_id[c.facts[1].evidence[-1]] if c.facts[1].evidence else None
-        if turn:
+        if turn and t0 <= turn["t"] <= t1:  # the latest regain can be outside this clip
             cues.append(dict(t=round(tl.seg(turn["t"] - clip_t0), 2), d=2.5, kind="highlight",
                              slot=md.slot_of(turn["player"], period, turn["t"]) or 0, text="Won back",
                              event_ids=[turn["id"]]))
@@ -231,6 +241,62 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
                        text=md.name(shot["player"]))
         if sh:
             cues.append(sh)
+    return cues
+
+
+def plan_layout(md: MatchData, plan: dict, cl: dict, tl: Timeline, opts: dict) -> list[dict]:
+    """An agent's visual plan -> cues. The plan names moments (clip times), slots, events and
+    option names; every time and coordinate is worked out here. Call verify.layout_errors first."""
+    clip_t0 = cl["t0"]
+    freezes = [(min(max(f["at"], 0.3), tl.clip_len - 0.1), min(max(f["hold"], 1.5), 4.0)) for f in plan.get("freezes", [])[:3]]
+    for at, hold in freezes:
+        tl.freeze(at, hold)
+    hold_of = dict(freezes)
+
+    def when(item, d):
+        """Cue time and length: pinned to one of the plan's freezes, else at a clip time."""
+        i = item.get("freeze")
+        if i is not None and 0 <= i < len(freezes):
+            at = freezes[i][0]
+            return tl.seg_at_freeze(at), hold_of[at]
+        return tl.seg(min(max(item.get("at") or 0.0, 0.0), tl.clip_len)), d
+
+    cues: list[dict] = []
+    for k, h in enumerate(plan.get("highlights", [])[:4]):
+        t, d = when(h, 2.5)
+        cues.append(dict(t=round(t + 0.25 * k, 2), d=round(max(d - 0.25 * k, 1.0), 2), kind="highlight",
+                         slot=h["slot"], text=h.get("text") or None))
+    for eid in plan.get("arrows", [])[:4]:
+        cues.append(_arrow(md.by_id[eid], tl, clip_t0))
+    for r in plan.get("runs", [])[:2]:
+        t, d = when(r, 3.0)
+        cues.append(dict(t=round(t, 2), d=round(max(d, 3.0), 2), kind="run", slot=r["slot"],
+                         from_t=round(r["from_t"], 2), to_t=round(min(r["to_t"], tl.clip_len), 2)))
+    for z in plan.get("zones", [])[:1]:
+        t, d = when(z, 3.0)
+        cues.append(dict(t=round(t, 2), d=round(d, 2), kind="zone", rect=opts["zones"][z["name"]], text=z.get("text") or None))
+    for ln in plan.get("lines", [])[:1]:
+        t, d = when(ln, 3.0)
+        cues.append(dict(t=round(t, 2), d=round(d, 2), kind="line", x=opts["lines"][ln["name"]], text=ln.get("text") or None))
+    return cues
+
+
+def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None = None,
+          seg_id: str = "seg", plan: dict | None = None, words: dict | None = None,
+          made_by: str = "rules") -> dict:
+    """Talking point -> segment. `plan` (an agent's visual plan) replaces the rules layout and
+    `words` (an agent Writer's text, numbers already filled in) the rules writer; timing,
+    geometry and the end card are always worked out here."""
+    period = c.period
+    facts = list(c.facts)
+    anchor, t0, t1 = moment(md, c)
+    cl = clip(md, period, t0, t1)
+    clip_t0 = cl["t0"]
+    tl = Timeline(cl["t1"] - clip_t0)
+    if plan is None:
+        cues = _rules_layout(md, c, cl, tl, anchor)
+    else:
+        cues = plan_layout(md, plan, cl, tl, options(md, c, cl, anchor))
 
     # end hold with the stat card; extra time to fill the slot is shared across
     # all holds (each at most 2.5x its length), the rest goes to the end hold
@@ -251,18 +317,25 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
             if q.get("kind") in ("highlight", "zone", "line", "run"):
                 q["d"] = round(q["d"] + _grow_inside(q, old, grown), 2)
     end_t = tl.seg_at_freeze(tl.clip_len)
-    rows, card_facts = writer.stat_rows(md, c, lang)
+    if words is None:
+        rows, card_facts = writer.stat_rows(md, c, lang)
+        card_keys = [f.key for f in card_facts]
+        words = dict(title=writer.title(md, c, lang), sub=writer.subtitle(md, c, lang), sub_keys=[f.key for f in c.facts[:2]],
+                     card_title=writer.card_title(md, c, lang), rows=rows, card_keys=card_keys,
+                     lines=writer.script(md, c, lang))
+    else:
+        card_facts = [f for f in c.facts if f.key in set(words["card_keys"])]
     cues.append(dict(t=round(end_t, 2), d=round(tl.freezes[-1][1], 2), kind="statcard",
-                     text=writer.card_title(md, c, lang), rows=rows, fact_keys=[f.key for f in card_facts]))
-    title = writer.title(md, c, lang)
-    cues.insert(0, dict(t=0.2, d=LABEL_S, kind="label", text=title.upper(), sub=writer.subtitle(md, c, lang),
-                        fact_keys=[f.key for f in c.facts[:2]]))
+                     text=words["card_title"], rows=words["rows"], fact_keys=list(words["card_keys"])))
+    title = words["title"]
+    cues.insert(0, dict(t=0.2, d=LABEL_S, kind="label", text=title.upper(), sub=words["sub"],
+                        fact_keys=list(words["sub_keys"])))
     cues += [dict(t=round(tl.seg_at_freeze(at), 2), d=round(h, 2), kind="freeze", at=round(at, 2))
              for at, h in tl.freezes]
     cues = [{k: v for k, v in q.items() if v is not None} for q in cues if q]
     cues.sort(key=lambda q: q["t"])
 
-    lines = writer.script(md, c, lang)
+    lines = words["lines"]
     script, t = [], 0.4
     for text, keys in lines:
         d = max(2.0, len(text.split()) / 2.6)
@@ -272,4 +345,4 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
     return dict(version="1", segment_id=seg_id, title=title[:48], kind=c.kind, team=c.team, lang=lang,
                 duration_s=round(max(tl.duration, t), 2), clip=cl, cues=cues, script=script,
                 facts=list({f.key: f.to_dict() for f in facts + card_facts}.values()),
-                provenance=dict(made_by="rules", candidate=c.to_dict(), verified=False))
+                provenance=dict(made_by=made_by, candidate=c.to_dict(), verified=False))
