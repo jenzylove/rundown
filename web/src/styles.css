@@ -134,6 +134,8 @@ code { font: 12px "IBM Plex Mono", monospace; color: var(--ink-muted); display: 
 .captions { position: absolute; left: 50%; bottom: 3%; transform: translateX(-50%); max-width: 80%; text-align: center;
   font: 600 clamp(15px, 2vw, 26px)/1.3 Barlow, sans-serif; color: #fff; background: rgba(0, 0, 0, .72); padding: 6px 14px; border-radius: 2px; }
 .captions:empty { display: none; }
+.captions span { color: rgba(255, 255, 255, .55); transition: color .08s linear; }
+.captions span.said { color: #fff; }
 .transport { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .chips { display: flex; gap: 4px; flex-wrap: wrap; }
 .time { margin-left: auto; font: 500 14px "IBM Plex Mono", monospace; color: var(--ink-muted); }

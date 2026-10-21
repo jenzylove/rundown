@@ -9,11 +9,12 @@ import asyncio
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from ..agents.crew import ROLES
+from ..studio import voice
 from .runs import RunManager
 
 app = FastAPI(title="Rundown")
@@ -33,7 +34,7 @@ class NewRun(BaseModel):
 
 @app.get("/api/health")
 def health():
-    return dict(ok=True, runs=len(runs.runs), crew="agents" if runs.models() else "rules")
+    return dict(ok=True, runs=len(runs.runs), crew="agents" if runs.models() else "rules", voice=voice.configured())
 
 
 @app.post("/api/runs")
@@ -98,6 +99,31 @@ def swap_segment(run_id: str, body: Swap):
         raise HTTPException(404, "no such segment")
     except LookupError as e:
         raise HTTPException(409, str(e))
+
+
+@app.post("/api/runs/{run_id}/rundown/voice")
+def voice_rundown(run_id: str, cut: str = "neutral", lang: str = "en"):
+    """Voice-over for every segment of a cut: audio URLs and word timings, script re-timed to the voice."""
+    run = _get(run_id)
+    if cut not in ("neutral", "home", "away") or lang not in ("en", "es"):
+        raise HTTPException(400, "unsupported cut or language")
+    if run.locked_at is None:
+        raise HTTPException(409, "rundown locks at the half-time whistle")
+    if not voice.configured():
+        raise HTTPException(503, "voice-over needs AZURE_SPEECH_REGION and a key")
+    try:
+        return runs.voice(run, cut, lang)
+    except RuntimeError as e:
+        raise HTTPException(502, str(e))
+
+
+@app.get("/api/runs/{run_id}/audio/{key}.mp3")
+def audio(run_id: str, key: str):
+    run = _get(run_id)
+    data = run.audio.get(key)
+    if data is None:
+        raise HTTPException(404, "no such audio")
+    return Response(data, media_type="audio/mpeg", headers={"Cache-Control": "private, max-age=3600"})
 
 
 @app.get("/api/runs/{run_id}/trail")

@@ -28,10 +28,16 @@ export interface Segment {
   duration_s: number
   clip: { period: number; t0: number; t1: number; hz: number; slots: string[]; frames: number[][] }
   cues: Cue[]; script: ScriptLine[]; facts: Fact[]
+  voice?: Voice
   provenance: {
     made_by: string; candidate?: Candidate; verified?: boolean
     crew?: { telestrator: 'agent' | 'rules'; writer: 'agent' | 'rules' }; why?: string | null; pick_reason?: string
   }
+}
+
+export interface Voice {
+  url: string; key: string; start: number; audio_s: number
+  words: { text: string; t: number; d: number }[]  // segment time
 }
 
 export interface Rundown {

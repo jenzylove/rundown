@@ -37,6 +37,13 @@ Each phase ends with a check that proves it is done.
   and home/away cuts.
 - **Check:** headless browser screenshots of a segment mid-play in dark and light; audio plus captions
   in sync within 150 ms.
+- **Status 21 Oct: voice-over done.** Each segment's script is voiced by Azure AI Speech
+  (`studio/voice.py`), re-timed to the audio, and played in step with the studio clock with
+  word-by-word captions. Headless Chromium, both themes, EN and ES: the voice runs a steady 86 ms
+  ahead of the studio clock (max 89 ms, 160 samples; re-sync past 150 ms). Add S3's word-timing error
+  (median 37 to 64 ms, max 150 ms) and the worst case can pass 150 ms, so this is close, not
+  comfortably inside. Screenshots: `docs/spikes/img/studio-voice-*.png`. Still to do in Phase 3: MP4
+  export, FR/PT cuts, name pronunciation (S3).
 
 ## Phase 4. Azure deploy and live stream (24 to 25 Oct)
 - Bicep for Container Apps, Event Hubs, Cosmos DB, App Insights; GitHub Actions deploy.

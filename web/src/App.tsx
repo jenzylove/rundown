@@ -100,6 +100,16 @@ export default function App() {
     else setError((await r.json()).detail ?? 'Swap failed')
   }
 
+  const [voicing, setVoicing] = useState(false)
+  const goStudio = async () => {
+    if (!run || !rundown) return
+    setVoicing(true)
+    try {  // voice the cut first; the studio still plays, captions only, if the voice is unavailable
+      const r = await fetch(`/api/runs/${run.id}/rundown/voice?cut=${cut}&lang=${lang}`, { method: 'POST' })
+      if (r.ok) setRundown(await r.json())
+    } finally { setVoicing(false); setView('studio') }
+  }
+
   const lockItem = feed.find(f => f.kind === 'locked')
   const onAir = useMemo(() => rundown?.segments.filter(s => decisions[s.segment_id] !== 'dropped') ?? [], [rundown, decisions])
   const studioRundown = useMemo(() => rundown ? { ...rundown, segments: onAir } : null, [rundown, onAir])
@@ -131,7 +141,7 @@ export default function App() {
           {!rundown ? <Building feed={feed} picks={picks} run={run} trail={trail} status={status} /> :
             <Desk rundown={rundown} decisions={decisions} setDecisions={setDecisions} swap={swap}
               cut={cut} lang={lang} loadCut={loadCut} lockItem={lockItem} run={run}
-              goStudio={() => setView('studio')} onAirCount={onAir.length} />}
+              goStudio={goStudio} voicing={voicing} onAirCount={onAir.length} />}
         </aside>
       </main>}
 
@@ -231,10 +241,10 @@ function crewLine(r: Rundown) {
   return `agents · pictures ${a('telestrator')}/${n} by the Telestrator, words ${a('writer')}/${n} by the Writer, the rest by the rules crew`
 }
 
-function Desk({ rundown, decisions, setDecisions, swap, cut, lang, loadCut, lockItem, goStudio, onAirCount }: {
+function Desk({ rundown, decisions, setDecisions, swap, cut, lang, loadCut, lockItem, goStudio, voicing, onAirCount }: {
   rundown: Rundown; decisions: Record<string, Decision>; setDecisions: (f: (d: Record<string, Decision>) => Record<string, Decision>) => void
   swap: (id: string) => void; cut: string; lang: string; loadCut: (c: string, l: string) => void
-  lockItem?: FeedItem; run: RunSnapshot | null; goStudio: () => void; onAirCount: number
+  lockItem?: FeedItem; run: RunSnapshot | null; goStudio: () => void; voicing: boolean; onAirCount: number
 }) {
   const set = (id: string, d: Decision) => setDecisions(x => ({ ...x, [id]: d }))
   const total = 4 + rundown.segments.filter(s => decisions[s.segment_id] !== 'dropped').reduce((a, s) => a + s.duration_s, 0)
@@ -253,7 +263,7 @@ function Desk({ rundown, decisions, setDecisions, swap, cut, lang, loadCut, lock
         approve={() => set(s.segment_id, 'approved')} drop={() => set(s.segment_id, decisions[s.segment_id] === 'dropped' ? 'pending' : 'dropped')} swap={() => swap(s.segment_id)} />)}
     </ol>
     <div className="slotfit"><span>Slot 90 s</span><b className={Math.abs(total - 90) <= 3 ? 'ok' : 'warn'}>{total.toFixed(1)} s</b></div>
-    <button className="go" onClick={goStudio} disabled={onAirCount === 0}>Go to studio ▸</button>
+    <button className="go" onClick={goStudio} disabled={onAirCount === 0 || voicing}>{voicing ? 'Recording the voice-over…' : 'Go to studio ▸'}</button>
     <p className="muted small mode">Built by: <b>{crewLine(rundown)}</b>. Every number comes from the stats engine and links to the match events behind it.</p>
   </>
 }
@@ -285,6 +295,24 @@ function SegmentRow({ s, i, d, approve, drop, swap }: { s: Segment; i: number; d
   </li>
 }
 
+/** Keep segment k's voice playing in step with the studio clock (re-sync past 150 ms); silence the rest. */
+function follow(audios: (HTMLAudioElement | null)[], segs: Segment[], k: number, t: number) {
+  audios.forEach((a, i) => {
+    if (!a) return
+    const v = segs[i].voice!
+    const at = t - v.start
+    if (i !== k || at < 0 || at > v.audio_s) { if (!a.paused) a.pause(); return }
+    if (a.paused) { a.currentTime = at; a.play().catch(() => {}) }
+    else if (Math.abs(a.currentTime - at) > 0.15) a.currentTime = at
+  })
+}
+
+/** How many of the line's words the voice has said by segment time t. */
+function spokenTokens(v: NonNullable<Segment['voice']>, line: { t: number; d: number }, t: number) {
+  return v.words.filter(w => w.t >= line.t - 0.05 && w.t <= Math.min(t, line.t + line.d + 0.05))
+    .reduce((n, w) => n + w.text.split(/\s+/).length, 0)
+}
+
 function Studio({ rundown, meta, numbers, back }: { rundown: Rundown; meta: Meta; numbers: number[]; back: () => void }) {
   const ref = useRef<HTMLCanvasElement>(null)
   const [pos, setPos] = useState({ seg: -1, t: 0 })
@@ -294,6 +322,8 @@ function Studio({ rundown, meta, numbers, back }: { rundown: Rundown; meta: Meta
   const segs = rundown.segments
   const total = intro + segs.reduce((a, s) => a + s.duration_s, 0)
   const tRef = useRef(0)
+  const audios = useMemo(() => segs.map(s => s.voice ? new Audio(s.voice.url) : null), [segs])
+  useEffect(() => () => audios.forEach(a => a?.pause()), [audios])
 
   useEffect(() => {
     const c = ref.current!
@@ -317,6 +347,7 @@ function Studio({ rundown, meta, numbers, back }: { rundown: Rundown; meta: Meta
         g.fillStyle = p.theme.muted; g.font = `500 ${s * 2.6}px Barlow`
         g.fillText(rundown.lang === 'es' ? `${segs.length} claves del primer tiempo` : `${segs.length} things that decided the first half`, p.sx(52.5), p.sy(43))
         setPos(x => x.seg === -1 ? x : { seg: -1, t })
+        follow(audios, segs, -1, 0)
       } else {
         t -= intro
         let k = 0
@@ -324,23 +355,30 @@ function Studio({ rundown, meta, numbers, back }: { rundown: Rundown; meta: Meta
         const seg = segs[k]
         const tt = Math.min(t, seg.duration_s - 0.001)
         renderSegment(p, seg, tt, numbers, [], `${meta.home.code} ${rundown.score} ${meta.away.code}  ·  ${Math.floor(seg.clip.t0 / 60) + 1}'`)
+        follow(audios, segs, playRef.current ? k : -1, tt)
+        const a = audios[k]  // read-only probe for the sync check in headless runs
+        ;(window as unknown as { __studio?: object }).__studio = {
+          k, t: tt, voice: a && !a.paused ? a.currentTime + seg.voice!.start : null }
         setPos(x => (x.seg === k && Math.abs(x.t - tt) < 0.1) ? x : { seg: k, t: tt })
       }
       raf = requestAnimationFrame(draw)
     }
     raf = requestAnimationFrame(draw)
     return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize) }
-  }, [rundown, meta, numbers, intro, segs, total])
+  }, [rundown, meta, numbers, intro, segs, total, audios])
 
   const seg = pos.seg >= 0 ? segs[pos.seg] : null
   const line = seg?.script.find(l => pos.t >= l.t && pos.t < l.t + l.d + 0.3)
+  const said = line && seg?.voice ? spokenTokens(seg.voice, line, pos.t) : null
   const elapsed = pos.seg < 0 ? pos.t : intro + segs.slice(0, pos.seg).reduce((a, s) => a + s.duration_s, 0) + pos.t
   const jump = (k: number) => { tRef.current = k < 0 ? 0 : intro + segs.slice(0, k).reduce((a, s) => a + s.duration_s, 0); setPlaying(true) }
 
   return <main className="studio">
     <div className="studio-frame">
       <canvas ref={ref} className="pitch studio-canvas" aria-label="Half-time analysis segment" />
-      <div className="captions" aria-live="polite">{line?.text ?? ''}</div>
+      <div className="captions" aria-live="polite">{line && said !== null
+        ? line.text.split(/\s+/).map((w, i) => <span key={i} className={i < said ? 'said' : ''}>{w} </span>)
+        : line?.text ?? ''}</div>
     </div>
     <div className="transport">
       <button onClick={back} className="ghost">◂ Desk</button>
@@ -351,6 +389,8 @@ function Studio({ rundown, meta, numbers, back }: { rundown: Rundown; meta: Meta
       </div>
       <span className="time">{elapsed.toFixed(1)} / {total.toFixed(1)} s</span>
     </div>
-    <p className="muted small">Captions show the presenter script. Voice-over arrives with Azure AI Speech. Animations are drawn live from the match tracking, not pre-rendered.</p>
+    <p className="muted small">{segs.some(s => s.voice)
+      ? 'Voice-over by Azure AI Speech; captions follow the voice word by word.'
+      : 'Captions show the presenter script (voice-over unavailable).'} Animations are drawn live from the match tracking, not pre-rendered.</p>
   </main>
 }

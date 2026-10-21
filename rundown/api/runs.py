@@ -9,6 +9,7 @@ import os
 import threading
 import time
 import uuid
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -19,7 +20,7 @@ from ..agents.state import Store
 from ..engine import detect
 from ..engine.data import MatchData
 from ..sim.match import Sim
-from ..studio import producer, telestrate
+from ..studio import producer, telestrate, voice
 
 SCAN_EVERY_S = 60.0
 
@@ -44,6 +45,7 @@ class Run:
     subscribers: list[asyncio.Queue] = field(default_factory=list)
     crew: Crew | None = None
     store: Store | None = None
+    audio: dict = field(default_factory=dict)  # voice key -> mp3 bytes
 
     def match_data(self) -> MatchData:
         with self.lock:
@@ -245,6 +247,27 @@ class RunManager:
             self._log(run, "swap", f"Swapped in: {c.headline}")
             return r
         raise LookupError("no other talking points")
+
+
+    def voice(self, run: Run, cut: str, lang: str) -> dict:
+        """Voice every segment of a cut that has no voice yet, and re-time it to the audio."""
+        r = self.rundown(run, cut, lang)
+        todo = [s for s in r["segments"] if s.get("voice", {}).get("key") != voice.key(s, lang)]
+
+        def one(seg):
+            k = voice.key(seg, lang)
+            v = voice.synthesise([ln["text"] for ln in seg["script"]], lang)
+            track = voice.fit(seg, v)
+            run.audio[k] = v["audio"]
+            seg["voice"] = dict(track, key=voice.key(seg, lang), url=f"/api/runs/{run.id}/audio/{voice.key(seg, lang)}.mp3")
+        if todo:
+            t0 = time.time()
+            with ThreadPoolExecutor(3) as ex:
+                list(ex.map(one, todo))
+            r["duration_s"] = round(producer.INTRO_S + sum(s["duration_s"] for s in r["segments"]), 2)
+            run.store.record("voice", f"voiced {len(todo)} segments ({cut}, {lang})", "ok", ms=(time.time() - t0) * 1000,
+                             why=f"Azure AI Speech, {voice.VOICES[lang][1]}")
+        return r
 
 
 def _put(q: asyncio.Queue, msg: dict):
