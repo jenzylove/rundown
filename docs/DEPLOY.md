@@ -14,6 +14,11 @@ Everything goes into one resource group (default `rundown-rg`, Sweden Central), 
 The models and Speech are the existing Foundry resource; its endpoint and key are passed in and stored
 as a Container Apps secret.
 
+## Cloud session network
+The session's network must allow `*.azurecr.io`, `*.blob.core.windows.net`, `*.azurecontainerapps.io`,
+`*.documents.azure.com`, `*.servicebus.windows.net`, `*.applicationinsights.azure.com` and
+`*.monitor.azure.com`. `aka.ms` stays blocked, so the script installs a pinned Bicep from GitHub.
+
 ## Deploy
 ```bash
 scripts/deploy.sh
