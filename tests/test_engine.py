@@ -107,3 +107,33 @@ def test_facts_recompute_exactly():
                  S.overloads(md, md.home, 1, 0, 300, side="right"), S.tempo(md, md.home, 1, 0, 300)):
         again = S.recompute(md, fact.stat, fact.args)
         assert again.value == fact.value and again.evidence == fact.evidence
+
+
+def test_rundown_fits_the_slot_and_matches_the_schema():
+    import json
+    from pathlib import Path
+
+    import jsonschema
+
+    from rundown.engine import detect
+    from rundown.studio import producer
+
+    m = simulate(21, period_minutes=20.0)
+    md = from_match(m)
+    t_end = float(md.frames[md.frame_index(1, 1e9), 1])
+    cands = {}
+    t = 60.0
+    while t <= t_end:
+        for c in detect.scan(md, 1, t):
+            cands.setdefault((c.kind, c.team, c.side, c.player), c)
+        t += 60
+    cands = list(cands.values()) + detect.moments(md, 1, 0, t_end)
+    assert cands, "a 20-minute half should produce at least one talking point"
+    schema = json.loads((Path(__file__).parents[1] / "schema" / "overlay-script.v1.json").read_text())
+    r = producer.rundown(md, cands, t_end, 90.0)
+    for seg in r["segments"]:
+        jsonschema.validate(seg, schema)
+        keys = [f["key"] for f in seg["facts"]]
+        assert len(keys) == len(set(keys))
+    assert len({s["kind"] for s in r["segments"]}) == len(r["segments"])
+    assert abs(r["duration_s"] - 90.0) <= 3.0

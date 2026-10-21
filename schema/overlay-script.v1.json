@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/jenzylove/rundown/schema/overlay-script.v1.json",
+  "title": "Rundown Overlay Script v1",
+  "description": "A timed, machine-readable analysis segment: a tracking clip, overlay cues and presenter script lines. Segment time starts at 0; 'play' and 'freeze' cues map segment time onto clip time. Every cue names the events and facts it shows.",
+  "type": "object",
+  "required": ["version", "segment_id", "title", "kind", "duration_s", "clip", "cues", "script", "facts", "provenance"],
+  "properties": {
+    "version": { "const": "1" },
+    "segment_id": { "type": "string" },
+    "title": { "type": "string", "maxLength": 48 },
+    "kind": { "type": "string" },
+    "team": { "type": ["string", "null"] },
+    "lang": { "type": "string" },
+    "cut": { "enum": ["neutral", "home", "away"] },
+    "duration_s": { "type": "number", "minimum": 3, "maximum": 60 },
+    "clip": {
+      "type": "object",
+      "required": ["period", "t0", "t1", "hz", "slots", "frames"],
+      "properties": {
+        "period": { "enum": [1, 2] },
+        "t0": { "type": "number" },
+        "t1": { "type": "number" },
+        "hz": { "const": 10 },
+        "slots": { "type": "array", "items": { "type": "string" }, "minItems": 22, "maxItems": 22 },
+        "frames": {
+          "description": "Each frame: [ball_x, ball_y, ball_z, slot0_x, slot0_y, ..., slot21_x, slot21_y], metres, absolute pitch frame (home attacks +x).",
+          "type": "array",
+          "items": { "type": "array", "items": { "type": "number" }, "minItems": 47, "maxItems": 47 }
+        }
+      }
+    },
+    "cues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["t", "d", "kind"],
+        "properties": {
+          "t": { "type": "number", "minimum": 0 },
+          "d": { "type": "number", "exclusiveMinimum": 0 },
+          "kind": { "enum": ["freeze", "label", "highlight", "run", "zone", "arrow", "line", "statcard"] },
+          "at": { "type": "number", "description": "freeze: clip time to hold" },
+          "slot": { "type": "integer", "minimum": 0, "maximum": 21 },
+          "text": { "type": "string" },
+          "sub": { "type": "string" },
+          "from": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+          "to": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+          "from_t": { "type": "number", "description": "run: clip time the run starts" },
+          "to_t": { "type": "number", "description": "run: clip time the run ends" },
+          "style": { "enum": ["pass", "cross", "shot", "carry"] },
+          "rect": { "type": "array", "items": { "type": "number" }, "minItems": 4, "maxItems": 4, "description": "zone: x, y, width, height in metres" },
+          "x": { "type": "number", "description": "line: x position in metres" },
+          "rows": { "type": "array", "items": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 2 } },
+          "event_ids": { "type": "array", "items": { "type": "string" } },
+          "fact_keys": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "script": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["t", "d", "text"],
+        "properties": {
+          "t": { "type": "number" },
+          "d": { "type": "number" },
+          "text": { "type": "string" },
+          "fact_keys": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "facts": { "type": "array", "items": { "type": "object" } },
+    "provenance": {
+      "type": "object",
+      "required": ["made_by"],
+      "properties": {
+        "made_by": { "type": "string" },
+        "candidate": { "type": "object" },
+        "verified": { "type": "boolean" }
+      }
+    }
+  }
+}
