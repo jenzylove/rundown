@@ -1,0 +1,27 @@
+name: deploy
+# Manual for now: needs the repository secrets below. scripts/deploy.sh does the work.
+on:
+  workflow_dispatch:
+    inputs:
+      min_replicas:
+        description: "1 keeps the app warm for judging; 0 scales to zero"
+        default: "0"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Azure
+        env:
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_OPENAI_DEPLOYMENT: gpt-4.1-mini
+          AZURE_SPEECH_REGION: swedencentral
+          MIN_REPLICAS: ${{ inputs.min_replicas }}
+        run: scripts/deploy.sh
