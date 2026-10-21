@@ -9,6 +9,13 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8.3"]
+agents = [
+  "agent-framework-core>=1.22",
+  "agent-framework-openai>=1.22",
+  "azure-cognitiveservices-speech>=1.52",
+  "jsonschema>=4.23",
+  "pydantic>=2.9",
+]
 
 [project.scripts]
 rundown-sim = "rundown.sim.cli:main"

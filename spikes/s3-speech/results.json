@@ -1,0 +1,54 @@
+[
+ {
+  "locale": "en-GB",
+  "voice": "en-GB-RyanNeural",
+  "latency_s": 1.3,
+  "audio_s": 8.82,
+  "words_in_text": 19,
+  "boundaries": 19,
+  "matched": 16,
+  "err_median_ms": 64,
+  "err_max_ms": 98,
+  "monotonic": true,
+  "heard": "harbor were allowing eight point three passes per defensive action now it's five point eight and eastmoor have no time to play out"
+ },
+ {
+  "locale": "es-ES",
+  "voice": "es-ES-AlvaroNeural",
+  "latency_s": 1.37,
+  "audio_s": 8.53,
+  "words_in_text": 17,
+  "boundaries": 16,
+  "matched": 12,
+  "err_median_ms": 47,
+  "err_max_ms": 113,
+  "monotonic": true,
+  "heard": "harber dejaban ocho coma tres pases por acción defensiva ahora solo cinco coma ocho y smour no tiene tiempo para salir"
+ },
+ {
+  "locale": "fr-FR",
+  "voice": "fr-FR-HenriNeural",
+  "latency_s": 1.12,
+  "audio_s": 8.18,
+  "words_in_text": 18,
+  "boundaries": 18,
+  "matched": 13,
+  "err_median_ms": 50,
+  "err_max_ms": 150,
+  "monotonic": true,
+  "heard": "arbour laisser huit virgule trois passes par action défensive c'est maintenant cinq virgule huit et east more n'a plus le temps de relancer"
+ },
+ {
+  "locale": "pt-BR",
+  "voice": "pt-BR-AntonioNeural",
+  "latency_s": 2.02,
+  "audio_s": 9.97,
+  "words_in_text": 20,
+  "boundaries": 19,
+  "matched": 14,
+  "err_median_ms": 37,
+  "err_max_ms": 100,
+  "monotonic": true,
+  "heard": "o arbor permitia oito vírgula três passes por ação defensiva agora são cinco vírgula oito e oyish moore não tem tempo para sair jogando"
+ }
+]

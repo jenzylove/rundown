@@ -8,9 +8,9 @@ Each phase ends with a check that proves it is done.
 ## Phase 0. Spikes (21 Oct)
 | Spike | Question | Needs | Status |
 |---|---|---|---|
-| S1 Telestration | Can a browser renderer play a timed overlay script over 10 Hz synthetic tracking smoothly, and does it read like TV? | nothing external | needs a spike |
-| S2 Agents on Foundry | Can Agent Framework (Python) call a Foundry model with structured output reliably enough to emit valid Overlay Script JSON? | Azure + Foundry | needs a spike |
-| S3 Speech | Do Azure AI Speech neural voices return word timings in EN/ES/FR/PT for caption sync? | Azure | known (documented), confirm |
+| S1 Telestration | Can a browser renderer play a timed overlay script over 10 Hz synthetic tracking smoothly, and does it read like TV? | nothing external | **pass** (`docs/spikes/s1-telestration.md`) |
+| S2 Agents on Foundry | Can Agent Framework (Python) call a Foundry model with structured output reliably enough to emit valid Overlay Script JSON? | Azure + Foundry | **pass, with conditions** (`docs/spikes/s2-agents.md`) |
+| S3 Speech | Do Azure AI Speech neural voices return word timings in EN/ES/FR/PT for caption sync? | Azure | **pass** (`docs/spikes/s3-speech.md`) |
 
 **Check:** `docs/spikes/<name>.md` for each, with question, run, output, verdict.
 
@@ -56,9 +56,9 @@ Each phase ends with a check that proves it is done.
 ## Risks and unknowns
 | Risk | Type | Plan |
 |---|---|---|
-| Microsoft account creation blocked (Azure, Foundry and portal all need it) | **blocker, external** | User retries from another network once the block clears. Until then, Phases 0 S1, 1 and 3 run with no Azure. |
-| This cloud session's network denies `models.github.ai` and `management.azure.com` | **blocker, environment** | Add Azure and GitHub Models hosts to the environment's allowed domains, or run the Azure parts from the user's machine. |
+| Microsoft account creation blocked (Azure, Foundry and portal all need it) | resolved 21 Oct | Account, Foundry project and gpt-4.1-mini deployment exist; keys are in the environment. |
+| This cloud session's network denies `models.github.ai` and `management.azure.com` | resolved 21 Oct | The Foundry endpoint, Speech in Sweden Central and `management.azure.com` all answer from here. |
 | Telestration doesn't look like TV | needs a spike (S1) | If S1 fails, segments become freeze-frame plus zones and labels, with the change agreed with the user first. |
-| Models emit invalid overlay JSON | needs a spike (S2) | Structured output plus a schema validator, then Verifier retry, then drop the segment. |
+| Models emit invalid overlay JSON | measured (S2) | 96% valid after one retry when code owns timing and geometry; the rest fall back to the rules segment. |
 | Simulator looks unrealistic | known | Tune against public aggregate norms (pass completion, shots per match), sourced in the README. |
 | Free Azure credit limits | known | Small model deployments, scale to zero on Container Apps, delete after judging. |
