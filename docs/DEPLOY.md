@@ -51,10 +51,19 @@ so the app pulls its image with the registry's admin credentials rather than a m
 The same script runs from GitHub Actions (`.github/workflows/deploy.yml`, manual) once the six
 secrets it lists are added to the repository.
 
-## Not wired in yet
-The infrastructure exists, but the app doesn't use all of it yet: runs and the trail are still in
-memory (hence one replica), and the match stream doesn't go through Event Hubs. The app already
-sends traces to Application Insights when the connection string is set, and the Bicep sets it.
+## What runs on what
+- **Event Hubs** carries every live match: the simulator publishes frames and events to
+  `match-events` (one partition key per run), and the studio works only from what it consumes there
+  (`rundown/api/bus.py`, async client). Measured on the live app: 54 to 60 ms in transit (median),
+  about 110 ms p95. `/api/health` shows the sender's timings.
+- **Cosmos DB** holds every run, crew document, trail item and rundown cut (`rundown/api/archive.py`,
+  one background writer; failed writes show in `/api/health` as `store_errors`). `/proof` replays
+  past runs from it. The crew reads its working state from memory and every write is mirrored to
+  Cosmos, so the agents don't hand off *through* Cosmos yet, and a run in progress doesn't survive a
+  restart: it shows on `/proof` as stopped.
+- **One replica.** Runs in progress live in that replica's memory (the 12 newest; older ones stay in
+  Cosmos), so the app doesn't scale out yet.
+- **Application Insights** gets Agent Framework's traces (the Bicep sets the connection string).
 
 ## Cleaning up
 `az group delete -n rundown-rg` removes everything. The Foundry resource is not in this group and is

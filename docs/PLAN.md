@@ -29,8 +29,8 @@ Each phase ends with a check that proves it is done.
 - **Status 21 Oct: done, except Foundry-side traces and Cosmos.** Locked, verified rundowns on four
   seeds in two cuts, lock median 1.9 s after the whistle; the kill-the-Telestrator run recovers with
   every segment verified (`docs/CREW.md`). The trail is ours (API, WebSocket, desk); Foundry tracing
-  waits on the Application Insights connection string. The shared store is in memory; Cosmos DB moves
-  to Phase 4 with the rest of the infrastructure.
+  waits on the Application Insights connection string. The shared store is in memory, mirrored to
+  Cosmos DB since 22 Oct (agents don't read from Cosmos yet).
 
 ## Phase 3. Renderer, voice and studio (23 to 24 Oct)
 - Pitch replay, overlay playback, Speech voice-over with captions, approval desk, EN/ES
@@ -49,10 +49,13 @@ Each phase ends with a check that proves it is done.
 - Bicep for Container Apps, Event Hubs, Cosmos DB, App Insights; GitHub Actions deploy.
 - `/demo` and `/proof` live.
 - **Check:** the public URL runs a fresh seed end to end, with no local machine involved.
-- **Status 21 Oct: deployed.** Live at
-  https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io with the agent crew and voice
-  on. A fresh seed runs end to end on the live URL (crew rundown, every segment verified, voice MP3).
-  Next: Cosmos store and Event Hubs stream in the app, then `/demo` and `/proof`.
+- **Status 22 Oct: done.** Live at https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io. Every match streams through Event Hubs
+  (54 to 60 ms in transit, median); every run, crew document, trail and rundown is archived in
+  Cosmos DB; `/proof` shows live runs and replays archived ones, with a one-click kill-the-Telestrator
+  run. On the live URL a fresh seed runs end to end with all three segments verified, and with the
+  Telestrator switched off it recovers with all three verified. `/demo` is the studio on a fresh seed.
+  Open: the agents read shared state from memory, not Cosmos; GitHub Actions deploy not run yet
+  (needs the repository secrets).
 
 ## Phase 5. Evals and proof (25 Oct)
 - Story recall, precision, grounding, slot fit, and the baseline, on 10+ seeds. Publish the

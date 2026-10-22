@@ -9,7 +9,7 @@ Source: [Official Rules](https://github.com/microsoft/insidethegamehackathon/blo
 - [ ] All required fields completed on the "Projects" page before 27 Oct 2026, 11:59 pm PT
 
 ## Challenge fit (4.1)
-- [ ] Ingest: synthetic events streamed live
+- [x] Ingest: synthetic events streamed live (Event Hubs)
 - [ ] Interpret: stats, patterns and context
 - [ ] Explain: why a moment matters
 - [ ] Render: timed, machine-readable overlays on screen
@@ -27,16 +27,16 @@ Source: [Official Rules](https://github.com/microsoft/insidethegamehackathon/blo
 - [ ] All materials in English
 
 ## Category: Best Multi-Agent System
-- [ ] Specialized agents with distinct roles
+- [x] Specialized agents with distinct roles
 - [ ] Coordination through shared state and handoffs
-- [ ] Recovery from failures, shown
+- [x] Recovery from failures, shown (live: `/proof`, Kill the Telestrator)
 - [ ] End-to-end outcome a single agent could not achieve as well
 
 ## Hero technologies used (Technological Implementation)
 - [ ] Microsoft Foundry (models, agents, tracing, evaluations)
-- [ ] Microsoft Agent Framework
-- [ ] Azure AI Speech
-- [ ] Azure Event Hubs
-- [ ] Azure Container Apps
-- [ ] Azure Cosmos DB
+- [x] Microsoft Agent Framework
+- [x] Azure AI Speech
+- [x] Azure Event Hubs
+- [x] Azure Container Apps
+- [x] Azure Cosmos DB
 - [ ] GitHub Copilot agent mode (used in build; noted in README)

@@ -51,8 +51,8 @@ Each came out of spike S2 or a failed run during the build.
 Every agent call, retry, fallback, kill and Verifier check is a trail item (`agents/state.Store`):
 who, what, status, time taken, why, and the event ids involved. Live runs stream it over the
 WebSocket (`type: "trail"`), `GET /api/runs/{id}/trail` returns it, and the desk shows the crew at
-work. The store is in memory today; Cosmos DB, with the same `put` and `record`, comes with the
-Phase 4 infrastructure.
+work. The crew reads from memory; the API mirrors every `put` and `record` to Cosmos DB
+(`api/archive.py`), and `/proof` shows the trail of any run, live or replayed from there.
 
 `POST /api/runs/{id}/crew/kill {"role": "telestrator"}` switches an agent off mid-run, and
 `/crew/revive` switches it back on. Work already finished stays in use: to see the reroute, kill

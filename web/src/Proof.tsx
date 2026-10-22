@@ -76,12 +76,13 @@ export default function Proof() {
       if (!r.ok) { setError(r.status === 404 ? 'That run is not in memory or in the archive.' : `Could not load the run (${r.status})`); return }
       const d: Detail = await r.json()
       setDetail(d)
+      if (d.live) loadList()  // keep the list's status in step with the run
       // a live run keeps changing until its rundown is locked and the half-time work is done
       if (d.live && d.run.status !== 'full_time' && d.run.status !== 'failed') timer = window.setTimeout(tick, 2000)
     }
     setDetail(null); setError(null); tick()
     return () => { stop = true; clearTimeout(timer) }
-  }, [selected])
+  }, [selected, loadList])
 
   const killRun = async () => {
     setStarting(true); setError(null)
