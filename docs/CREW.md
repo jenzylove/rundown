@@ -38,13 +38,18 @@ Each came out of spike S2 or a failed run during the build.
 5. **The finished segment is verified as a whole.** Schema, every cited fact recomputed by the
    engine, every event id real, every cue inside the segment. A segment that fails **never goes on
    air**: the Producer swaps in the next point that passes, or drops the slot.
-6. **Write early, lock fast.** The Analyst scores points as they are spotted. Segments for the
-   likely picks (rules picks plus the Analyst's top three) are drafted during the half. The
+6. **Code screens the evidence; the Producer chooses.** Each talking point keeps its scan history.
+   The Producer only sees points the detectors saw steadily, recently and clearly (plus every goal
+   and chance), strongest first, with how each held up since it was spotted. Without this it chose
+   well-told one-off swings over steady stories (tuned on practice seeds; `docs/EVALS.md`).
+7. **Write early, lock fast.** The Analyst scores points as they are spotted. Segments for the
+   likely picks (rules picks, the Analyst's top three and the three with the clearest evidence) are
+   drafted during the half. The
    Telestrator's plan has no words in it, so every language and cut reuses it and a re-cut only
    needs the Writer.
-7. **A deadline at the whistle.** A segment not ready 20 s after the whistle goes out as the rules
+8. **A deadline at the whistle.** A segment not ready 20 s after the whistle goes out as the rules
    version; the agent draft keeps going for swaps and other cuts.
-8. **Rate limits are not mistakes.** A 429 is waited out (honouring `retry after`) without spending
+9. **Rate limits are not mistakes.** A 429 is waited out (honouring `retry after`) without spending
    the Verifier retry. All crews share one event loop and one client, capped at 8 calls in flight.
 
 ## The trail
