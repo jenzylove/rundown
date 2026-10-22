@@ -1,0 +1,1468 @@
+{
+ "summary": {
+  "seeds": [
+   101,
+   102,
+   103,
+   104,
+   105,
+   106,
+   107,
+   108,
+   109,
+   110,
+   111,
+   112
+  ],
+  "stories": 33,
+  "spotted": 23,
+  "spotted_delay_median_min": 6.8,
+  "agents": {
+   "rundowns": 12,
+   "segments": 33,
+   "stories_aired": 17,
+   "relevant": 25,
+   "grounded": 33,
+   "facts_checked": 98,
+   "slot_error_median_s": 0.01,
+   "slot_error_max_s": 86.0,
+   "lock_median_s": 2.34,
+   "lock_max_s": 10.32,
+   "rejected": 43,
+   "routed_around": 10
+  },
+  "rules": {
+   "rundowns": 12,
+   "segments": 34,
+   "stories_aired": 17,
+   "relevant": 25,
+   "grounded": 33,
+   "facts_checked": 96,
+   "slot_error_median_s": 0.01,
+   "slot_error_max_s": 0.01
+  }
+ },
+ "table": "12 fresh seeds (101 to 112), neutral English rundown, 90 s slot. Planted first-half stories spotted by half-time: **23/33 (70%)**, a median 6.8 min after they start.\n\n| | Agent crew | Rules-only baseline |\n|---|---|---|\n| Story recall (planted stories on air) | 17/33 (52%) | 17/33 (52%) |\n| Precision (aired points that are a planted story or a real moment) | 25/33 (76%) | 25/34 (74%) |\n| Grounding (segments whose every fact the Verifier recomputes) | 33/33 (100%) | 33/34 (97%) |\n| Slot fit (median, worst) | 0.01 s, 86.0 s | 0.01 s, 0.01 s |\n| Locked after the whistle (median, worst) | 2.34 s, 10.32 s | at once |\n| Answers the Verifier rejected before air | 43 (10 routed to the rules crew) | - |",
+ "misses": [
+  "seed 101: not spotted by half-time: Harbour drop into a deep block from 15'",
+  "seed 101 agents: spotted but not aired: Harbour switch to a high press from 13'",
+  "seed 101 rules: not grounded: The press is on: schema: 86.0 is greater than the maximum of 60 at /duration_s",
+  "seed 102: not spotted by half-time: Eastmoor drop into a deep block from 9'",
+  "seed 102 agents: aired a point not in the answer key: Harbour dropping deeper: line 44.1 m to 38.3 m (19.0')",
+  "seed 102 rules: aired a point not in the answer key: Harbour dropping deeper: line 44.1 m to 38.3 m (19.0')",
+  "seed 103: not spotted by half-time: Ugo Esposito (Harbour RW) tires from 30'",
+  "seed 103: not spotted by half-time: Eastmoor raise the tempo from 31'",
+  "seed 103 agents: aired a point not in the answer key: Eastmoor dropping deeper: line 34.3 m to 29.9 m (36.0')",
+  "seed 103 rules: spotted but not aired: Harbour switch to a high press from 28'",
+  "seed 103 rules: aired a point not in the answer key: Eastmoor dropping deeper: line 34.3 m to 29.9 m (36.0')",
+  "seed 103 rules: aired a point not in the answer key: Harbour moving it quicker: 11.5 to 14.0 passes a minute on the ball (44.0')",
+  "seed 104: not spotted by half-time: Harbour switch to a high press from 16'",
+  "seed 104: not spotted by half-time: Harbour raise the tempo from 32'",
+  "seed 104 agents: aired a point not in the answer key: Eastmoor dropping deeper: line 36.3 m to 30.9 m (18.0')",
+  "seed 104 rules: aired a point not in the answer key: Eastmoor dropping deeper: line 36.3 m to 30.9 m (18.0')",
+  "seed 105 agents: spotted but not aired: Eastmoor overload their left flank from 27'",
+  "seed 105 rules: spotted but not aired: Harbour switch to a high press from 10'",
+  "seed 106 agents: aired a point not in the answer key: Harbour going down the right: 25.9% to 39.0% of attacks (20.0')",
+  "seed 106 rules: spotted but not aired: Harbour switch to a high press from 21'",
+  "seed 106 rules: aired a point not in the answer key: Harbour going down the right: 25.9% to 39.0% of attacks (20.0')",
+  "seed 106 rules: aired a point not in the answer key: Harbour moving it quicker: 11.2 to 13.7 passes a minute on the ball (19.0')",
+  "seed 107: not spotted by half-time: Eastmoor raise the tempo from 30'",
+  "seed 107 agents: spotted but not aired: Harbour drop into a deep block from 28'",
+  "seed 107 agents: aired a point not in the answer key: Eastmoor going down the right: 26.8% to 39.3% of attacks (45.0')",
+  "seed 108: not spotted by half-time: Eastmoor drop into a deep block from 25'",
+  "seed 108 rules: spotted but not aired: Harbour overload their left flank from 20'",
+  "seed 108 rules: aired a point not in the answer key: Eastmoor going down the left: 20.3% to 44.8% of attacks (41.0')",
+  "seed 109 agents: spotted but not aired: Eastmoor raise the tempo from 18'",
+  "seed 109 rules: spotted but not aired: Eastmoor raise the tempo from 18'",
+  "seed 110 agents: spotted but not aired: Dario Yilmaz (Eastmoor RB) tires from 30'",
+  "seed 110 agents: aired a point not in the answer key: Harbour going down the left: 21.0% to 36.8% of attacks (36.0')",
+  "seed 111: not spotted by half-time: Harbour switch to a high press from 19'",
+  "seed 111 agents: spotted but not aired: Harbour drop into a deep block from 20'",
+  "seed 111 agents: aired a point not in the answer key: Eastmoor pressing higher: PPDA 12.4 to 7.5 (23.0')",
+  "seed 111 agents: aired a point not in the answer key: Harbour moving it quicker: 11.3 to 13.7 passes a minute on the ball (36.0')",
+  "seed 111 rules: aired a point not in the answer key: Harbour moving it quicker: 11.3 to 13.7 passes a minute on the ball (36.0')",
+  "seed 112: not spotted by half-time: Jonah Novak (Harbour RCM) tires from 30'",
+  "seed 112 rules: spotted but not aired: Harbour switch to a high press from 17'",
+  "seed 112 rules: aired a point not in the answer key: Eastmoor pressing higher: PPDA 8.8 to 5.6 (38.0')"
+ ],
+ "runs": [
+  {
+   "seed": 101,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Harbour drop into a deep block from 15'",
+     "start": 15.1
+    },
+    {
+     "id": "s2",
+     "description": "Harbour switch to a high press from 13'",
+     "start": 13.0
+    }
+   ],
+   "spotted": {
+    "s2": 7.0
+   },
+   "candidates": 2,
+   "rules": {
+    "segments": 1,
+    "aired": [
+     {
+      "kind": "press_up",
+      "team": "HAR",
+      "minute": 20.0,
+      "headline": "Harbour pressing higher: PPDA 5.0 to 2.6",
+      "story": "s2",
+      "moment": false,
+      "grounded": false,
+      "errors": [
+       "schema: 86.0 is greater than the maximum of 60 at /duration_s"
+      ],
+      "title": "The press is on"
+     }
+    ],
+    "stories_aired": [
+     "s2"
+    ],
+    "relevant": 1,
+    "grounded": 0,
+    "facts_checked": 4,
+    "duration_s": 90.0,
+    "slot_error_s": 0.0
+   },
+   "agents": {
+    "segments": 0,
+    "aired": [],
+    "stories_aired": [],
+    "relevant": 0,
+    "grounded": 0,
+    "facts_checked": 0,
+    "duration_s": 4.0,
+    "slot_error_s": 86.0,
+    "lock_s": 1.57,
+    "rejected": 2,
+    "routed_around": 2
+   }
+  },
+  {
+   "seed": 102,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Eastmoor overload their right flank from 11'",
+     "start": 11.2
+    },
+    {
+     "id": "s2",
+     "description": "Eastmoor drop into a deep block from 9'",
+     "start": 9.1
+    },
+    {
+     "id": "s3",
+     "description": "Eastmoor raise the tempo from 24'",
+     "start": 23.8
+    }
+   ],
+   "spotted": {
+    "s1": 6.8,
+    "s3": 1.2
+   },
+   "candidates": 4,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 18.0,
+      "headline": "Eastmoor going down the right: 37.5% to 61.1% of attacks",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Down the right"
+     },
+     {
+      "kind": "deep_block",
+      "team": "HAR",
+      "minute": 19.0,
+      "headline": "Harbour dropping deeper: line 44.1 m to 38.3 m",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Backs to the wall"
+     },
+     {
+      "kind": "tempo_up",
+      "team": "EMA",
+      "minute": 25.0,
+      "headline": "Eastmoor moving it quicker: 10.3 to 12.7 passes a minute on the ball",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Faster, faster"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s3"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 10,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "deep_block",
+      "team": "HAR",
+      "minute": 19.0,
+      "headline": "Harbour dropping deeper: line 44.1 m to 38.3 m",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City drops deeper with defensive line"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 18.0,
+      "headline": "Eastmoor going down the right: 37.5% to 61.1% of attacks",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Eastmoor Athletic's Right-Side Surge"
+     },
+     {
+      "kind": "tempo_up",
+      "team": "EMA",
+      "minute": 25.0,
+      "headline": "Eastmoor moving it quicker: 10.3 to 12.7 passes a minute on the ball",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Faster, faster"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s3"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 10,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 2.34,
+    "rejected": 5,
+    "routed_around": 2
+   }
+  },
+  {
+   "seed": 103,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Ugo Esposito (Harbour RW) tires from 30'",
+     "start": 30.0
+    },
+    {
+     "id": "s2",
+     "description": "Harbour switch to a high press from 28'",
+     "start": 28.5
+    },
+    {
+     "id": "s3",
+     "description": "Eastmoor raise the tempo from 31'",
+     "start": 31.4
+    }
+   ],
+   "spotted": {
+    "s2": 6.5
+   },
+   "candidates": 8,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "HAR",
+      "minute": 1.9,
+      "headline": "Rafael Osei scores (0.086 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "The goal"
+     },
+     {
+      "kind": "deep_block",
+      "team": "EMA",
+      "minute": 36.0,
+      "headline": "Eastmoor dropping deeper: line 34.3 m to 29.9 m",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Backs to the wall"
+     },
+     {
+      "kind": "tempo_up",
+      "team": "HAR",
+      "minute": 44.0,
+      "headline": "Harbour moving it quicker: 11.5 to 14.0 passes a minute on the ball",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Faster, faster"
+     }
+    ],
+    "stories_aired": [],
+    "relevant": 1,
+    "grounded": 3,
+    "facts_checked": 7,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "HAR",
+      "minute": 1.9,
+      "headline": "Rafael Osei scores (0.086 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "Early Strike Sets the Tone"
+     },
+     {
+      "kind": "deep_block",
+      "team": "EMA",
+      "minute": 36.0,
+      "headline": "Eastmoor dropping deeper: line 34.3 m to 29.9 m",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Eastmoor Deepens Defensive Line at 36 Minutes"
+     },
+     {
+      "kind": "press_up",
+      "team": "HAR",
+      "minute": 35.0,
+      "headline": "Harbour pressing higher: PPDA 6.9 to 1.7",
+      "story": "s2",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City's Pressing Surge Changes The Game"
+     }
+    ],
+    "stories_aired": [
+     "s2"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 9.22,
+    "rejected": 4,
+    "routed_around": 1
+   }
+  },
+  {
+   "seed": 104,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Harbour overload their left flank from 25'",
+     "start": 24.7
+    },
+    {
+     "id": "s2",
+     "description": "Harbour switch to a high press from 16'",
+     "start": 16.3
+    },
+    {
+     "id": "s3",
+     "description": "Harbour raise the tempo from 32'",
+     "start": 32.3
+    }
+   ],
+   "spotted": {
+    "s1": 7.3
+   },
+   "candidates": 6,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "HAR",
+      "minute": 32.9,
+      "headline": "Malik Ilunga scores (0.028 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "The goal"
+     },
+     {
+      "kind": "deep_block",
+      "team": "EMA",
+      "minute": 18.0,
+      "headline": "Eastmoor dropping deeper: line 36.3 m to 30.9 m",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Backs to the wall"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "HAR",
+      "minute": 32.0,
+      "headline": "Harbour going down the left: 28.1% to 40.6% of attacks",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Down the left"
+     }
+    ],
+    "stories_aired": [
+     "s1"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "HAR",
+      "minute": 32.9,
+      "headline": "Malik Ilunga scores (0.028 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "Malik Ilunga’s Game-Changer"
+     },
+     {
+      "kind": "deep_block",
+      "team": "EMA",
+      "minute": 18.0,
+      "headline": "Eastmoor dropping deeper: line 36.3 m to 30.9 m",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Eastmoor Drops Deeper Defensively"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "HAR",
+      "minute": 32.0,
+      "headline": "Harbour going down the left: 28.1% to 40.6% of attacks",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City's Left Flank Push"
+     }
+    ],
+    "stories_aired": [
+     "s1"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 2.04,
+    "rejected": 4,
+    "routed_around": 1
+   }
+  },
+  {
+   "seed": 105,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Kenji Adeyemi (Eastmoor RB) tires from 30'",
+     "start": 30.0
+    },
+    {
+     "id": "s2",
+     "description": "Harbour switch to a high press from 10'",
+     "start": 10.3
+    },
+    {
+     "id": "s3",
+     "description": "Eastmoor overload their left flank from 27'",
+     "start": 27.0
+    }
+   ],
+   "spotted": {
+    "s1": 10.0,
+    "s2": 7.7,
+    "s3": 2.0
+   },
+   "candidates": 6,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "HAR",
+      "minute": 25.3,
+      "headline": "Ilya Petit scores (0.202 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "The goal"
+     },
+     {
+      "kind": "fatigue",
+      "team": "EMA",
+      "minute": 40.0,
+      "headline": "Kenji Adeyemi fading: top speed 26.6 to 21.9 km/h",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Running on empty"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 29.0,
+      "headline": "Eastmoor going down the left: 29.4% to 44.4% of attacks",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Down the left"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s3"
+    ],
+    "relevant": 3,
+    "grounded": 3,
+    "facts_checked": 7,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "HAR",
+      "minute": 25.3,
+      "headline": "Ilya Petit scores (0.202 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "Ilya Petit breaks the deadlock"
+     },
+     {
+      "kind": "press_up",
+      "team": "HAR",
+      "minute": 18.0,
+      "headline": "Harbour pressing higher: PPDA 6.7 to 3.4",
+      "story": "s2",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City presses harder in first half"
+     },
+     {
+      "kind": "fatigue",
+      "team": "EMA",
+      "minute": 40.0,
+      "headline": "Kenji Adeyemi fading: top speed 26.6 to 21.9 km/h",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Running on empty"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s2"
+    ],
+    "relevant": 3,
+    "grounded": 3,
+    "facts_checked": 7,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 2.18,
+    "rejected": 7,
+    "routed_around": 1
+   }
+  },
+  {
+   "seed": 106,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Malik Nunes (Eastmoor LB) tires from 30'",
+     "start": 30.0
+    },
+    {
+     "id": "s2",
+     "description": "Harbour switch to a high press from 21'",
+     "start": 20.7
+    }
+   ],
+   "spotted": {
+    "s1": 8.0,
+    "s2": 3.3
+   },
+   "candidates": 7,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "fatigue",
+      "team": "EMA",
+      "minute": 38.0,
+      "headline": "Malik Nunes fading: top speed 27.6 to 22.0 km/h",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Running on empty"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "HAR",
+      "minute": 20.0,
+      "headline": "Harbour going down the right: 25.9% to 39.0% of attacks",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Down the right"
+     },
+     {
+      "kind": "tempo_up",
+      "team": "HAR",
+      "minute": 19.0,
+      "headline": "Harbour moving it quicker: 11.2 to 13.7 passes a minute on the ball",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Faster, faster"
+     }
+    ],
+    "stories_aired": [
+     "s1"
+    ],
+    "relevant": 1,
+    "grounded": 3,
+    "facts_checked": 8,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "press_up",
+      "team": "HAR",
+      "minute": 24.0,
+      "headline": "Harbour pressing higher: PPDA 5.7 to 3.9",
+      "story": "s2",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City presses higher in first half"
+     },
+     {
+      "kind": "fatigue",
+      "team": "EMA",
+      "minute": 38.0,
+      "headline": "Malik Nunes fading: top speed 27.6 to 22.0 km/h",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Malik Nunes Losing Speed with Fatigue"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "HAR",
+      "minute": 20.0,
+      "headline": "Harbour going down the right: 25.9% to 39.0% of attacks",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City shifts attacks to right flank"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s2"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 10,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 2.35,
+    "rejected": 2,
+    "routed_around": 0
+   }
+  },
+  {
+   "seed": 107,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Harbour drop into a deep block from 28'",
+     "start": 28.5
+    },
+    {
+     "id": "s2",
+     "description": "Kwame Baptiste (Harbour LCM) tires from 30'",
+     "start": 30.0
+    },
+    {
+     "id": "s3",
+     "description": "Eastmoor raise the tempo from 30'",
+     "start": 30.5
+    }
+   ],
+   "spotted": {
+    "s1": 7.5,
+    "s2": 10.0
+   },
+   "candidates": 8,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "EMA",
+      "minute": 11.7,
+      "headline": "Samir Osei scores (0.183 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "The goal"
+     },
+     {
+      "kind": "fatigue",
+      "team": "HAR",
+      "minute": 40.0,
+      "headline": "Kwame Baptiste fading: top speed 26.1 to 21.0 km/h",
+      "story": "s2",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Running on empty"
+     },
+     {
+      "kind": "deep_block",
+      "team": "HAR",
+      "minute": 36.0,
+      "headline": "Harbour dropping deeper: line 37.9 m to 33.0 m",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Backs to the wall"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s2"
+    ],
+    "relevant": 3,
+    "grounded": 3,
+    "facts_checked": 7,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "EMA",
+      "minute": 24.1,
+      "headline": "Pablo Kowal scores (0.273 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "Kowal's Clinical Strike Changes the Game"
+     },
+     {
+      "kind": "fatigue",
+      "team": "HAR",
+      "minute": 40.0,
+      "headline": "Kwame Baptiste fading: top speed 26.1 to 21.0 km/h",
+      "story": "s2",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Running on empty"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 45.0,
+      "headline": "Eastmoor going down the right: 26.8% to 39.3% of attacks",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Down the right"
+     }
+    ],
+    "stories_aired": [
+     "s2"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 7,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 10.32,
+    "rejected": 6,
+    "routed_around": 2
+   }
+  },
+  {
+   "seed": 108,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Harbour overload their left flank from 20'",
+     "start": 20.2
+    },
+    {
+     "id": "s2",
+     "description": "Eastmoor drop into a deep block from 25'",
+     "start": 24.8
+    },
+    {
+     "id": "s3",
+     "description": "Eastmoor switch to a high press from 23'",
+     "start": 22.6
+    }
+   ],
+   "spotted": {
+    "s1": 2.8,
+    "s3": 2.4
+   },
+   "candidates": 10,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "EMA",
+      "minute": 35.5,
+      "headline": "Oskar Zielinski scores (0.124 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "The goal"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 41.0,
+      "headline": "Eastmoor going down the left: 20.3% to 44.8% of attacks",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Down the left"
+     },
+     {
+      "kind": "press_up",
+      "team": "EMA",
+      "minute": 25.0,
+      "headline": "Eastmoor pressing higher: PPDA 9.8 to 6.2",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "The press is on"
+     }
+    ],
+    "stories_aired": [
+     "s3"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "EMA",
+      "minute": 26.7,
+      "headline": "Oskar Zielinski scores (0.255 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "Goal for Eastmoor Athletic in First Half"
+     },
+     {
+      "kind": "press_up",
+      "team": "EMA",
+      "minute": 25.0,
+      "headline": "Eastmoor pressing higher: PPDA 9.8 to 6.2",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Eastmoor Athletic's High Press Increases Sharply"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "HAR",
+      "minute": 23.0,
+      "headline": "Harbour going down the left: 40.0% to 58.1% of attacks",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City's Left Flank Surge"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s3"
+    ],
+    "relevant": 3,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 2.79,
+    "rejected": 4,
+    "routed_around": 1
+   }
+  },
+  {
+   "seed": 109,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Harbour drop into a deep block from 11'",
+     "start": 11.3
+    },
+    {
+     "id": "s2",
+     "description": "Eastmoor raise the tempo from 18'",
+     "start": 18.5
+    },
+    {
+     "id": "s3",
+     "description": "Eastmoor overload their right flank from 23'",
+     "start": 23.3
+    }
+   ],
+   "spotted": {
+    "s1": 8.7,
+    "s2": 2.5,
+    "s3": 6.7
+   },
+   "candidates": 5,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "HAR",
+      "minute": 7.3,
+      "headline": "Rafael Castillo scores (0.239 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "The goal"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 30.0,
+      "headline": "Eastmoor going down the right: 17.9% to 55.6% of attacks",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Down the right"
+     },
+     {
+      "kind": "deep_block",
+      "team": "HAR",
+      "minute": 20.0,
+      "headline": "Harbour dropping deeper: line 39.0 m to 34.2 m",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Backs to the wall"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s3"
+    ],
+    "relevant": 3,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "EMA",
+      "minute": 24.9,
+      "headline": "Mateo Castillo scores (0.27 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "Castillo's Header Sets Eastmoor Ahead"
+     },
+     {
+      "kind": "deep_block",
+      "team": "HAR",
+      "minute": 20.0,
+      "headline": "Harbour dropping deeper: line 39.0 m to 34.2 m",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City's Defensive Line Drops Deep"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 30.0,
+      "headline": "Eastmoor going down the right: 17.9% to 55.6% of attacks",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Eastmoor’s right-side surge before half"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s3"
+    ],
+    "relevant": 3,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 1.75,
+    "rejected": 2,
+    "routed_around": 0
+   }
+  },
+  {
+   "seed": 110,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Dario Yilmaz (Eastmoor RB) tires from 30'",
+     "start": 30.0
+    },
+    {
+     "id": "s2",
+     "description": "Eastmoor switch to a high press from 11'",
+     "start": 10.6
+    }
+   ],
+   "spotted": {
+    "s1": 10.0,
+    "s2": 9.4
+   },
+   "candidates": 7,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "EMA",
+      "minute": 37.6,
+      "headline": "Dario Zielinski scores (0.215 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "The goal"
+     },
+     {
+      "kind": "fatigue",
+      "team": "EMA",
+      "minute": 40.0,
+      "headline": "Dario Yilmaz fading: top speed 26.8 to 19.9 km/h",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Running on empty"
+     },
+     {
+      "kind": "press_up",
+      "team": "EMA",
+      "minute": 20.0,
+      "headline": "Eastmoor pressing higher: PPDA 7.7 to 5.7",
+      "story": "s2",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "The press is on"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s2"
+    ],
+    "relevant": 3,
+    "grounded": 3,
+    "facts_checked": 7,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "EMA",
+      "minute": 1.3,
+      "headline": "Dario Zielinski scores (0.202 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "Early Impact from Zielinski"
+     },
+     {
+      "kind": "press_up",
+      "team": "EMA",
+      "minute": 20.0,
+      "headline": "Eastmoor pressing higher: PPDA 7.7 to 5.7",
+      "story": "s2",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Eastmoor Athletic amps up the press"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "HAR",
+      "minute": 36.0,
+      "headline": "Harbour going down the left: 21.0% to 36.8% of attacks",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City floods the left flank"
+     }
+    ],
+    "stories_aired": [
+     "s2"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 5.51,
+    "rejected": 2,
+    "routed_around": 0
+   }
+  },
+  {
+   "seed": 111,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Eastmoor overload their left flank from 11'",
+     "start": 11.4
+    },
+    {
+     "id": "s2",
+     "description": "Harbour switch to a high press from 19'",
+     "start": 19.1
+    },
+    {
+     "id": "s3",
+     "description": "Harbour drop into a deep block from 20'",
+     "start": 20.5
+    }
+   ],
+   "spotted": {
+    "s1": 6.6,
+    "s3": 2.5
+   },
+   "candidates": 4,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 18.0,
+      "headline": "Eastmoor going down the left: 14.3% to 58.3% of attacks",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Down the left"
+     },
+     {
+      "kind": "tempo_up",
+      "team": "HAR",
+      "minute": 36.0,
+      "headline": "Harbour moving it quicker: 11.3 to 13.7 passes a minute on the ball",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Faster, faster"
+     },
+     {
+      "kind": "deep_block",
+      "team": "HAR",
+      "minute": 23.0,
+      "headline": "Harbour dropping deeper: line 42.0 m to 37.5 m",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Backs to the wall"
+     }
+    ],
+    "stories_aired": [
+     "s1",
+     "s3"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 10,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 18.0,
+      "headline": "Eastmoor going down the left: 14.3% to 58.3% of attacks",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Eastmoor Athletic doubles down left flank attack"
+     },
+     {
+      "kind": "press_up",
+      "team": "EMA",
+      "minute": 23.0,
+      "headline": "Eastmoor pressing higher: PPDA 12.4 to 7.5",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Eastmoor Athletic crank up the pressure"
+     },
+     {
+      "kind": "tempo_up",
+      "team": "HAR",
+      "minute": 36.0,
+      "headline": "Harbour moving it quicker: 11.3 to 13.7 passes a minute on the ball",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City Speeds Up Play"
+     }
+    ],
+    "stories_aired": [
+     "s1"
+    ],
+    "relevant": 1,
+    "grounded": 3,
+    "facts_checked": 10,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 2.07,
+    "rejected": 3,
+    "routed_around": 0
+   }
+  },
+  {
+   "seed": 112,
+   "stories": [
+    {
+     "id": "s1",
+     "description": "Jonah Novak (Harbour RCM) tires from 30'",
+     "start": 30.0
+    },
+    {
+     "id": "s2",
+     "description": "Harbour switch to a high press from 17'",
+     "start": 17.4
+    },
+    {
+     "id": "s3",
+     "description": "Eastmoor overload their left flank from 31'",
+     "start": 30.8
+    }
+   ],
+   "spotted": {
+    "s2": 9.6,
+    "s3": 2.2
+   },
+   "candidates": 6,
+   "rules": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "HAR",
+      "minute": 37.0,
+      "headline": "Arlo Pereira scores (0.065 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "The goal"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 33.0,
+      "headline": "Eastmoor going down the left: 26.9% to 83.3% of attacks",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Down the left"
+     },
+     {
+      "kind": "press_up",
+      "team": "EMA",
+      "minute": 38.0,
+      "headline": "Eastmoor pressing higher: PPDA 8.8 to 5.6",
+      "story": null,
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "The press is on"
+     }
+    ],
+    "stories_aired": [
+     "s3"
+    ],
+    "relevant": 2,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01
+   },
+   "agents": {
+    "segments": 3,
+    "aired": [
+     {
+      "kind": "goal",
+      "team": "EMA",
+      "minute": 14.1,
+      "headline": "Viktor Sato scores (0.065 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "Viktor Sato's Game-Changer at Harbour City"
+     },
+     {
+      "kind": "flank_overload",
+      "team": "EMA",
+      "minute": 33.0,
+      "headline": "Eastmoor going down the left: 26.9% to 83.3% of attacks",
+      "story": "s3",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Eastmoor's Left Flank Takeover in First Half"
+     },
+     {
+      "kind": "press_up",
+      "team": "HAR",
+      "minute": 27.0,
+      "headline": "Harbour pressing higher: PPDA 4.3 to 2.6",
+      "story": "s2",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Harbour City turn the pressure up"
+     }
+    ],
+    "stories_aired": [
+     "s2",
+     "s3"
+    ],
+    "relevant": 3,
+    "grounded": 3,
+    "facts_checked": 9,
+    "duration_s": 90.01,
+    "slot_error_s": 0.01,
+    "lock_s": 3.91,
+    "rejected": 2,
+    "routed_around": 0
+   }
+  }
+ ]
+}

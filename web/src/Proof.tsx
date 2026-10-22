@@ -259,6 +259,8 @@ const pct = (a: number, b: number) => b ? `${a}/${b} (${Math.round(100 * a / b)}
 function Evals({ evals }: { evals: Record<string, unknown> }) {
   const half = evals['rundown'] as HalftimeSummary | undefined
   const first = evals['rundown-first'] as HalftimeSummary | undefined
+  const runs = [first, evals['rundown-second'] as HalftimeSummary | undefined, half]
+    .filter((x): x is HalftimeSummary => !!x?.agents)
   const judged = evals['foundry-groundedness'] as Record<string, Judged> | undefined
   const crew = (['crew-reliability', 'crew-kill-telestrator'] as const).filter(k => evals[k])
   const titles: Record<string, string> = {
@@ -290,9 +292,12 @@ function Evals({ evals }: { evals: Record<string, unknown> }) {
             <td>{judged.rules ? `${pct(judged.rules.at_least_4, judged.rules.scored)}, mean ${judged.rules.mean}` : '–'}</td></tr>}
         </tbody>
       </table></div>
+      {runs.length > 1 && <p className="small">The agents' picks vary from run to run. Story recall over {runs.length} runs on the
+        same seeds: <b>{runs.map(x => `${Math.round(100 * x.agents!.stories_aired / x.stories)}%`).join(', ')}</b>; the
+        rules baseline is deterministic at {Math.round(100 * half.rules.stories_aired / half.stories)}%.</p>}
       {first?.agents && <p className="muted small">First run, before its fix: the agents put nothing on air for one seed
         (slot fit worst {first.agents.slot_error_max_s} s), because a lone talking point was given the whole slot and broke the
-        schema's 60 s segment limit. Segments are now capped at 60 s. Both runs and every miss are in <code className="inline">docs/EVALS.md</code>.</p>}
+        schema's 60 s segment limit. Segments are now capped at 60 s. Every run and every miss is in <code className="inline">docs/EVALS.md</code>.</p>}
     </>}
     {crew.length > 0 && <>
       <h3>How often each agent's answer passed the Verifier</h3>

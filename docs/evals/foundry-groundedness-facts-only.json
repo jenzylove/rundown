@@ -1,0 +1,813 @@
+{
+ "summary": {
+  "agents": {
+   "segments": 34,
+   "scored": 34,
+   "mean": 4.26,
+   "at_least_4": 29,
+   "below_4": [
+    {
+     "seed": 101,
+     "title": "Harbour City ramps up the press",
+     "score": 2.0,
+     "reason": "Let's think step by step: The response accurately reflects the data given in the context. It correctly states that Harbour City's passes per action decreased from 5.0 to 2.6, indicating they are winning the ball back quicker. It also correctly notes the increase in pressures per minute from 3.9 to 5.5, showing a higher work rate. However, the context does not mention Omar Tanaka or any individual player leading pressure, so this part of the response introduces information not supported by the context. Therefore, while most of the response is grounded in the context, the addition of Omar Tanaka's role is unsupported and reduces the overall groundedness. This makes the response partially correct but incomplete and partially inaccurate due to the unsupported detail."
+    },
+    {
+     "seed": 105,
+     "title": "Ilya Petit’s First-Half Spark",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides a single fact: Ilya Petit has a 0.202 xG (expected goals) value. The response mentions Ilya Petit firing Harbour City ahead at 25 minutes, references the 0.202 xG value as indicating a well-crafted finish, and adds details about Jonah Halvorsen’s cross and the goal shifting momentum. However, the context does not mention the timing of the goal, the assist by Jonah Halvorsen, or the momentum shift. These additional details are not supported by the context. The response is related to the context and correctly references the 0.202 xG value, but it introduces unsupported information. Therefore, the response attempts to relate to the context but contains information not supported by it, making it partially inaccurate."
+    },
+    {
+     "seed": 105,
+     "title": "Kenji Adeyemi slowing down",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides two data points about Kenji Adeyemi's sprints: 16 sprints and 0 sprints, but it does not specify any speeds or timing details. The response mentions 16 sprints and 0 sprints, which aligns with the context, but it adds specific speed values (26.6 km/h and 21.9 km/h) and a narrative about slowing pace and fatigue, none of which are supported or mentioned in the context. Therefore, while the response attempts to relate to the context, it introduces unsupported and potentially incorrect information about speeds and fatigue. This makes the response partially incorrect and not fully grounded in the provided context."
+    },
+    {
+     "seed": 106,
+     "title": "Malik Nunes Losing Steam Before Half",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides only two data points about Malik Nunes' sprints: 10 sprints and 0 sprints, without any mention of speed, fatigue, or specific timing such as minute 38. The response discusses Malik Nunes showing fatigue at minute 38, a drop in top speed from 27.6 to 22 km/h, and slowed movement around the ball. None of these details are supported or mentioned in the context. Therefore, the response introduces information not grounded in the provided context and is unrelated to the given sprint data."
+    },
+    {
+     "seed": 108,
+     "title": "Zielinski's Header Unlocks the Defense",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides a single fact from the stats engine about chance quality for Oskar Zielinski, specifically a value of 0.124 xG. The response expands on this by describing a specific event—a header by Oskar Zielinski at 35 minutes, assisted by Pablo Zielinski, and the resulting lead for Eastmoor Athletic. However, the context does not mention any event details such as the timing, the assist by Pablo Zielinski, the type of shot, or the match situation. The response introduces additional narrative elements and details not supported by the context. While the chance quality value of 0.124 is correctly mentioned, the rest of the information is not grounded in the provided context. Therefore, the response attempts to relate to the context but contains information not supported by it, making it partially inaccurate and adding extraneous details."
+    }
+   ]
+  },
+  "rules": {
+   "segments": 34,
+   "scored": 34,
+   "mean": 3.74,
+   "at_least_4": 21,
+   "below_4": [
+    {
+     "seed": 102,
+     "title": "Backs to the wall",
+     "score": 2.0,
+     "reason": "Let's think step by step: The response accurately reflects the context by stating that Harbour's defensive line height has dropped from 44.1 m to 38.3 m, which matches the two given values for Harbour defensive line height. However, the response introduces information about Eastmoor having 31.2% of the passes in the final third, which is not supported by the context. The context only provides Eastmoor field tilt percentages (26.7% and 31.2%), not pass percentages. Therefore, the response contains some correct information but also includes an incorrect detail that is not grounded in the context."
+    },
+    {
+     "seed": 103,
+     "title": "The goal",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides a specific statistic about Rafael Osei's chance quality, which is 0.086 xG. The response mentions Rafael Osei's goal in the 2nd minute and describes the chance as worth 0.09 expected goals. The response is related to the context and attempts to use the xG value, but it slightly rounds the xG value from 0.086 to 0.09 and adds information about the goal timing (2nd minute) which is not present in the context. Since the response introduces a detail not supported by the context (the timing of the goal) and slightly alters the xG value, it contains some inaccuracies and is not fully grounded in the provided context. Therefore, the response attempts to relate to the context but contains incorrect or unsupported information."
+    },
+    {
+     "seed": 104,
+     "title": "The goal",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides a specific statistic about Malik Ilunga's chance quality, quantified as 0.028 expected goals (xG). The response mentions Malik Ilunga's goal in the 33rd minute and describes the chance as worth 0.03 expected goals. While the response relates to the context by discussing Malik Ilunga and expected goals, it introduces a slight discrepancy in the xG value (0.03 instead of 0.028) and adds information about the timing of the goal (33rd minute) which is not present in the context. The response is somewhat accurate but not fully aligned with the exact data given and includes additional details not supported by the context. Therefore, the response is partially correct but incomplete and slightly inaccurate in the xG value and timing detail."
+    },
+    {
+     "seed": 105,
+     "title": "Running on empty",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides only the number of sprints by Kenji Adeyemi, which are 16 sprints and 0 sprints (likely indicating a change). The response mentions a drop in sprints from 16 to 0, which aligns with the context. However, the response also includes information about Kenji Adeyemi's top speed dropping from 26.6 to 21.9 kilometres an hour and a comment about Harbour going at him, neither of which is supported or mentioned in the context. Therefore, the response partially relates to the context but introduces unsupported and potentially incorrect information. This makes the response an attempt to respond but containing incorrect or unsupported information."
+    },
+    {
+     "seed": 106,
+     "title": "Running on empty",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides only two data points about Malik Nunes' sprints: 10 sprints and 0 sprints. The response mentions a drop in sprints from 10 to 0, which aligns with the context. However, the response also includes information about Malik Nunes' top speed dropping from 27.6 to 22.0 kilometres an hour and a statement about Harbour going at him, neither of which is supported or mentioned in the context. Therefore, the response contains some correct information but also introduces unsupported details, making it partially incorrect and incomplete based on the context alone."
+    },
+    {
+     "seed": 107,
+     "title": "Running on empty",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides only two data points about Kwame Baptiste's sprints: 11 sprints and 0 sprints. The response mentions a drop in sprints from 11 to 0, which aligns with the context. However, the response also includes information about a drop in top speed from 26.1 to 21.0 kilometres an hour and a statement about Eastmoor targeting him, neither of which is supported or mentioned in the context. Therefore, the response partially relates to the context but introduces unsupported and potentially incorrect information. This makes the response partially correct but incomplete and partially inaccurate."
+    },
+    {
+     "seed": 107,
+     "title": "Backs to the wall",
+     "score": 2.0,
+     "reason": "Let's think step by step: The response accurately reflects the context by noting that Harbour's defensive line height has dropped from 37.9 m to 33.0 m, which corresponds to the two given values for Harbour defensive line height. The response also mentions Eastmoor having 47.1% of the passes in the final third, which aligns with the second Eastmoor field tilt value of 47.1%. However, the response incorrectly interprets the 'Eastmoor field tilt' statistic as 'percentage of passes in the final third,' which is not supported by the context. Therefore, while the response is partially correct regarding Harbour's defensive line height, it introduces an inaccurate interpretation of Eastmoor's field tilt data. This mix of correct and incorrect information means the response attempts to relate to the context but contains incorrect information, making it unreliable."
+    },
+    {
+     "seed": 108,
+     "title": "The goal",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides a specific statistic about Oskar Zielinski's chance quality, quantified as 0.124 expected goals (xG). The response mentions Oskar Zielinski scoring a goal in the 36th minute and describes the chance as worth 0.12 expected goals. While the response relates to the context by referencing Oskar Zielinski and a chance's xG value, it introduces new information not present in the context, such as the goal timing and the fact that a goal was scored. Additionally, the xG value is slightly rounded down from 0.124 to 0.12, which is a minor detail but still a deviation. Since the response adds information not supported by the context and slightly alters the xG value, it contains inaccuracies relative to the provided data. Therefore, the response attempts to relate to the context but includes incorrect or unsupported information."
+    },
+    {
+     "seed": 109,
+     "title": "Backs to the wall",
+     "score": 2.0,
+     "reason": "Let's think step by step: The response accurately reflects the context by stating that Harbour's defensive line has dropped from 39.0 to 34.2 meters, which matches the two given defensive line heights. However, the response mentions that Eastmoor now have 42.9% of the passes in the final third, which is not supported by the context. The context only provides Eastmoor field tilt percentages (23.5% and 42.9%), but does not mention anything about passes in the final third. Therefore, the response contains some correct information but also includes an unsupported and potentially incorrect detail about Eastmoor's passes. This makes the response partially correct but incomplete and somewhat inaccurate."
+    },
+    {
+     "seed": 110,
+     "title": "The goal",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides a specific statistic about Dario Zielinski's chance quality with an expected goals (xG) value of 0.215. The response mentions a goal by Dario Zielinski in the 38th minute and refers to a chance worth 0.21 expected goals. The response is related to the context and attempts to use the xG value, but it slightly rounds the xG value down from 0.215 to 0.21 and adds the detail about the goal timing, which is not present in the context. Since the response introduces information not supported by the context (the goal timing) and slightly alters the xG value, it is not fully grounded. However, it is not completely incorrect or unrelated. Therefore, the response attempts to relate to the context but contains some inaccuracies and additional unsupported details."
+    },
+    {
+     "seed": 110,
+     "title": "Running on empty",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context provides only the number of sprints by Dario Yilmaz, showing 7 sprints and 0 sprints, but it does not mention any top speed values or changes in speed. The response adds information about a drop in top speed from 26.8 to 19.9 km/h, which is not supported or mentioned in the context. The response correctly states the drop in sprints from 7 to 0, which aligns with the context. However, the inclusion of unsupported speed data makes the response partially incorrect. Therefore, the response attempts to relate to the context but contains incorrect information not supported by the context."
+    },
+    {
+     "seed": 111,
+     "title": "Backs to the wall",
+     "score": 2.0,
+     "reason": "Let's think step by step: The response accurately reflects the information given in the context about the Harbour defensive line height dropping from 42.0 m to 37.5 m. However, the response states that Eastmoor now have 21.1% of the passes in the final third, which is not supported by the context. The context provides Eastmoor field tilt percentages (23.8% and 21.1%) but does not mention anything about passes in the final third. Therefore, the response includes an incorrect interpretation or addition of information not grounded in the context. This makes the response an attempt to relate to the context but containing incorrect information."
+    },
+    {
+     "seed": 112,
+     "title": "The goal",
+     "score": 2.0,
+     "reason": "Let's think step by step: The context states that Arlo Pereira has a chance quality of 0.065 xG. The response mentions Arlo Pereira's goal in the 38th minute with a chance worth 0.07 expected goals. While the response is related to the context and attempts to use the xG value, it introduces a slightly different xG value (0.07 instead of 0.065) and adds the detail of a goal in the 38th minute, which is not present in the context. Therefore, the response is somewhat related but contains information not supported by the context and a minor discrepancy in the xG value. This makes the response an attempt to respond but with incorrect or unsupported information."
+    }
+   ]
+  }
+ },
+ "foundry_url": null,
+ "log_error": "EvaluationException: (InternalError) (PermissionDenied) The principal `a11b7e70-0ddb-49d4-8d72-ee32aedabe3b` lacks the required data action `Microsoft.CognitiveServices/accounts/AIServices/assets/write` to perform `POST /api/projects/{projectName}/evaluationResults/{name}/versions/{version}/startPendingUpload` operation",
+ "judge": "gpt-4.1-mini",
+ "rows": [
+  {
+   "seed": 101,
+   "system": "agents",
+   "title": "Harbour City ramps up the press",
+   "query": "Half-time talking point: Harbour pressing higher: PPDA 5.0 to 2.6",
+   "response": "Harbour City presses higher now, cutting opponent's passes per action from 5 to 2.6. That means they're winning the ball back much quicker in those last 10 minutes. Their pressures per minute increased from 3.9 to 5.5, showing intense work rate. Omar Tanaka leads tight pressure near the opponent's half.",
+   "context": "Facts from the stats engine:\nHarbour PPDA: 5.0 passes per action\nHarbour PPDA: 2.6 passes per action\nHarbour pressures per minute: 3.9 per min\nHarbour pressures per minute: 5.5 per min",
+   "score": 2.0,
+   "reason": "Let's think step by step: The response accurately reflects the data given in the context. It correctly states that Harbour City's passes per action decreased from 5.0 to 2.6, indicating they are winning the ball back quicker. It also correctly notes the increase in pressures per minute from 3.9 to 5.5, showing a higher work rate. However, the context does not mention Omar Tanaka or any individual player leading pressure, so this part of the response introduces information not supported by the context. Therefore, while most of the response is grounded in the context, the addition of Omar Tanaka's role is unsupported and reduces the overall groundedness. This makes the response partially correct but incomplete and partially inaccurate due to the unsupported detail."
+  },
+  {
+   "seed": 101,
+   "system": "rules",
+   "title": "The press is on",
+   "query": "Half-time talking point: Harbour pressing higher: PPDA 5.0 to 2.6",
+   "response": "Look at how Harbour have changed in the last ten minutes. They were allowing 5.0 passes per defensive action. Now it's 2.6. They're pressing higher, and Eastmoor have no time to play out.",
+   "context": "Facts from the stats engine:\nHarbour PPDA: 5.0 passes per action\nHarbour PPDA: 2.6 passes per action\nHarbour pressures per minute: 3.9 per min\nHarbour pressures per minute: 5.5 per min",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately references the statistics given in the context, specifically the change in Harbour's PPDA from 5.0 to 2.6 passes per defensive action. It also mentions that Harbour is pressing higher, which aligns with the increase in pressures per minute from 3.9 to 5.5. The response adds that Eastmoor have no time to play out, which is a reasonable interpretation of the increased pressing but is not explicitly stated in the context. However, the response does not introduce any incorrect information and directly relates to the data provided. It captures the key changes in the stats and explains their implication, though the last part about Eastmoor is an inferred conclusion rather than a direct fact from the context. Overall, the response is accurate and mostly complete with a slight interpretative addition that does not contradict the context."
+  },
+  {
+   "seed": 102,
+   "system": "agents",
+   "title": "Eastmoor ramps up right flank attacks",
+   "query": "Half-time talking point: Eastmoor going down the right: 37.5% to 61.1% of attacks",
+   "response": "Eastmoor sharply increase their focus down the right flank after the 8th minute. Their share of attacks jumps from 37.5% to 61.1%, signaling a clear tactical shift. They create 6 overload situations down that side, none before, applying real pressure. This right side is buzzing with activity, key as Eastmoor push forward here.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the right: 37.5 %\nEastmoor attacks down the right: 61.1 %\nEastmoor overloads on the right: 0 episodes\nEastmoor overloads on the right: 6 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the data given in the context. It correctly notes the increase in Eastmoor's attacks down the right flank from 37.5% to 61.1%, indicating a tactical shift. It also correctly states that there were 6 overload episodes on the right side, with none before, which aligns with the context's data. The response adds some interpretative commentary about pressure and activity on the right side, but this is a reasonable inference based on the stats provided. Overall, the response is fully grounded in the context, covering all relevant details without introducing incorrect information."
+  },
+  {
+   "seed": 102,
+   "system": "agents",
+   "title": "Harbour deepens defensive line",
+   "query": "Half-time talking point: Harbour dropping deeper: line 44.1 m to 38.3 m",
+   "response": "At 19 minutes, Harbour City drops their defensive line from 44.1 m to 38.3 m. This shows a clear deeper defensive posture to absorb Eastmoor Athletic's pressure. Eastmoor's field tilt rises from 26.7% to 31.2%, highlighting their growing attack threat. The numbers tell us Harbour are under increasing pressure and adjusting accordingly.",
+   "context": "Facts from the stats engine:\nHarbour defensive line height: 44.1 m\nHarbour defensive line height: 38.3 m\nEastmoor field tilt: 26.7 %\nEastmoor field tilt: 31.2 %",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately references the specific numbers given in the context, noting the drop in Harbour City's defensive line height from 44.1 m to 38.3 m and the increase in Eastmoor's field tilt from 26.7% to 31.2%. It correctly interprets these changes as Harbour adopting a deeper defensive posture and Eastmoor increasing their attacking pressure. The response fully uses the data points provided without adding unrelated or incorrect information, and it provides a clear and complete explanation of the significance of the numbers. Therefore, the response is fully grounded and complete based on the context."
+  },
+  {
+   "seed": 102,
+   "system": "agents",
+   "title": "Harbour City's tempo quickens in first half",
+   "query": "Half-time talking point: Harbour moving it quicker: 10.3 to 12.6 passes a minute on the ball",
+   "response": "Harbour City's passing picks up pace early in this game. Their passes per possession minute jump from 10.3 to 12.6 by 19 minutes. That means the ball moves quicker as they build attacks with short, precise passes. A clear boost in tempo, though other signs are still developing.",
+   "context": "Facts from the stats engine:\nHarbour tempo: 10.3 passes per possession minute\nHarbour tempo: 12.6 passes per possession minute",
+   "score": 5.0,
+   "reason": "Let's think step by step: The context provides two data points about Harbour tempo: 10.3 passes per possession minute and 12.6 passes per possession minute. The response accurately reflects these numbers and adds that the increase happens by 19 minutes, which is a reasonable interpretation of the tempo increase. It also explains the implication of the increase in tempo, mentioning quicker ball movement and short, precise passes, which aligns with the data about passes per possession minute. The response does not introduce any incorrect information and directly relates to the context. However, the context does not explicitly mention the 19-minute mark or the qualitative description of the passes, so these are inferred but reasonable extensions. The response is detailed and specific to the data given, making it a fully grounded and complete response based on the context provided."
+  },
+  {
+   "seed": 102,
+   "system": "rules",
+   "title": "Down the right",
+   "query": "Half-time talking point: Eastmoor going down the right: 37.5% to 61.1% of attacks",
+   "response": "Eastmoor have made their plan obvious. Everything goes down the right. 61.1% of their final-third attacks start there, up from 37.5%. And they arrive with the extra man: 6 times in ten minutes.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the right: 37.5 %\nEastmoor attacks down the right: 61.1 %\nEastmoor overloads on the right: 0 episodes\nEastmoor overloads on the right: 6 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response states that Eastmoor's attacks down the right have increased from 37.5% to 61.1%, which matches the context exactly. It also mentions that Eastmoor arrives with an extra man 6 times in ten minutes, which corresponds to the 6 episodes of overloads on the right in the context. The response accurately reflects the statistics given without adding unrelated or incorrect information. Therefore, it is fully grounded and complete based on the context."
+  },
+  {
+   "seed": 102,
+   "system": "rules",
+   "title": "Backs to the wall",
+   "query": "Half-time talking point: Harbour dropping deeper: line 44.1 m to 38.3 m",
+   "response": "Harbour have taken a step back. Their back line has dropped from 44.1 to 38.3 metres from goal. Eastmoor now have 31.2% of the passes in the final third.",
+   "context": "Facts from the stats engine:\nHarbour defensive line height: 44.1 m\nHarbour defensive line height: 38.3 m\nEastmoor field tilt: 26.7 %\nEastmoor field tilt: 31.2 %",
+   "score": 2.0,
+   "reason": "Let's think step by step: The response accurately reflects the context by stating that Harbour's defensive line height has dropped from 44.1 m to 38.3 m, which matches the two given values for Harbour defensive line height. However, the response introduces information about Eastmoor having 31.2% of the passes in the final third, which is not supported by the context. The context only provides Eastmoor field tilt percentages (26.7% and 31.2%), not pass percentages. Therefore, the response contains some correct information but also includes an incorrect detail that is not grounded in the context."
+  },
+  {
+   "seed": 102,
+   "system": "rules",
+   "title": "Faster, faster",
+   "query": "Half-time talking point: Eastmoor moving it quicker: 10.3 to 12.7 passes a minute on the ball",
+   "response": "Eastmoor have turned up the tempo. From 10.3 to 12.7 passes for every minute on the ball.",
+   "context": "Facts from the stats engine:\nEastmoor tempo: 10.3 passes per possession minute\nEastmoor tempo: 12.7 passes per possession minute",
+   "score": 5.0,
+   "reason": "Let's think step by step: The context provides two tempo values for Eastmoor: 10.3 passes per possession minute and 12.7 passes per possession minute. The response states that Eastmoor has increased their tempo from 10.3 to 12.7 passes per minute on the ball. This directly reflects the information given in the context without adding or omitting any details. The response is accurate, specific, and fully grounded in the context provided."
+  },
+  {
+   "seed": 103,
+   "system": "agents",
+   "title": "Early Goal Sets Harbour City's Pace",
+   "query": "Half-time talking point: Rafael Osei scores (0.086 xG)",
+   "response": "Just 2 minutes in, Rafael Osei breaks through with a cool finish. His shot carried a 0.086 xG, showing smart attacking sense. This goal puts Harbour City in front straight away, controlling the game.",
+   "context": "Facts from the stats engine:\nchance quality, Rafael Osei: 0.086 xG",
+   "score": 4.0,
+   "reason": "Let's think step by step: The context provides a single fact about Rafael Osei's chance quality with an xG value of 0.086. The response expands on this by describing a specific event where Rafael Osei scores a goal 2 minutes into the game, mentioning the same xG value and adding details about the goal putting Harbour City in front and controlling the game. However, these additional details about the timing, the goal, and the game control are not present in the context and thus cannot be verified or grounded in the provided information. The response introduces information beyond the context, making it not fully grounded. Since the response is related and uses the xG value correctly but adds unverified details, it is partially correct but incomplete and partially ungrounded. Therefore, the response fits best with a score of 4 for being partially correct but incomplete and including some ungrounded details."
+  },
+  {
+   "seed": 103,
+   "system": "agents",
+   "title": "Harbour City's intense press on display",
+   "query": "Half-time talking point: Harbour pressing higher: PPDA 6.9 to 1.7",
+   "response": "Here is Oskar Moreau pressing high to intercept an Eastmoor pass. Harbour's PPDA drops from 6.9 to 1.7 showing much tighter pressure. Their hard pressing raises defensive actions despite fewer opponent passes. This press shift strongly disrupts Eastmoor's buildup before halftime.",
+   "context": "Facts from the stats engine:\nHarbour PPDA: 6.9 passes per action\nHarbour PPDA: 1.7 passes per action\nHarbour pressures per minute: 5.6 per min\nHarbour pressures per minute: 2.4 per min",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response directly references the PPDA values from the context, noting the drop from 6.9 to 1.7, which aligns with the provided stats. It also mentions the increase in defensive actions due to harder pressing, which is consistent with the context's implication of tighter pressure. The response adds interpretation about the pressing disrupting Eastmoor's buildup before halftime, which is a reasonable inference based on the stats given. The response does not introduce unrelated or incorrect information and fully addresses the key details in the context, including the change in PPDA and the effect on defensive actions. Therefore, the response is fully grounded and complete based on the context provided."
+  },
+  {
+   "seed": 103,
+   "system": "agents",
+   "title": "Eastmoor Retreats Deep in Defence",
+   "query": "Half-time talking point: Eastmoor dropping deeper: line 34.3 m to 29.9 m",
+   "response": "At 36 minutes, Eastmoor’s defence drops deeper from 34.3 m to 29.9 m. This move tightens central space, forcing Harbour back. Meanwhile, Harbour’s field tilt rockets from 51% to 92.3%. Eastmoor’s drop clearly shifts pressure massively to their side.",
+   "context": "Facts from the stats engine:\nEastmoor defensive line height: 34.3 m\nEastmoor defensive line height: 29.9 m\nHarbour field tilt: 51.0 %\nHarbour field tilt: 92.3 %",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately references the specific data points given in the context, including the Eastmoor defensive line dropping from 34.3 m to 29.9 m and Harbour's field tilt increasing from 51.0% to 92.3%. It also interprets these changes by explaining the tactical impact, which is consistent with the data provided. The response does not introduce any incorrect or unrelated information and fully addresses the context with relevant details. Therefore, it is a fully grounded and complete response."
+  },
+  {
+   "seed": 103,
+   "system": "rules",
+   "title": "The goal",
+   "query": "Half-time talking point: Rafael Osei scores (0.086 xG)",
+   "response": "Rafael Osei's goal, in the 2nd minute. A chance worth 0.09 expected goals.",
+   "context": "Facts from the stats engine:\nchance quality, Rafael Osei: 0.086 xG",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides a specific statistic about Rafael Osei's chance quality, which is 0.086 xG. The response mentions Rafael Osei's goal in the 2nd minute and describes the chance as worth 0.09 expected goals. The response is related to the context and attempts to use the xG value, but it slightly rounds the xG value from 0.086 to 0.09 and adds information about the goal timing (2nd minute) which is not present in the context. Since the response introduces a detail not supported by the context (the timing of the goal) and slightly alters the xG value, it contains some inaccuracies and is not fully grounded in the provided context. Therefore, the response attempts to relate to the context but contains incorrect or unsupported information."
+  },
+  {
+   "seed": 103,
+   "system": "rules",
+   "title": "Backs to the wall",
+   "query": "Half-time talking point: Eastmoor dropping deeper: line 34.3 m to 29.9 m",
+   "response": "Eastmoor have taken a step back. Their back line has dropped from 34.3 to 29.9 metres from goal. Harbour now have 92.3% of the passes in the final third.",
+   "context": "Facts from the stats engine:\nEastmoor defensive line height: 34.3 m\nEastmoor defensive line height: 29.9 m\nHarbour field tilt: 51.0 %\nHarbour field tilt: 92.3 %",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the data given in the context. It correctly states that Eastmoor's defensive line height dropped from 34.3 m to 29.9 m, which matches the two values provided. It also correctly notes that Harbour now has 92.3% of the passes in the final third, which corresponds to the higher of the two Harbour field tilt percentages given (51.0% and 92.3%). The response does not mention the 51.0% figure, but it focuses on the more relevant and higher percentage, which is reasonable. The response is specific, accurate, and directly grounded in the context without adding unrelated information. Therefore, it is a fully grounded and complete response."
+  },
+  {
+   "seed": 103,
+   "system": "rules",
+   "title": "Faster, faster",
+   "query": "Half-time talking point: Harbour moving it quicker: 11.5 to 14.0 passes a minute on the ball",
+   "response": "Harbour have turned up the tempo. From 11.5 to 14.0 passes for every minute on the ball.",
+   "context": "Facts from the stats engine:\nHarbour tempo: 11.5 passes per possession minute\nHarbour tempo: 14.0 passes per possession minute",
+   "score": 5.0,
+   "reason": "Let's think step by step: The context provides two data points about Harbour's tempo: 11.5 passes per possession minute and 14.0 passes per possession minute. The response states that Harbour has increased their tempo from 11.5 to 14.0 passes per minute on the ball, which accurately reflects the information given in the context. The response directly addresses the change in tempo and includes both specific values, showing a clear understanding of the data. There is no extraneous or incorrect information added. Therefore, the response is fully grounded and complete based on the context."
+  },
+  {
+   "seed": 104,
+   "system": "agents",
+   "title": "Ilunga Breaks Deadlock for Harbour City",
+   "query": "Half-time talking point: Malik Ilunga scores (0.028 xG)",
+   "response": "Here is Malik Ilunga finding the net at minute 33. That shot carries an xG of just 0.028, showing precision over power. He takes a smart finish after a clever pass to create space. This goal puts Harbour City ahead going into halftime.",
+   "context": "Facts from the stats engine:\nchance quality, Malik Ilunga: 0.028 xG",
+   "score": 4.0,
+   "reason": "Let's think step by step: The context provides a single fact about Malik Ilunga's chance quality with an xG value of 0.028. The response mentions Malik Ilunga scoring a goal at minute 33 with an xG of 0.028, which aligns with the context's xG value. However, the response adds details about the nature of the goal (precision over power, smart finish, clever pass, and the goal putting Harbour City ahead at halftime) that are not supported or mentioned in the context. Since the response includes accurate information from the context (the xG value) but adds unsupported details, it is partially correct but incomplete and introduces information not grounded in the context. Therefore, the response is partially correct but not fully grounded or complete."
+  },
+  {
+   "seed": 104,
+   "system": "agents",
+   "title": "Eastmoor Athletic's High Press Shifts Momentum",
+   "query": "Half-time talking point: Eastmoor pressing higher: PPDA 8.0 to 4.8",
+   "response": "Eastmoor Athletic raises their pressing intensity late in the half. Their PPDA falls sharply from 8 to 4.8, allowing fewer passes. Pressures per minute climb from 1.41 to 1.7, showing more aggression. This high press forces turnovers and changes the game's rhythm. Here they intercept in the opponent's half at minute 42.",
+   "context": "Facts from the stats engine:\nEastmoor PPDA: 8.0 passes per action\nEastmoor PPDA: 4.8 passes per action\nEastmoor pressures per minute: 1.41 per min\nEastmoor pressures per minute: 1.7 per min",
+   "score": 4.0,
+   "reason": "Let's think step by step: The response accurately reflects the data given in the context. It correctly notes that Eastmoor's PPDA decreases from 8.0 to 4.8, indicating increased pressing intensity and fewer passes allowed. It also correctly states that pressures per minute increase from 1.41 to 1.7, showing more aggression. The response adds an interpretation about the high press forcing turnovers and changing the game's rhythm, which is a reasonable inference based on the stats but not explicitly stated in the context. The mention of an interception at minute 42 is additional information not found in the context, which means the response introduces some extraneous detail. Overall, the response is mostly grounded in the context, accurately conveying the key statistics and their implications, but it includes a small amount of information not supported by the context. Therefore, it is not fully complete and strictly grounded but is more than partially correct."
+  },
+  {
+   "seed": 104,
+   "system": "agents",
+   "title": "Harbour City shifts attacks left",
+   "query": "Half-time talking point: Harbour going down the left: 28.1% to 40.6% of attacks",
+   "response": "At 32, Harbour City really ramps up their attacks down the left flank. They move from 28.1% to 40.6% of their attacks in this area. This shift brings more overloads, jumping from 2 to 6 episodes, creating more danger. Watch Kwame Quist’s sharp pass to Kwame Oduya as they push forward on the left.",
+   "context": "Facts from the stats engine:\nHarbour attacks down the left: 28.1 %\nHarbour attacks down the left: 40.6 %\nHarbour overloads on the left: 2 episodes\nHarbour overloads on the left: 6 episodes",
+   "score": 4.0,
+   "reason": "Let's think step by step: The response accurately reflects the statistics given in the context about Harbour City's attacks down the left flank, correctly noting the increase from 28.1% to 40.6%. It also correctly mentions the increase in overload episodes from 2 to 6. However, the response adds information about a player named Kwame Quist making a sharp pass to Kwame Oduya, which is not supported or mentioned in the context. This addition introduces extraneous information not grounded in the provided data. Therefore, while most of the response is accurate and relevant, the inclusion of unsupported details makes it partially correct but incomplete in terms of strict groundedness."
+  },
+  {
+   "seed": 104,
+   "system": "rules",
+   "title": "The goal",
+   "query": "Half-time talking point: Malik Ilunga scores (0.028 xG)",
+   "response": "Malik Ilunga's goal, in the 33rd minute. A chance worth 0.03 expected goals.",
+   "context": "Facts from the stats engine:\nchance quality, Malik Ilunga: 0.028 xG",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides a specific statistic about Malik Ilunga's chance quality, quantified as 0.028 expected goals (xG). The response mentions Malik Ilunga's goal in the 33rd minute and describes the chance as worth 0.03 expected goals. While the response relates to the context by discussing Malik Ilunga and expected goals, it introduces a slight discrepancy in the xG value (0.03 instead of 0.028) and adds information about the timing of the goal (33rd minute) which is not present in the context. The response is somewhat accurate but not fully aligned with the exact data given and includes additional details not supported by the context. Therefore, the response is partially correct but incomplete and slightly inaccurate in the xG value and timing detail."
+  },
+  {
+   "seed": 104,
+   "system": "rules",
+   "title": "Backs to the wall",
+   "query": "Half-time talking point: Eastmoor dropping deeper: line 36.3 m to 30.9 m",
+   "response": "Eastmoor have taken a step back. Their back line has dropped from 36.3 to 30.9 metres from goal. Harbour now have 73.7% of the passes in the final third.",
+   "context": "Facts from the stats engine:\nEastmoor defensive line height: 36.3 m\nEastmoor defensive line height: 30.9 m\nHarbour field tilt: 42.9 %\nHarbour field tilt: 73.7 %",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the context by noting that Eastmoor's defensive line height has dropped from 36.3 m to 30.9 m, which corresponds to the two given values for Eastmoor's defensive line height. It also mentions Harbour having 73.7% of the passes in the final third, which aligns with the higher of the two Harbour field tilt percentages (42.9% and 73.7%). The response does not mention the lower Harbour field tilt value (42.9%), but it correctly uses the higher value to make a relevant point. The response is specific and directly tied to the context data without adding unrelated information. Therefore, it is a fully grounded and complete response based on the provided context."
+  },
+  {
+   "seed": 104,
+   "system": "rules",
+   "title": "Down the left",
+   "query": "Half-time talking point: Harbour going down the left: 28.1% to 40.6% of attacks",
+   "response": "Harbour have made their plan obvious. Everything goes down the left. 40.6% of their final-third attacks start there, up from 28.1%. And they arrive with the extra man: 6 times in ten minutes.",
+   "context": "Facts from the stats engine:\nHarbour attacks down the left: 28.1 %\nHarbour attacks down the left: 40.6 %\nHarbour overloads on the left: 2 episodes\nHarbour overloads on the left: 6 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the statistics given in the context. It correctly states that attacks go down the left side, citing the increase from 28.1% to 40.6% for final-third attacks starting there, which matches the context. It also mentions the presence of an extra man arriving 6 times in ten minutes, which corresponds to the 6 episodes of harbour overloads on the left. The response does not mention the 2 episodes figure, but it focuses on the more recent or relevant 6 episodes, which is reasonable for completeness. Overall, the response is precise, directly grounded in the context, and includes all relevant details without adding unrelated information."
+  },
+  {
+   "seed": 105,
+   "system": "agents",
+   "title": "Ilya Petit’s First-Half Spark",
+   "query": "Half-time talking point: Ilya Petit scores (0.202 xG)",
+   "response": "Here’s Ilya Petit firing Harbour City ahead at 25. That 0.202 xG shows it was a well-crafted finish. Jonah Halvorsen’s cross sets it up perfectly. This goal shifts the momentum in Harbour City’s favour.",
+   "context": "Facts from the stats engine:\nchance quality, Ilya Petit: 0.202 xG",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides a single fact: Ilya Petit has a 0.202 xG (expected goals) value. The response mentions Ilya Petit firing Harbour City ahead at 25 minutes, references the 0.202 xG value as indicating a well-crafted finish, and adds details about Jonah Halvorsen’s cross and the goal shifting momentum. However, the context does not mention the timing of the goal, the assist by Jonah Halvorsen, or the momentum shift. These additional details are not supported by the context. The response is related to the context and correctly references the 0.202 xG value, but it introduces unsupported information. Therefore, the response attempts to relate to the context but contains information not supported by it, making it partially inaccurate."
+  },
+  {
+   "seed": 105,
+   "system": "agents",
+   "title": "Kenji Adeyemi slowing down",
+   "query": "Half-time talking point: Kenji Adeyemi fading: top speed 26.6 to 21.9 km/h",
+   "response": "Kenji Adeyemi has done 16 sprints, reaching 26.6 km/h early on. By 40 he has no sprints and his top speed falls to 21.9 km/h. The picture clearly shows him slowing his pace as the half continues. Eastmoor's midfielder is getting fatigued out there.",
+   "context": "Facts from the stats engine:\nKenji Adeyemi sprints: 16 sprints\nKenji Adeyemi sprints: 0 sprints",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides two data points about Kenji Adeyemi's sprints: 16 sprints and 0 sprints, but it does not specify any speeds or timing details. The response mentions 16 sprints and 0 sprints, which aligns with the context, but it adds specific speed values (26.6 km/h and 21.9 km/h) and a narrative about slowing pace and fatigue, none of which are supported or mentioned in the context. Therefore, while the response attempts to relate to the context, it introduces unsupported and potentially incorrect information about speeds and fatigue. This makes the response partially incorrect and not fully grounded in the provided context."
+  },
+  {
+   "seed": 105,
+   "system": "agents",
+   "title": "Eastmoor's Surge Down the Left",
+   "query": "Half-time talking point: Eastmoor going down the left: 29.4% to 44.4% of attacks",
+   "response": "At 29 minutes, Eastmoor sharply raises attacks down their left wing from 29.4% to 44.4%. This move brings new pressure on Harbour City’s defence as Eastmoor look to exploit that side. Notice how overloads on the left jump from 1 to 4, fueling this surge in possession and chances. It’s a clear tactical shift setting the tone for the rest of the first half.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the left: 29.4 %\nEastmoor attacks down the left: 44.4 %\nEastmoor overloads on the left: 1 episodes\nEastmoor overloads on the left: 4 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the statistics given in the context. It correctly states the increase in attacks down the left wing from 29.4% to 44.4%, and the increase in overload episodes on the left from 1 to 4. The response also adds interpretation about the tactical shift and its impact on the game, which is a reasonable inference based on the data provided. There is no incorrect or unrelated information introduced, and the response fully addresses the key details in the context. Therefore, the response is fully grounded and complete."
+  },
+  {
+   "seed": 105,
+   "system": "rules",
+   "title": "The goal",
+   "query": "Half-time talking point: Ilya Petit scores (0.202 xG)",
+   "response": "Ilya Petit's goal, in the 26th minute. A chance worth 0.20 expected goals.",
+   "context": "Facts from the stats engine:\nchance quality, Ilya Petit: 0.202 xG",
+   "score": 4.0,
+   "reason": "Let's think step by step: The context provides a specific statistic about Ilya Petit's chance quality with an expected goals (xG) value of 0.202. The response mentions Ilya Petit's goal in the 26th minute and describes the chance as worth 0.20 expected goals. The response is closely related to the context, accurately reflecting the xG value (rounded from 0.202 to 0.20) and adding the detail of the goal timing, which is not contradicted by the context but is additional information. Since the response is accurate and relevant to the context and does not introduce incorrect information, but it adds a detail (the 26th minute goal) not present in the context, it is mostly grounded but not fully complete based solely on the context. Therefore, the response is partially correct but slightly incomplete in strictly adhering to the context details."
+  },
+  {
+   "seed": 105,
+   "system": "rules",
+   "title": "Running on empty",
+   "query": "Half-time talking point: Kenji Adeyemi fading: top speed 26.6 to 21.9 km/h",
+   "response": "Keep an eye on Kenji Adeyemi. His top speed has dropped from 26.6 to 21.9 kilometres an hour. His sprints are down from 16 to 0. Harbour will go at him.",
+   "context": "Facts from the stats engine:\nKenji Adeyemi sprints: 16 sprints\nKenji Adeyemi sprints: 0 sprints",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides only the number of sprints by Kenji Adeyemi, which are 16 sprints and 0 sprints (likely indicating a change). The response mentions a drop in sprints from 16 to 0, which aligns with the context. However, the response also includes information about Kenji Adeyemi's top speed dropping from 26.6 to 21.9 kilometres an hour and a comment about Harbour going at him, neither of which is supported or mentioned in the context. Therefore, the response partially relates to the context but introduces unsupported and potentially incorrect information. This makes the response an attempt to respond but containing incorrect or unsupported information."
+  },
+  {
+   "seed": 105,
+   "system": "rules",
+   "title": "Down the left",
+   "query": "Half-time talking point: Eastmoor going down the left: 29.4% to 44.4% of attacks",
+   "response": "Eastmoor have made their plan obvious. Everything goes down the left. 44.4% of their final-third attacks start there, up from 29.4%. And they arrive with the extra man: 4 times in ten minutes.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the left: 29.4 %\nEastmoor attacks down the left: 44.4 %\nEastmoor overloads on the left: 1 episodes\nEastmoor overloads on the left: 4 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the context by stating that Eastmoor's attacks are focused down the left side, with the percentage of final-third attacks increasing from 29.4% to 44.4%. It also correctly mentions the overloads on the left side, noting 4 episodes in ten minutes, which aligns with the context data. The response captures all the key details provided in the context without adding unrelated or incorrect information. Therefore, it is a fully grounded and complete response."
+  },
+  {
+   "seed": 106,
+   "system": "agents",
+   "title": "Harbour City Steps Up The Pressure",
+   "query": "Half-time talking point: Harbour pressing higher: PPDA 5.7 to 3.9",
+   "response": "At 24 minutes, Harbour City's PPDA drops from 5.7 to 3.9, showing stronger pressing. This means fewer passes allowed before a defensive action, ramping up their intensity. Pressures per minute rise from 3.86 to 5.5, pushing deeper into Eastmoor's half. Here, Arlo Abara intercepts the ball in the opponent's half, pressing high and fast.",
+   "context": "Facts from the stats engine:\nHarbour PPDA: 5.7 passes per action\nHarbour PPDA: 3.9 passes per action\nHarbour pressures per minute: 3.86 per min\nHarbour pressures per minute: 5.5 per min",
+   "score": 4.0,
+   "reason": "Let's think step by step: The context provides specific statistics about Harbour's PPDA and pressures per minute, listing two values for each metric (PPDA: 5.7 and 3.9; pressures per minute: 3.86 and 5.5). The response accurately interprets these numbers by stating that at 24 minutes, Harbour City's PPDA drops from 5.7 to 3.9, indicating stronger pressing, which aligns with the context's data. It also correctly notes the increase in pressures per minute from 3.86 to 5.5, reflecting increased pressing intensity. The response adds a detail about Arlo Abara intercepting the ball in the opponent's half, pressing high and fast, which is not mentioned in the context. Since this additional detail is not supported by the context, it introduces information beyond the provided data. Therefore, while the response is mostly accurate and relevant, the inclusion of unsupported information means it is not fully grounded. The response is more than partially correct but less than fully grounded and complete due to the extra detail. Hence, the appropriate score is 4."
+  },
+  {
+   "seed": 106,
+   "system": "agents",
+   "title": "Malik Nunes Losing Steam Before Half",
+   "query": "Half-time talking point: Malik Nunes fading: top speed 27.6 to 22.0 km/h",
+   "response": "Here’s Malik Nunes showing fatigue at minute 38. His top speed drops from 27.6 down to 22 km/h. That’s a big dip in pace, limiting his threat. Notice on screen how his movement slows around the ball.",
+   "context": "Facts from the stats engine:\nMalik Nunes sprints: 10 sprints\nMalik Nunes sprints: 0 sprints",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides only two data points about Malik Nunes' sprints: 10 sprints and 0 sprints, without any mention of speed, fatigue, or specific timing such as minute 38. The response discusses Malik Nunes showing fatigue at minute 38, a drop in top speed from 27.6 to 22 km/h, and slowed movement around the ball. None of these details are supported or mentioned in the context. Therefore, the response introduces information not grounded in the provided context and is unrelated to the given sprint data."
+  },
+  {
+   "seed": 106,
+   "system": "agents",
+   "title": "Harbour City increases right flank attacks",
+   "query": "Half-time talking point: Harbour going down the right: 25.9% to 39.0% of attacks",
+   "response": "Harbour City start with 25.9% of attacks down the right flank. By the 20th minute, this rises sharply to 39%. Notice how they increased overload episodes on the right side from 0 to 4. The right winger and right back are crucial in driving this attack progression.",
+   "context": "Facts from the stats engine:\nHarbour attacks down the right: 25.9 %\nHarbour attacks down the right: 39.0 %\nHarbour overloads on the right: 0 episodes\nHarbour overloads on the right: 4 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the statistics given in the context. It correctly states that attacks down the right flank start at 25.9% and rise to 39%, which matches the two percentages provided. It also notes the increase in overload episodes on the right side from 0 to 4, which aligns with the context. Additionally, the response adds a relevant interpretation about the importance of the right winger and right back in driving the attack progression, which is a reasonable inference based on the data. There is no incorrect or unrelated information, and the response fully addresses the key points in the context with appropriate detail. Therefore, the response is fully grounded and complete."
+  },
+  {
+   "seed": 106,
+   "system": "rules",
+   "title": "Running on empty",
+   "query": "Half-time talking point: Malik Nunes fading: top speed 27.6 to 22.0 km/h",
+   "response": "Keep an eye on Malik Nunes. His top speed has dropped from 27.6 to 22.0 kilometres an hour. His sprints are down from 10 to 0. Harbour will go at him.",
+   "context": "Facts from the stats engine:\nMalik Nunes sprints: 10 sprints\nMalik Nunes sprints: 0 sprints",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides only two data points about Malik Nunes' sprints: 10 sprints and 0 sprints. The response mentions a drop in sprints from 10 to 0, which aligns with the context. However, the response also includes information about Malik Nunes' top speed dropping from 27.6 to 22.0 kilometres an hour and a statement about Harbour going at him, neither of which is supported or mentioned in the context. Therefore, the response contains some correct information but also introduces unsupported details, making it partially incorrect and incomplete based on the context alone."
+  },
+  {
+   "seed": 106,
+   "system": "rules",
+   "title": "Down the right",
+   "query": "Half-time talking point: Harbour going down the right: 25.9% to 39.0% of attacks",
+   "response": "Harbour have made their plan obvious. Everything goes down the right. 39.0% of their final-third attacks start there, up from 25.9%. And they arrive with the extra man: 4 times in ten minutes.",
+   "context": "Facts from the stats engine:\nHarbour attacks down the right: 25.9 %\nHarbour attacks down the right: 39.0 %\nHarbour overloads on the right: 0 episodes\nHarbour overloads on the right: 4 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response states that Harbour's plan is obvious with everything going down the right, which aligns with the context showing an increase in attacks down the right from 25.9% to 39.0%. The response also mentions arriving with the extra man 4 times in ten minutes, which corresponds to the 4 episodes of harbour overloads on the right in the context. However, the context lists two sets of stats for attacks down the right and overloads on the right, but the response only references the higher values and does not clarify the time frame or the presence of the lower values. Despite this, the response accurately reflects the key details from the context without adding unrelated or incorrect information. Therefore, the response is accurate and complete based on the provided context."
+  },
+  {
+   "seed": 106,
+   "system": "rules",
+   "title": "Faster, faster",
+   "query": "Half-time talking point: Harbour moving it quicker: 11.2 to 13.7 passes a minute on the ball",
+   "response": "Harbour have turned up the tempo. From 11.2 to 13.7 passes for every minute on the ball.",
+   "context": "Facts from the stats engine:\nHarbour tempo: 11.2 passes per possession minute\nHarbour tempo: 13.7 passes per possession minute",
+   "score": 5.0,
+   "reason": "Let's think step by step: The context provides two statistics about Harbour's tempo: 11.2 passes per possession minute and 13.7 passes per possession minute. The response states that Harbour has increased their tempo from 11.2 to 13.7 passes per minute on the ball, which accurately reflects the data given. The response directly relates to the context, correctly interprets the numbers as an increase in tempo, and includes both relevant figures. There is no extraneous or incorrect information, and the response fully addresses the context with precise details. Therefore, the response is fully grounded and complete."
+  },
+  {
+   "seed": 107,
+   "system": "agents",
+   "title": "Early Goal Shifts Match Momentum",
+   "query": "Half-time talking point: Samir Osei scores (0.183 xG)",
+   "response": "Samir Osei scores early for Eastmoor Athletic, changing the game at 12 minutes. He capitalises on a superb cross from Ruben Novak. This chance had a quality rating of 0.183 xG, showing real precision. This goal puts Eastmoor ahead and sets the tone for the first half.",
+   "context": "Facts from the stats engine:\nchance quality, Samir Osei: 0.183 xG",
+   "score": 4.0,
+   "reason": "Let's think step by step: The context provides a single fact from the stats engine about a chance quality for Samir Osei, specifically a value of 0.183 xG. The response expands on this by describing an event where Samir Osei scores early for Eastmoor Athletic at 12 minutes, assisted by Ruben Novak, and links the chance quality of 0.183 xG to the goal. While the response adds narrative details about the timing, the assist, and the impact of the goal, these details are not present in the context and thus cannot be verified or grounded in the provided information. The only fact from the context used is the chance quality of 0.183 xG, which is correctly mentioned. Therefore, the response is partially correct but includes additional ungrounded information, making it incomplete and not fully grounded in the context. This fits best with a score of 4 (Partially Correct Response)."
+  },
+  {
+   "seed": 107,
+   "system": "agents",
+   "title": "Harbour City drops defensive line deep",
+   "query": "Half-time talking point: Harbour dropping deeper: line 37.9 m to 33.0 m",
+   "response": "At minute 36, Harbour City pulls their defensive line back from 37.9 m to 33 m. This deep block shift helps Eastmoor squeeze the pitch, pushing their field tilt up from 37.5% to 47.1%. Harbour’s deeper stance shows their struggle to control the game in this first half stage. Eastmoor now enjoys more pressure on Harbour's defence as they probe for openings.",
+   "context": "Facts from the stats engine:\nHarbour defensive line height: 37.9 m\nHarbour defensive line height: 33.0 m\nEastmoor field tilt: 37.5 %\nEastmoor field tilt: 47.1 %",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately references the specific data points given in the context, such as the Harbour defensive line height changing from 37.9 m to 33.0 m and the Eastmoor field tilt increasing from 37.5% to 47.1%. It also interprets these changes in a way consistent with the context, explaining the tactical implications of the defensive line shift and the increased field tilt. The response does not introduce any information outside the context and fully addresses the data provided. Therefore, it is a fully grounded and complete response."
+  },
+  {
+   "seed": 107,
+   "system": "agents",
+   "title": "Eastmoor doubles down on the right flank",
+   "query": "Half-time talking point: Eastmoor going down the right: 26.8% to 39.3% of attacks",
+   "response": "Eastmoor start the half with 26.8% of their attacks down the right side. Watch their right flank swarming with players in this crucial moment. In the last 10 minutes, those attacks spike to 39.3%. That’s 3 overload episodes on the right versus 2 earlier. Eastmoor are clearly pushing hard down this wing as we head into the break.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the right: 26.8 %\nEastmoor attacks down the right: 39.3 %\nEastmoor overloads on the right: 2 episodes\nEastmoor overloads on the right: 3 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the statistics given in the context. It mentions the initial 26.8% of attacks down the right side, the increase to 39.3% in the last 10 minutes, and the overload episodes increasing from 2 to 3. The response also adds a relevant interpretation about Eastmoor pushing hard down the right wing as the half progresses, which is a reasonable inference based on the data. There is no incorrect or unrelated information, and all key details from the context are included. Therefore, the response is fully grounded and complete."
+  },
+  {
+   "seed": 107,
+   "system": "rules",
+   "title": "The goal",
+   "query": "Half-time talking point: Samir Osei scores (0.183 xG)",
+   "response": "Samir Osei's goal, in the 12th minute. A chance worth 0.18 expected goals.",
+   "context": "Facts from the stats engine:\nchance quality, Samir Osei: 0.183 xG",
+   "score": 4.0,
+   "reason": "Let's think step by step: The context provides a specific statistic about Samir Osei's chance quality, quantified as 0.183 xG. The response mentions Samir Osei's goal in the 12th minute and describes the chance as worth 0.18 expected goals. The response is closely related to the context, referencing the same player and a similar xG value, though it rounds 0.183 down to 0.18. The response adds the detail of the goal timing (12th minute), which is not present in the context, but this does not contradict the context. The response is accurate in terms of the xG value and relevant to the context, but it slightly rounds the number and adds a detail not in the context. Overall, the response is mostly grounded in the context but is not fully complete as it introduces a timing detail not supported by the context and slightly rounds the xG value. Therefore, it is a partially correct response that captures the main information but is not fully complete or precise."
+  },
+  {
+   "seed": 107,
+   "system": "rules",
+   "title": "Running on empty",
+   "query": "Half-time talking point: Kwame Baptiste fading: top speed 26.1 to 21.0 km/h",
+   "response": "Keep an eye on Kwame Baptiste. His top speed has dropped from 26.1 to 21.0 kilometres an hour. His sprints are down from 11 to 0. Eastmoor will go at him.",
+   "context": "Facts from the stats engine:\nKwame Baptiste sprints: 11 sprints\nKwame Baptiste sprints: 0 sprints",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides only two data points about Kwame Baptiste's sprints: 11 sprints and 0 sprints. The response mentions a drop in sprints from 11 to 0, which aligns with the context. However, the response also includes information about a drop in top speed from 26.1 to 21.0 kilometres an hour and a statement about Eastmoor targeting him, neither of which is supported or mentioned in the context. Therefore, the response partially relates to the context but introduces unsupported and potentially incorrect information. This makes the response partially correct but incomplete and partially inaccurate."
+  },
+  {
+   "seed": 107,
+   "system": "rules",
+   "title": "Backs to the wall",
+   "query": "Half-time talking point: Harbour dropping deeper: line 37.9 m to 33.0 m",
+   "response": "Harbour have taken a step back. Their back line has dropped from 37.9 to 33.0 metres from goal. Eastmoor now have 47.1% of the passes in the final third.",
+   "context": "Facts from the stats engine:\nHarbour defensive line height: 37.9 m\nHarbour defensive line height: 33.0 m\nEastmoor field tilt: 37.5 %\nEastmoor field tilt: 47.1 %",
+   "score": 2.0,
+   "reason": "Let's think step by step: The response accurately reflects the context by noting that Harbour's defensive line height has dropped from 37.9 m to 33.0 m, which corresponds to the two given values for Harbour defensive line height. The response also mentions Eastmoor having 47.1% of the passes in the final third, which aligns with the second Eastmoor field tilt value of 47.1%. However, the response incorrectly interprets the 'Eastmoor field tilt' statistic as 'percentage of passes in the final third,' which is not supported by the context. Therefore, while the response is partially correct regarding Harbour's defensive line height, it introduces an inaccurate interpretation of Eastmoor's field tilt data. This mix of correct and incorrect information means the response attempts to relate to the context but contains incorrect information, making it unreliable."
+  },
+  {
+   "seed": 108,
+   "system": "agents",
+   "title": "Zielinski's Header Unlocks the Defense",
+   "query": "Half-time talking point: Oskar Zielinski scores (0.124 xG)",
+   "response": "Here it comes, a soaring header by Oskar Zielinski at 35 minutes! A precise cross from Pablo Zielinski sets it up perfectly. The chance quality here is 0.124, showing the danger of the shot. Eastmoor Athletic takes the lead and momentum swings their way.",
+   "context": "Facts from the stats engine:\nchance quality, Oskar Zielinski: 0.124 xG",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides a single fact from the stats engine about chance quality for Oskar Zielinski, specifically a value of 0.124 xG. The response expands on this by describing a specific event—a header by Oskar Zielinski at 35 minutes, assisted by Pablo Zielinski, and the resulting lead for Eastmoor Athletic. However, the context does not mention any event details such as the timing, the assist by Pablo Zielinski, the type of shot, or the match situation. The response introduces additional narrative elements and details not supported by the context. While the chance quality value of 0.124 is correctly mentioned, the rest of the information is not grounded in the provided context. Therefore, the response attempts to relate to the context but contains information not supported by it, making it partially inaccurate and adding extraneous details."
+  },
+  {
+   "seed": 108,
+   "system": "agents",
+   "title": "Eastmoor’s Left Flank Surge",
+   "query": "Half-time talking point: Eastmoor going down the left: 20.3% to 44.8% of attacks",
+   "response": "Eastmoor Athletic have shifted gears down the left side here at 41 minutes. Their share of attacks rises sharply from 20.3% to 44.8%, showing real intent. Notably, they’ve created 3 overload episodes on that flank, none before. This side could be key as the half unfolds. Keep your eyes there!",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the left: 20.3 %\nEastmoor attacks down the left: 44.8 %\nEastmoor overloads on the left: 0 episodes\nEastmoor overloads on the left: 3 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the data given in the context. It correctly notes the increase in Eastmoor's attacks down the left side from 20.3% to 44.8%, and it also correctly states the change in overload episodes from 0 to 3. The response adds some interpretative commentary about the significance of this shift, but it does not introduce any incorrect information or details not supported by the context. The response is complete and precise in conveying the key statistics provided. Therefore, it is fully grounded and complete based on the context."
+  },
+  {
+   "seed": 108,
+   "system": "agents",
+   "title": "Eastmoor Step Up The Press",
+   "query": "Half-time talking point: Eastmoor pressing higher: PPDA 9.8 to 6.2",
+   "response": "Eastmoor really raise their defensive game by minute 25. You can see PPDA drop from 9.8 to 6.2, showing more pressure on Harbour City's ball retention. Pressures climb from 1.2 to 2.2 per minute, with more foucs upfield. That pressure leads to fast turnover, like interception at 7 seconds seen in this clip.",
+   "context": "Facts from the stats engine:\nEastmoor PPDA: 9.8 passes per action\nEastmoor PPDA: 6.2 passes per action\nEastmoor pressures per minute: 1.2 per min\nEastmoor pressures per minute: 2.2 per min",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately references the PPDA values from the context, noting the drop from 9.8 to 6.2, which indicates increased defensive pressure. It also correctly mentions the increase in pressures per minute from 1.2 to 2.2, aligning with the context data. The response adds an interpretation about the pressure leading to fast turnovers and an interception at 7 seconds, which is not contradicted by the context but is additional information not provided in the context. However, this extra detail does not detract from the groundedness since it is a reasonable inference based on the data. Overall, the response is well anchored in the context, accurately reflecting the statistics and their implications without introducing incorrect information. Therefore, it is a fully grounded and complete response."
+  },
+  {
+   "seed": 108,
+   "system": "rules",
+   "title": "The goal",
+   "query": "Half-time talking point: Oskar Zielinski scores (0.124 xG)",
+   "response": "Oskar Zielinski's goal, in the 36th minute. A chance worth 0.12 expected goals.",
+   "context": "Facts from the stats engine:\nchance quality, Oskar Zielinski: 0.124 xG",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides a specific statistic about Oskar Zielinski's chance quality, quantified as 0.124 expected goals (xG). The response mentions Oskar Zielinski scoring a goal in the 36th minute and describes the chance as worth 0.12 expected goals. While the response relates to the context by referencing Oskar Zielinski and a chance's xG value, it introduces new information not present in the context, such as the goal timing and the fact that a goal was scored. Additionally, the xG value is slightly rounded down from 0.124 to 0.12, which is a minor detail but still a deviation. Since the response adds information not supported by the context and slightly alters the xG value, it contains inaccuracies relative to the provided data. Therefore, the response attempts to relate to the context but includes incorrect or unsupported information."
+  },
+  {
+   "seed": 108,
+   "system": "rules",
+   "title": "Down the left",
+   "query": "Half-time talking point: Eastmoor going down the left: 20.3% to 44.8% of attacks",
+   "response": "Eastmoor have made their plan obvious. Everything goes down the left. 44.8% of their final-third attacks start there, up from 20.3%. And they arrive with the extra man: 3 times in ten minutes.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the left: 20.3 %\nEastmoor attacks down the left: 44.8 %\nEastmoor overloads on the left: 0 episodes\nEastmoor overloads on the left: 3 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response states that Eastmoor's attacks down the left have increased from 20.3% to 44.8%, which matches the two percentages given in the context. It also mentions that Eastmoor arrives with an extra man 3 times in ten minutes, which corresponds to the 3 episodes of overloads on the left mentioned in the context. The response accurately reflects the data points provided, including the increase in attack percentage and the number of overload episodes. It also interprets the data by saying the plan is obvious and everything goes down the left, which is a reasonable conclusion based on the statistics. The response does not introduce any incorrect or unrelated information and covers all relevant details from the context. Therefore, it is a fully grounded and complete response."
+  },
+  {
+   "seed": 108,
+   "system": "rules",
+   "title": "The press is on",
+   "query": "Half-time talking point: Eastmoor pressing higher: PPDA 9.8 to 6.2",
+   "response": "Look at how Eastmoor have changed in the last ten minutes. They were allowing 9.8 passes per defensive action. Now it's 6.2. They're pressing higher, and Harbour have no time to play out.",
+   "context": "Facts from the stats engine:\nEastmoor PPDA: 9.8 passes per action\nEastmoor PPDA: 6.2 passes per action\nEastmoor pressures per minute: 1.2 per min\nEastmoor pressures per minute: 2.2 per min",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately references the two PPDA values from the context, noting the change from 9.8 to 6.2 passes per defensive action, which is directly supported by the context. It also mentions that Eastmoor is pressing higher, which aligns with the increase in pressures per minute from 1.2 to 2.2 per minute in the context. The comment about Harbour having no time to play out is an interpretation but is consistent with the increased pressing stats. The response fully captures the key details from the context without adding unrelated or incorrect information, making it a complete and precise summary of the data provided."
+  },
+  {
+   "seed": 109,
+   "system": "agents",
+   "title": "Castillo's Header Puts Eastmoor Ahead",
+   "query": "Half-time talking point: Mateo Castillo scores (0.27 xG)",
+   "response": "Here’s Mateo Castillo rising above the defence for a powerful header. That cross from Yusuf Mensah is perfectly timed and measured. With a chance quality of 0.27 xG, this goal shifts momentum to Eastmoor Athletic. At 25 minutes, Eastmoor take the lead and control the game now.",
+   "context": "Facts from the stats engine:\nchance quality, Mateo Castillo: 0.27 xG",
+   "score": 4.0,
+   "reason": "Let's think step by step: The context provides a single fact about Mateo Castillo's chance quality, specifically a value of 0.27 xG. The response mentions this exact chance quality value, which is accurate and directly grounded in the context. However, the response adds additional narrative details about a header, a cross from Yusuf Mensah, the timing at 25 minutes, and the impact on the game momentum and score. These details are not present in the context and thus cannot be verified or considered grounded. Since the response includes accurate information from the context but also adds ungrounded details, it is partially correct but incomplete and includes unsupported information. Therefore, the response is not fully grounded and complete, but it is not completely unrelated or incorrect either. The best fitting rating is 4 (Partially Correct Response)."
+  },
+  {
+   "seed": 109,
+   "system": "agents",
+   "title": "Eastmoor's Right Flank Attack Surge",
+   "query": "Half-time talking point: Eastmoor going down the right: 17.9% to 55.6% of attacks",
+   "response": "Watch Eastmoor Athletic pushing hard down the right flank as the half unfolds. Their share of attacks jumps from 17.9% to a dominant 55.6% by minute 30. They back it up with more final third actions and two clear overload episodes on that side. This picture shows the key runs and passes dominating their attack down the right wing.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the right: 17.9 %\nEastmoor attacks down the right: 55.6 %\nEastmoor overloads on the right: 0 episodes\nEastmoor overloads on the right: 2 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the statistics given in the context. It mentions Eastmoor's attacks down the right increasing from 17.9% to 55.6%, which matches the two percentages provided. It also references two overload episodes on the right, consistent with the context's '2 episodes' figure. The response adds some interpretive language about the timing ('by minute 30') and the nature of the attacks ('final third actions' and 'key runs and passes'), which are reasonable inferences based on the stats but do not contradict the context. The response does not mention the '0 episodes' overload figure, but since the context lists two different overload episode counts (0 and 2), the response correctly highlights the relevant number (2 episodes) that aligns with the increase in attacks. Overall, the response is fully grounded and complete with respect to the provided context."
+  },
+  {
+   "seed": 109,
+   "system": "agents",
+   "title": "Harbour City Shifts Defensive Line Deeper",
+   "query": "Half-time talking point: Harbour dropping deeper: line 39.0 m to 34.2 m",
+   "response": "At 20 minutes, Harbour City pulls back their defensive line from 39 m to 34.2 m. Eastmoor's field tilt rises from 23.5% to 42.9%, showing their growing control. Harbour are forced deeper as Eastmoor presses high and pushes forward. This is a tactical move to reduce space behind the defence and resist pressure.",
+   "context": "Facts from the stats engine:\nHarbour defensive line height: 39.0 m\nHarbour defensive line height: 34.2 m\nEastmoor field tilt: 23.5 %\nEastmoor field tilt: 42.9 %",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately references the specific data points given in the context, such as the Harbour defensive line height changing from 39.0 m to 34.2 m and Eastmoor field tilt increasing from 23.5% to 42.9%. It also provides an interpretation of these changes, explaining the tactical implications of Harbour pulling back their defensive line and Eastmoor's increased field tilt. While the tactical explanation is not explicitly stated in the context, it logically follows from the data and does not contradict it. The response is detailed and directly grounded in the provided statistics without introducing unrelated or incorrect information. Therefore, the response is fully grounded and complete based on the context."
+  },
+  {
+   "seed": 109,
+   "system": "rules",
+   "title": "The goal",
+   "query": "Half-time talking point: Rafael Castillo scores (0.239 xG)",
+   "response": "Rafael Castillo's goal, in the 8th minute. A chance worth 0.24 expected goals.",
+   "context": "Facts from the stats engine:\nchance quality, Rafael Castillo: 0.239 xG",
+   "score": 5.0,
+   "reason": "Let's think step by step: The context provides a specific statistic about Rafael Castillo's chance quality, quantified as 0.239 expected goals (xG). The response mentions Rafael Castillo's goal in the 8th minute and describes the chance as worth 0.24 expected goals. The response is closely aligned with the context's data, accurately reflecting the xG value (rounded from 0.239 to 0.24) and adding the detail that the chance resulted in a goal in the 8th minute. Although the context does not explicitly mention the timing or the outcome (goal), the response does not contradict the context and uses the xG value correctly. The response is relevant, accurate, and complete with respect to the xG data provided, and the slight rounding is acceptable. Therefore, the response is fully grounded and complete based on the context."
+  },
+  {
+   "seed": 109,
+   "system": "rules",
+   "title": "Down the right",
+   "query": "Half-time talking point: Eastmoor going down the right: 17.9% to 55.6% of attacks",
+   "response": "Eastmoor have made their plan obvious. Everything goes down the right. 55.6% of their final-third attacks start there, up from 17.9%. And they arrive with the extra man: 2 times in ten minutes.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the right: 17.9 %\nEastmoor attacks down the right: 55.6 %\nEastmoor overloads on the right: 0 episodes\nEastmoor overloads on the right: 2 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response states that Eastmoor's attacks down the right have increased from 17.9% to 55.6%, which matches the two percentages given in the context. It also mentions that Eastmoor arrives with an extra man 2 times in ten minutes, which corresponds to the '2 episodes' of overloads on the right in the context. However, the context shows two conflicting values for both attacks down the right (17.9% and 55.6%) and overloads on the right (0 episodes and 2 episodes), but the response correctly interprets these as a change or increase. The response accurately reflects the data and provides a clear interpretation without adding unrelated information. Therefore, the response is fully grounded and complete based on the context."
+  },
+  {
+   "seed": 109,
+   "system": "rules",
+   "title": "Backs to the wall",
+   "query": "Half-time talking point: Harbour dropping deeper: line 39.0 m to 34.2 m",
+   "response": "Harbour have taken a step back. Their back line has dropped from 39.0 to 34.2 metres from goal. Eastmoor now have 42.9% of the passes in the final third.",
+   "context": "Facts from the stats engine:\nHarbour defensive line height: 39.0 m\nHarbour defensive line height: 34.2 m\nEastmoor field tilt: 23.5 %\nEastmoor field tilt: 42.9 %",
+   "score": 2.0,
+   "reason": "Let's think step by step: The response accurately reflects the context by stating that Harbour's defensive line has dropped from 39.0 to 34.2 meters, which matches the two given defensive line heights. However, the response mentions that Eastmoor now have 42.9% of the passes in the final third, which is not supported by the context. The context only provides Eastmoor field tilt percentages (23.5% and 42.9%), but does not mention anything about passes in the final third. Therefore, the response contains some correct information but also includes an unsupported and potentially incorrect detail about Eastmoor's passes. This makes the response partially correct but incomplete and somewhat inaccurate."
+  },
+  {
+   "seed": 110,
+   "system": "agents",
+   "title": "Zielinski's header breaks the deadlock",
+   "query": "Half-time talking point: Dario Zielinski scores (0.215 xG)",
+   "response": "Here it is — Dario Zielinski connects solidly with a header just past minute 38. A precise delivery from the left wing sets him up perfectly. That chance had a 0.215 xG, reflecting a well-crafted opportunity. This goal clearly defined the half's rhythm and dominance shifts.",
+   "context": "Facts from the stats engine:\nchance quality, Dario Zielinski: 0.215 xG",
+   "score": 4.0,
+   "reason": "Let's think step by step: The context provides a single fact about Dario Zielinski's chance quality with an xG value of 0.215. The response expands on this by describing a specific event where Zielinski connects with a header just past minute 38, mentioning a precise delivery from the left wing and that the chance had a 0.215 xG. It also adds commentary about the goal defining the half's rhythm and dominance shifts. While the response is consistent with the xG value given in the context and relates directly to Dario Zielinski's chance, it introduces additional details (timing, type of play, and impact on the game) that are not present in the context. Since the evaluation is based exclusively on the provided context, these extra details cannot be verified and thus reduce the groundedness. However, the core fact about the 0.215 xG chance quality is accurately reflected. Therefore, the response is partially correct but incomplete and includes unverifiable information beyond the context."
+  },
+  {
+   "seed": 110,
+   "system": "agents",
+   "title": "The press is on",
+   "query": "Half-time talking point: Eastmoor pressing higher: PPDA 7.7 to 5.7",
+   "response": "Look at how Eastmoor have changed in the last ten minutes. They were allowing 7.7 passes per defensive action. Now it's 5.7. They're pressing higher, and Harbour have no time to play out.",
+   "context": "Facts from the stats engine:\nEastmoor PPDA: 7.7 passes per action\nEastmoor PPDA: 5.7 passes per action\nEastmoor pressures per minute: 1.8 per min\nEastmoor pressures per minute: 5.4 per min",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately references the statistics provided in the context, specifically the change in Eastmoor's PPDA from 7.7 to 5.7 passes per defensive action, which is directly supported by the context. It also mentions that Eastmoor is pressing higher, which aligns with the increase in pressures per minute from 1.8 to 5.4 per minute in the context. The response adds that Harbour have no time to play out, which is a reasonable interpretation of the increased pressing but is not explicitly stated in the context. Overall, the response is well grounded in the context, correctly reflecting the key statistics and their implications, though it slightly extends interpretation with the Harbour comment. This extension is a logical inference rather than unrelated or incorrect information, so it does not detract from the groundedness. Therefore, the response is fully grounded and complete based on the provided context."
+  },
+  {
+   "seed": 110,
+   "system": "agents",
+   "title": "Harbour City ramps up attacks on the left",
+   "query": "Half-time talking point: Harbour going down the left: 21.0% to 36.8% of attacks",
+   "response": "At 36 minutes, Harbour City shifts tactics, increasing attacks on their left wing from 21% to 36.8%. This tactical switch includes adding 2 overload episodes to press harder down that side. The picture shows Harbour City flooding the left flank, expanding their attack wider than before. This left-side pressure could dictate play as the half progresses, setting the stage for Harbour's next move.",
+   "context": "Facts from the stats engine:\nHarbour attacks down the left: 21.0 %\nHarbour attacks down the left: 36.8 %\nHarbour overloads on the left: 0 episodes\nHarbour overloads on the left: 2 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The context provides specific statistics about Harbour's attacks and overloads on the left side, with two sets of percentages (21.0% and 36.8%) and overload episodes (0 and 2). The response accurately reflects these details by stating that Harbour City increased attacks on their left wing from 21% to 36.8% at 36 minutes and added 2 overload episodes, which aligns with the context. The response also adds interpretative commentary about the tactical switch and potential impact on play, which is a reasonable inference based on the data but does not contradict or add unsupported facts. The response is thorough, precise, and fully grounded in the provided context without introducing unrelated or incorrect information. Therefore, it meets the criteria for a fully grounded and complete response."
+  },
+  {
+   "seed": 110,
+   "system": "rules",
+   "title": "The goal",
+   "query": "Half-time talking point: Dario Zielinski scores (0.215 xG)",
+   "response": "Dario Zielinski's goal, in the 38th minute. A chance worth 0.21 expected goals.",
+   "context": "Facts from the stats engine:\nchance quality, Dario Zielinski: 0.215 xG",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides a specific statistic about Dario Zielinski's chance quality with an expected goals (xG) value of 0.215. The response mentions a goal by Dario Zielinski in the 38th minute and refers to a chance worth 0.21 expected goals. The response is related to the context and attempts to use the xG value, but it slightly rounds the xG value down from 0.215 to 0.21 and adds the detail about the goal timing, which is not present in the context. Since the response introduces information not supported by the context (the goal timing) and slightly alters the xG value, it is not fully grounded. However, it is not completely incorrect or unrelated. Therefore, the response attempts to relate to the context but contains some inaccuracies and additional unsupported details."
+  },
+  {
+   "seed": 110,
+   "system": "rules",
+   "title": "Running on empty",
+   "query": "Half-time talking point: Dario Yilmaz fading: top speed 26.8 to 19.9 km/h",
+   "response": "Keep an eye on Dario Yilmaz. His top speed has dropped from 26.8 to 19.9 kilometres an hour. His sprints are down from 7 to 0. Harbour will go at him.",
+   "context": "Facts from the stats engine:\nDario Yilmaz sprints: 7 sprints\nDario Yilmaz sprints: 0 sprints",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context provides only the number of sprints by Dario Yilmaz, showing 7 sprints and 0 sprints, but it does not mention any top speed values or changes in speed. The response adds information about a drop in top speed from 26.8 to 19.9 km/h, which is not supported or mentioned in the context. The response correctly states the drop in sprints from 7 to 0, which aligns with the context. However, the inclusion of unsupported speed data makes the response partially incorrect. Therefore, the response attempts to relate to the context but contains incorrect information not supported by the context."
+  },
+  {
+   "seed": 110,
+   "system": "rules",
+   "title": "The press is on",
+   "query": "Half-time talking point: Eastmoor pressing higher: PPDA 7.7 to 5.7",
+   "response": "Look at how Eastmoor have changed in the last ten minutes. They were allowing 7.7 passes per defensive action. Now it's 5.7. They're pressing higher, and Harbour have no time to play out.",
+   "context": "Facts from the stats engine:\nEastmoor PPDA: 7.7 passes per action\nEastmoor PPDA: 5.7 passes per action\nEastmoor pressures per minute: 1.8 per min\nEastmoor pressures per minute: 5.4 per min",
+   "score": 4.0,
+   "reason": "Let's think step by step: The response directly references the statistics provided in the context, specifically the change in Eastmoor's PPDA from 7.7 to 5.7 passes per defensive action, which is accurate and grounded in the context. It also mentions that Eastmoor is pressing higher, which aligns with the increase in pressures per minute from 1.8 to 5.4, although this specific numeric detail is not explicitly stated in the response. The response adds an interpretation that Harbour has no time to play out, which is a reasonable inference based on the increased pressing but is not explicitly stated in the context. Overall, the response is accurate and relevant to the context, capturing the key changes in Eastmoor's defensive actions, but it omits the exact pressures per minute figures and adds a slight interpretation. Therefore, it is a partially correct response that is mostly grounded but not fully complete with all details from the context."
+  },
+  {
+   "seed": 111,
+   "system": "agents",
+   "title": "Eastmoor's Left Flank Revolution",
+   "query": "Half-time talking point: Eastmoor going down the left: 14.3% to 58.3% of attacks",
+   "response": "Eastmoor Athletic is really ramping up pressure on the left flank. They move attacks from just 14.3% early on to a huge 58.3% by the 18th minute. Overloads on that flank jump from none to 3 in the last 10 minutes, showing real dominance. Watch how the players position and make that key pass to push forward hard on the left.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the left: 14.3 %\nEastmoor attacks down the left: 58.3 %\nEastmoor overloads on the left: 0 episodes\nEastmoor overloads on the left: 3 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the statistics given in the context. It correctly notes the increase in Eastmoor's attacks down the left from 14.3% to 58.3%, and the increase in overloads on the left from 0 to 3 episodes. The response also adds some interpretation about the timing (by the 18th minute and last 10 minutes) which aligns with the context's implication of change over time. The additional commentary about player positioning and key passes is a reasonable inference based on the data about increased attacks and overloads, and does not contradict the context. Therefore, the response is fully grounded and complete with respect to the provided context."
+  },
+  {
+   "seed": 111,
+   "system": "agents",
+   "title": "Eastmoor Athletic intensify pressing",
+   "query": "Half-time talking point: Eastmoor pressing higher: PPDA 12.4 to 7.5",
+   "response": "At minute 23, Eastmoor Athletic ramp up their press. PPDA drops from 12.4 to 7.5, meaning fewer passes per defensive action. Pressures per minute slightly dip from 2 to 1.7, holding steady in the opponent's half at 9. This pressure creates turnovers like the one seen here, high up the pitch. Eastmoor fans should relish this aggressive approach pressing for control.",
+   "context": "Facts from the stats engine:\nEastmoor PPDA: 12.4 passes per action\nEastmoor PPDA: 7.5 passes per action\nEastmoor pressures per minute: 2.0 per min\nEastmoor pressures per minute: 1.7 per min",
+   "score": 4.0,
+   "reason": "Let's think step by step: The response references the PPDA values of 12.4 and 7.5 from the context accurately, explaining that a drop in PPDA means fewer passes per defensive action, which aligns with the context. It also mentions pressures per minute dropping from 2.0 to 1.7, which matches the context data. However, the response adds information about pressures holding steady in the opponent's half at 9 and the creation of turnovers, which are not supported or mentioned in the provided context. Therefore, while the response is mostly accurate and relevant to the context, it introduces some unsupported details, making it partially correct but incomplete and somewhat speculative. Hence, the response is grounded but not fully grounded and complete."
+  },
+  {
+   "seed": 111,
+   "system": "agents",
+   "title": "Harbour City increases passing tempo",
+   "query": "Half-time talking point: Harbour moving it quicker: 11.3 to 13.7 passes a minute on the ball",
+   "response": "Harbour City starts the match moving the ball at 11.3 passes a minute. By minute 36, they speed up to 13.7 passes per minute on the ball. This rise points to a faster rhythm and more attacking threat. Look at how quickly they now move the ball in this sequence of rapid passes.",
+   "context": "Facts from the stats engine:\nHarbour tempo: 11.3 passes per possession minute\nHarbour tempo: 13.7 passes per possession minute",
+   "score": 5.0,
+   "reason": "Let's think step by step: The context provides two data points about Harbour tempo: 11.3 passes per possession minute and 13.7 passes per possession minute. The response accurately references these two values, stating that Harbour City starts at 11.3 passes per minute and increases to 13.7 passes per minute by minute 36. The response also interprets this increase as a faster rhythm and more attacking threat, which is a reasonable inference based on the tempo increase. The response adds a comment about a sequence of rapid passes, which is not explicitly in the context but is a plausible elaboration related to the tempo increase. Overall, the response is fully grounded in the context, accurately conveying the data and providing a complete explanation without introducing incorrect information. Therefore, the response is fully grounded and complete."
+  },
+  {
+   "seed": 111,
+   "system": "rules",
+   "title": "Down the left",
+   "query": "Half-time talking point: Eastmoor going down the left: 14.3% to 58.3% of attacks",
+   "response": "Eastmoor have made their plan obvious. Everything goes down the left. 58.3% of their final-third attacks start there, up from 14.3%. And they arrive with the extra man: 3 times in ten minutes.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the left: 14.3 %\nEastmoor attacks down the left: 58.3 %\nEastmoor overloads on the left: 0 episodes\nEastmoor overloads on the left: 3 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response states that Eastmoor's attacks go down the left side, with 58.3% of their final-third attacks starting there, up from 14.3%. This matches the context's statistics exactly. The response also mentions that Eastmoor arrives with an extra man 3 times in ten minutes, which corresponds to the '3 episodes' of overloads on the left side in the context. The response accurately reflects the data given, including the increase in attack percentage and the overload episodes, without adding unrelated or incorrect information. Therefore, the response is fully grounded and complete based on the context."
+  },
+  {
+   "seed": 111,
+   "system": "rules",
+   "title": "Faster, faster",
+   "query": "Half-time talking point: Harbour moving it quicker: 11.3 to 13.7 passes a minute on the ball",
+   "response": "Harbour have turned up the tempo. From 11.3 to 13.7 passes for every minute on the ball.",
+   "context": "Facts from the stats engine:\nHarbour tempo: 11.3 passes per possession minute\nHarbour tempo: 13.7 passes per possession minute",
+   "score": 5.0,
+   "reason": "Let's think step by step: The context provides two specific statistics about Harbour's tempo: 11.3 passes per possession minute and 13.7 passes per possession minute. The response accurately reflects these numbers and correctly interprets the change as an increase in tempo, stating that Harbour has turned up the tempo from 11.3 to 13.7 passes per minute. The response is directly grounded in the context, includes all relevant details, and does not introduce any unrelated or incorrect information. Therefore, it is a fully grounded and complete response."
+  },
+  {
+   "seed": 111,
+   "system": "rules",
+   "title": "Backs to the wall",
+   "query": "Half-time talking point: Harbour dropping deeper: line 42.0 m to 37.5 m",
+   "response": "Harbour have taken a step back. Their back line has dropped from 42.0 to 37.5 metres from goal. Eastmoor now have 21.1% of the passes in the final third.",
+   "context": "Facts from the stats engine:\nHarbour defensive line height: 42.0 m\nHarbour defensive line height: 37.5 m\nEastmoor field tilt: 23.8 %\nEastmoor field tilt: 21.1 %",
+   "score": 2.0,
+   "reason": "Let's think step by step: The response accurately reflects the information given in the context about the Harbour defensive line height dropping from 42.0 m to 37.5 m. However, the response states that Eastmoor now have 21.1% of the passes in the final third, which is not supported by the context. The context provides Eastmoor field tilt percentages (23.8% and 21.1%) but does not mention anything about passes in the final third. Therefore, the response includes an incorrect interpretation or addition of information not grounded in the context. This makes the response an attempt to relate to the context but containing incorrect information."
+  },
+  {
+   "seed": 112,
+   "system": "agents",
+   "title": "Viktor Sato Breaks the Deadlock",
+   "query": "Half-time talking point: Viktor Sato scores (0.15 xG)",
+   "response": "At just 12, Viktor Sato rises to meet Lars Vidal's cross. The header finds the net, a solid finish with 0.15 xG. This goal sets the tone for Eastmoor Athletic's pressure. Harbour City will need to respond quickly now.",
+   "context": "Facts from the stats engine:\nchance quality, Viktor Sato: 0.15 xG",
+   "score": 4.0,
+   "reason": "Let's think step by step: The context provides a single fact from the stats engine about Viktor Sato's chance quality, specifically an expected goals (xG) value of 0.15. The response expands on this by describing a scenario where Viktor Sato, at age 12, scores a header from a cross by Lars Vidal, linking the goal to the 0.15 xG value mentioned in the context. It also adds narrative elements about the impact of the goal on the game and the opposing team needing to respond. While the response is consistent with the xG value given, it introduces additional details (age, the assist from Lars Vidal, the game situation) that are not present in the context. The response is relevant and accurate regarding the xG figure but includes information beyond the provided context, which means it is not fully grounded solely in the context. Therefore, the response is partially correct but incomplete and includes extra details not supported by the context."
+  },
+  {
+   "seed": 112,
+   "system": "agents",
+   "title": "Eastmoor's Left Flank Surge",
+   "query": "Half-time talking point: Eastmoor going down the left: 26.9% to 83.3% of attacks",
+   "response": "At 33 minutes, Eastmoor has massively shifted its attack down the left side. Their left flank attacks soar from 26.9% up to 83.3% in the last 10 minutes. No overloads early on, but in the last 10 minutes they mount 2 clear flank overloads. You see here player near the ball, pushing numbers to stretch Harbour City's defence.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the left: 26.9 %\nEastmoor attacks down the left: 83.3 %\nEastmoor overloads on the left: 0 episodes\nEastmoor overloads on the left: 2 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately reflects the statistics given in the context. It correctly states that Eastmoor's attacks down the left increased from 26.9% to 83.3%, which matches the context data. It also correctly notes that there were no overloads early on and that there were 2 overload episodes in the last 10 minutes, consistent with the context. The response adds a bit of interpretation about a player near the ball pushing numbers to stretch the defense, which is a reasonable inference based on the overloads mentioned. Overall, the response is fully grounded in the context, accurately conveying all relevant details without introducing incorrect or unrelated information."
+  },
+  {
+   "seed": 112,
+   "system": "agents",
+   "title": "Harbour City steps up pressing in first half",
+   "query": "Half-time talking point: Harbour pressing higher: PPDA 4.3 to 2.6",
+   "response": "Harbour City presses intensely, lowering PPDA from 4.3 to 2.6 at minute 27. This means they allow fewer passes before applying pressure, forcing errors early. The high press leads to an interception near Eastmoor's right center-back within seconds. Fans will love this confident, attacking approach putting Eastmoor under immediate pressure.",
+   "context": "Facts from the stats engine:\nHarbour PPDA: 4.3 passes per action\nHarbour PPDA: 2.6 passes per action\nHarbour pressures per minute: 4.65 per min\nHarbour pressures per minute: 4.6 per min",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response accurately references the PPDA values from the context, noting the decrease from 4.3 to 2.6, which aligns with the provided stats. It correctly interprets that a lower PPDA means fewer passes allowed before pressure is applied, which is consistent with the context. The response also mentions the high press leading to an interception near Eastmoor's right center-back, which is a logical inference based on the pressure stats, though this specific event is not explicitly stated in the context. The mention of fans loving the confident, attacking approach is an interpretation beyond the raw data but does not contradict the context. The response includes all relevant numerical details from the context and explains their significance, making it thorough and well-grounded. Therefore, the response is fully grounded and complete with minor extrapolation that does not detract from accuracy."
+  },
+  {
+   "seed": 112,
+   "system": "rules",
+   "title": "The goal",
+   "query": "Half-time talking point: Arlo Pereira scores (0.065 xG)",
+   "response": "Arlo Pereira's goal, in the 38th minute. A chance worth 0.07 expected goals.",
+   "context": "Facts from the stats engine:\nchance quality, Arlo Pereira: 0.065 xG",
+   "score": 2.0,
+   "reason": "Let's think step by step: The context states that Arlo Pereira has a chance quality of 0.065 xG. The response mentions Arlo Pereira's goal in the 38th minute with a chance worth 0.07 expected goals. While the response is related to the context and attempts to use the xG value, it introduces a slightly different xG value (0.07 instead of 0.065) and adds the detail of a goal in the 38th minute, which is not present in the context. Therefore, the response is somewhat related but contains information not supported by the context and a minor discrepancy in the xG value. This makes the response an attempt to respond but with incorrect or unsupported information."
+  },
+  {
+   "seed": 112,
+   "system": "rules",
+   "title": "Down the left",
+   "query": "Half-time talking point: Eastmoor going down the left: 26.9% to 83.3% of attacks",
+   "response": "Eastmoor have made their plan obvious. Everything goes down the left. 83.3% of their final-third attacks start there, up from 26.9%. And they arrive with the extra man: 2 times in ten minutes.",
+   "context": "Facts from the stats engine:\nEastmoor attacks down the left: 26.9 %\nEastmoor attacks down the left: 83.3 %\nEastmoor overloads on the left: 0 episodes\nEastmoor overloads on the left: 2 episodes",
+   "score": 5.0,
+   "reason": "Let's think step by step: The response states that Eastmoor's attacks go down the left side, with 83.3% of their final-third attacks starting there, up from 26.9%. This matches the context which shows Eastmoor attacks down the left at 26.9% and 83.3%. The response also mentions that Eastmoor arrives with an extra man 2 times in ten minutes, which corresponds to the context's 'Eastmoor overloads on the left: 2 episodes'. However, the context also includes 'Eastmoor overloads on the left: 0 episodes', which is contradictory, but the response only mentions the 2 episodes, not the 0. The response is accurate and includes the key details from the context, including the increase in attack percentage and the overload episodes. It does not mention the contradictory 0 episodes, but the response is consistent with the majority of the data and does not introduce unrelated or incorrect information. Therefore, the response is fully grounded and complete based on the provided context."
+  },
+  {
+   "seed": 112,
+   "system": "rules",
+   "title": "The press is on",
+   "query": "Half-time talking point: Eastmoor pressing higher: PPDA 8.8 to 5.6",
+   "response": "Look at how Eastmoor have changed in the last ten minutes. They were allowing 8.8 passes per defensive action. Now it's 5.6. They're pressing higher, and Harbour have no time to play out.",
+   "context": "Facts from the stats engine:\nEastmoor PPDA: 8.8 passes per action\nEastmoor PPDA: 5.6 passes per action\nEastmoor pressures per minute: 1.75 per min\nEastmoor pressures per minute: 1.7 per min",
+   "score": 4.0,
+   "reason": "Let's think step by step: The response directly references the statistics given in the context, specifically the change in Eastmoor's PPDA from 8.8 to 5.6 passes per defensive action, which is accurate and grounded in the context. It also mentions that Eastmoor is pressing higher, which aligns with the decrease in PPDA, indicating more aggressive pressing. The response adds that Harbour have no time to play out, which is a reasonable interpretation of the pressing data, though this specific detail is not explicitly stated in the context. However, the response does not mention the pressures per minute data provided in the context, which could have added completeness. Overall, the response is accurate and relevant but slightly incomplete as it omits some context details."
+  }
+ ]
+}
