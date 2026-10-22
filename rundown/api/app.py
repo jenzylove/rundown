@@ -6,6 +6,8 @@
 from __future__ import annotations
 
 import asyncio
+import json
+import time
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
@@ -20,6 +22,7 @@ from .runs import RunManager
 app = FastAPI(title="Rundown")
 runs = RunManager()
 WEB = Path(__file__).resolve().parents[2] / "web" / "dist"
+EVALS = Path(__file__).resolve().parents[2] / "docs" / "evals"
 
 
 @app.on_event("startup")
@@ -34,14 +37,20 @@ class NewRun(BaseModel):
 
 @app.get("/api/health")
 def health():
-    return dict(ok=True, runs=len(runs.runs), crew="agents" if runs.models() else "rules", voice=voice.configured())
+    a = runs.archive
+    return dict(ok=runs.bus is not None, runs=len(runs.runs), crew="agents" if runs.models() else "rules",
+                voice=voice.configured(), stream=runs.bus.name if runs.bus else f"down ({runs.bus_error})",
+                store=a.name, store_errors=a.errors, store_last_error=a.last_error)
 
 
 @app.post("/api/runs")
 def create_run(body: NewRun):
     if not 1 <= body.speed <= 32:
         raise HTTPException(400, "speed must be 1-32")
-    run = runs.create(body.seed, body.speed)
+    try:
+        run = runs.create(body.seed, body.speed)
+    except RuntimeError as e:
+        raise HTTPException(503, str(e))
     return run.snapshot()
 
 
@@ -66,10 +75,7 @@ def skip_to_half_time(run_id: str):
 
 @app.post("/api/runs/{run_id}/second-half")
 def second_half(run_id: str):
-    run = _get(run_id)
-    if run.status == "half_time":
-        run.status = "second_half"
-    return dict(status=run.status)
+    return dict(status=runs.second_half(_get(run_id)))
 
 
 @app.get("/api/runs/{run_id}/rundown")
@@ -176,6 +182,50 @@ async def stream(ws: WebSocket, run_id: str):
         pass
     finally:
         run.subscribers.remove(q)
+
+
+# ---- /proof: what each run did, live from memory or replayed from the archive ----
+
+def _light(rundown: dict) -> dict:
+    """A rundown without its tracking frames, which /proof doesn't draw."""
+    return dict(rundown, segments=[dict(s, clip={k: v for k, v in s["clip"].items() if k != "frames"})
+                                   for s in rundown["segments"]])
+
+
+@app.get("/api/proof/runs")
+def proof_runs():
+    live = [dict(runs.summary(r), live=True) for r in sorted(runs.runs.values(), key=lambda r: -r.started_at)]
+    seen = {r["runId"] for r in live}
+    error = None
+    try:
+        past = [dict(r, live=False) for r in runs.archive.runs(30) if r["runId"] not in seen]
+    except Exception as e:  # the archive can't be read: say so, and still show the live runs
+        past, error = [], f"{type(e).__name__}: {str(e)[:200]}"
+    for r in live:
+        r.pop("feed"), r.pop("candidates")
+    return dict(store=runs.archive.name, error=error, now=time.time(), runs=live + past)
+
+
+@app.get("/api/proof/runs/{run_id}")
+def proof_run(run_id: str):
+    run = runs.runs.get(run_id)
+    if run:
+        return dict(live=True, now=time.time(), run=runs.summary(run), trail=run.store.trail,
+                    rundowns={f"{c}|{l}": _light(r) for (c, l), r in run.rundowns.items()})
+    try:
+        saved = runs.archive.load(run_id)
+    except Exception as e:
+        raise HTTPException(502, f"the archive can't be read ({type(e).__name__})")
+    if not saved:
+        raise HTTPException(404, "no such run")
+    return dict(live=False, now=time.time(), run=saved["run"], trail=saved["trail"],
+                rundowns={k: _light(r) for k, r in saved["rundowns"].items()})
+
+
+@app.get("/api/proof/evals")
+def proof_evals():
+    """The published eval summaries (raw files in docs/evals)."""
+    return {f.stem: json.loads(f.read_text())["summary"] for f in sorted(EVALS.glob("*.json"))}
 
 
 if WEB.exists():

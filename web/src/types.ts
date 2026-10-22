@@ -58,7 +58,7 @@ export interface TrailItem {
 export interface CrewInfo { mode: 'agents' | 'rules'; model: string | null; killed: string[] }
 
 export interface RunSnapshot {
-  id: string; seed: number; speed: number; status: string; clock: number; period: number
+  id: string; seed: number; speed: number; status: string; error?: string | null; clock: number; period: number
   score: [number, number]; meta: Meta; feed: FeedItem[]; candidates: Candidate[]
   locked_at: number | null; whistle_at: number | null; crew: CrewInfo
 }

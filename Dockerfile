@@ -16,7 +16,8 @@ WORKDIR /app
 COPY pyproject.toml ./
 COPY rundown/ rundown/
 COPY schema/ schema/
-RUN pip install --no-cache-dir ".[api,agents]"
+COPY docs/evals/ docs/evals/
+RUN pip install --no-cache-dir ".[api,agents,azure]"
 COPY --from=web /web/dist web/dist
 ENV PYTHONUNBUFFERED=1
 EXPOSE 8000

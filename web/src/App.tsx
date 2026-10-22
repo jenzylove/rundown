@@ -52,7 +52,7 @@ export default function App() {
     try {
       wsRef.current?.close()
       const r = await fetch('/api/runs', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ seed, speed: 8 }) })
-      if (!r.ok) throw new Error(`Could not start a match (${r.status})`)
+      if (!r.ok) throw new Error(`Could not start a match: ${(await r.json().catch(() => ({}))).detail ?? r.status}`)
       const snap: RunSnapshot = await r.json()
       setRun(snap); setFeed([]); setTrail([]); setPicks([]); setRundown(null); setDecisions({}); setStatus(snap.status)
       setScore([0, 0]); setView('live'); eventsRef.current = []; frameRef.current = null
@@ -72,7 +72,10 @@ export default function App() {
         } else if (msg.type === 'feed') setFeed(f => [...f, msg.item].slice(-80))
         else if (msg.type === 'trail') setTrail(t => [...t, msg.item].slice(-40))
         else if (msg.type === 'provisional') setPicks(msg.picks)
-        else if (msg.type === 'status') setStatus(msg.status)
+        else if (msg.type === 'status') {
+          setStatus(msg.status)
+          if (msg.status === 'failed') setError(`This match stopped: ${msg.error ?? 'the match stream failed'}. Start a new match.`)
+        }
         else if (msg.type === 'rundown') { setRundown(msg.rundown); setStatus('half_time') }
         else if (msg.type === 'snapshot') setFeed(msg.run.feed)
       }
@@ -125,6 +128,7 @@ export default function App() {
           <span className="club"><i style={{ background: run.meta.away.colour }} />{run.meta.away.short}</span>
           <span className="clock">{status === 'half_time' ? 'HT' : clockText(clock.t, clock.period)}</span>
         </div>}
+        <nav className="nav"><a href={run ? `/proof?run=${run.id}` : '/proof'}>Proof</a></nav>
         <div className="actions">
           {status === 'first_half' && <button onClick={skip} className="ghost">Skip to half-time</button>}
           <button onClick={() => start()} disabled={busy}>New match</button>
