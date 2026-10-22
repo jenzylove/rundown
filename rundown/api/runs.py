@@ -323,6 +323,7 @@ class RunManager:
                 if new:
                     run.crew.analyse(md, new)
                 run.crew.draft(md, [c for c in run.candidates.values() if c.period == 1], t)
+        self.save(run)  # each match minute, so a replay shows how far a run got
 
     def _half_time(self, run: Run):
         run.status = "half_time"

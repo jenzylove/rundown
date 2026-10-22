@@ -85,7 +85,7 @@ class CosmosArchive(MemoryArchive):
 
     def runs(self, limit: int = 20) -> list[dict]:
         q = ("SELECT TOP @n c.runId, c.seed, c.status, c.started_at, c.whistle_at, c.locked_at, c.score, "
-             "c.clubs, c.crew, c.stream FROM c WHERE c.type = 'run' ORDER BY c.started_at DESC")
+             "c.clubs, c.crew, c.stream, c.clock FROM c WHERE c.type = 'run' ORDER BY c.started_at DESC")
         return list(self.docs.query_items(q, parameters=[dict(name="@n", value=limit)],
                                           enable_cross_partition_query=True))
 

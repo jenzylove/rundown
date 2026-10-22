@@ -27,6 +27,14 @@ function ago(t: number, now: number) {
   return `${Math.round(s / 86400)} d ago`
 }
 
+/** A replay that never reached full time stopped when it left the server (a restart or a deploy). */
+function statusText(r: RunSummary, live: boolean) {
+  const s = STATUS_LABEL[r.status] ?? r.status
+  if (live || r.status === 'full_time' || r.status === 'failed') return s
+  if (r.status === 'half_time') return 'stopped at half-time'
+  return `stopped in the ${s.toLowerCase()}${r.clock ? ` at ${Math.floor(r.clock / 60)}'` : ''}`
+}
+
 function matchLine(r: RunSummary) {
   const [h, a] = r.clubs
   return `${h.short} ${r.score[0]}–${r.score[1]} ${a.short}`
@@ -118,7 +126,7 @@ export default function Proof() {
               <button className={`run-item ${selected === r.runId ? 'on' : ''}`} onClick={() => setSelected(r.runId)}>
                 <span className={`tag ${r.live ? 'tag-live' : ''}`}>{r.live ? 'Live' : 'Replay'}</span>
                 <b>{matchLine(r)}</b>
-                <span className="muted small">Seed {r.seed} · {STATUS_LABEL[r.status] ?? r.status} · {ago(r.started_at, list.now)}</span>
+                <span className="muted small">Seed {r.seed} · {statusText(r, r.live)} · {ago(r.started_at, list.now)}</span>
               </button>
             </li>)}
           </ul>
@@ -148,7 +156,7 @@ function RunDetail({ d, kill }: { d: Detail; kill: (role: string) => void }) {
     <div className="detail-head">
       <h2>{matchLine(r)}</h2>
       <span className={`tag ${d.live ? 'tag-live' : ''}`}>{d.live ? 'Live' : 'Replay'}</span>
-      <span className="muted">Seed {r.seed} · {STATUS_LABEL[r.status] ?? r.status}</span>
+      <span className="muted">Seed {r.seed} · {statusText(r, d.live)}</span>
     </div>
     {r.error && <div className="error" role="alert">{r.error}</div>}
 
