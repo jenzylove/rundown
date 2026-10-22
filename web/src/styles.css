@@ -199,6 +199,7 @@ a.mark { text-decoration: none; color: var(--ink); }
 .evals > p { max-width: 760px; }
 .eval-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
 .eval td { font-family: "IBM Plex Mono", monospace; }
+.eval td:first-child { font-family: Barlow, system-ui, sans-serif; white-space: normal; min-width: 180px; }
 code.inline { display: inline; }
 
 @media (max-width: 980px) {

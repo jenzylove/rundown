@@ -50,7 +50,7 @@ export default function Proof() {
   const [list, setList] = useState<{ store: string; error: string | null; now: number; runs: RunSummary[] } | null>(null)
   const [selected, setSelected] = useState<string | null>(() => new URLSearchParams(location.search).get('run'))
   const [detail, setDetail] = useState<Detail | null>(null)
-  const [evals, setEvals] = useState<Record<string, EvalSummary> | null>(null)
+  const [evals, setEvals] = useState<Record<string, unknown> | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [starting, setStarting] = useState(false)
 
@@ -243,25 +243,72 @@ function Trail({ trail, t0 }: { trail: TrailItem[]; t0: number }) {
   </>
 }
 
-function Evals({ evals }: { evals: Record<string, EvalSummary> }) {
+interface SystemScore {
+  rundowns: number; segments: number; stories_aired: number; relevant: number; grounded: number; facts_checked: number
+  slot_error_median_s: number; slot_error_max_s: number; lock_median_s?: number; lock_max_s?: number
+  rejected?: number; routed_around?: number
+}
+interface HalftimeSummary {
+  seeds: number[]; stories: number; spotted: number; spotted_delay_median_min: number | null
+  agents?: SystemScore; rules: SystemScore
+}
+interface Judged { segments: number; scored: number; mean: number | null; at_least_4: number }
+
+const pct = (a: number, b: number) => b ? `${a}/${b} (${Math.round(100 * a / b)}%)` : '–'
+
+function Evals({ evals }: { evals: Record<string, unknown> }) {
+  const half = evals['rundown'] as HalftimeSummary | undefined
+  const first = evals['rundown-first'] as HalftimeSummary | undefined
+  const judged = evals['foundry-groundedness'] as Record<string, Judged> | undefined
+  const crew = (['crew-reliability', 'crew-kill-telestrator'] as const).filter(k => evals[k])
   const titles: Record<string, string> = {
     'crew-reliability': 'All agents on (8 rundowns, 4 recorded matches)',
     'crew-kill-telestrator': 'Telestrator switched off (4 rundowns, 2 matches)',
   }
+  const rows: [string, (x: SystemScore) => string][] = half ? [
+    ['Story recall: planted stories on air', x => pct(x.stories_aired, half.stories)],
+    ['Precision: aired points that are a planted story or a real goal or chance', x => pct(x.relevant, x.segments)],
+    ['Grounding: segments whose every fact the Verifier recomputes', x => pct(x.grounded, x.segments)],
+    ['Slot fit: distance from 90 s (median, worst)', x => `${x.slot_error_median_s} s, ${x.slot_error_max_s} s`],
+  ] : []
   return <section className="evals">
     <h2>Evals</h2>
-    <p className="muted small">How often each agent's answer passed the Verifier, on gpt-4.1-mini. Anything that fails twice is routed
-      around to the rules crew, so nothing unverified goes on air. Raw runs are in <code className="inline">docs/evals</code>.</p>
-    <div className="eval-grid">
-      {Object.entries(evals).sort(([a], [b]) => (a === 'crew-reliability' ? -1 : b === 'crew-reliability' ? 1 : 0)).map(([k, e]) => <div key={k}>
-        <h3>{titles[k] ?? k}</h3>
-        <div className="trail-wrap"><table className="trail eval">
-          <thead><tr><th>Agent</th><th>Jobs</th><th>First try</th><th>After one retry</th><th>Routed around</th></tr></thead>
-          <tbody>{AGENTS.map(a => { const s = e.agents[a]; return <tr key={a}>
-            <td>{a}</td><td>{s.jobs}</td><td>{s.first_try}</td><td>{s.after_retry}</td><td>{s.routed_around}</td></tr> })}</tbody>
-        </table></div>
-        <p className="small">Rundown locked <b>{e.lock_median_s} s</b> after the whistle (median), {e.lock_max_s} s at worst.</p>
-      </div>)}
-    </div>
+    {half && <>
+      <h3>Half-time rundowns against the answer key</h3>
+      <p className="small">{half.seeds.length} fresh seeds ({half.seeds[0]} to {half.seeds[half.seeds.length - 1]}), neutral English, 90 s slot.
+        Each match plants tactical stories the agents never see. The detectors spotted <b>{pct(half.spotted, half.stories)}</b> of
+        the first-half ones by half-time, a median {half.spotted_delay_median_min} min after they started.
+        Both systems then choose from the same talking points.</p>
+      <div className="trail-wrap"><table className="trail eval">
+        <thead><tr><th></th><th>Agent crew</th><th>Rules-only baseline</th></tr></thead>
+        <tbody>
+          {rows.map(([label, f]) => <tr key={label}><td>{label}</td><td>{half.agents ? f(half.agents) : '–'}</td><td>{f(half.rules)}</td></tr>)}
+          {half.agents && <tr><td>Locked after the whistle (median, worst)</td><td>{half.agents.lock_median_s} s, {half.agents.lock_max_s} s</td><td>at once</td></tr>}
+          {half.agents && <tr><td>Answers the Verifier rejected before air</td><td>{half.agents.rejected} ({half.agents.routed_around} routed to the rules crew)</td><td>–</td></tr>}
+          {judged && <tr><td>Foundry groundedness judge: scripts scoring 4 or 5 of 5</td>
+            <td>{judged.agents ? `${pct(judged.agents.at_least_4, judged.agents.scored)}, mean ${judged.agents.mean}` : '–'}</td>
+            <td>{judged.rules ? `${pct(judged.rules.at_least_4, judged.rules.scored)}, mean ${judged.rules.mean}` : '–'}</td></tr>}
+        </tbody>
+      </table></div>
+      {first?.agents && <p className="muted small">First run, before its fix: the agents put nothing on air for one seed
+        (slot fit worst {first.agents.slot_error_max_s} s), because a lone talking point was given the whole slot and broke the
+        schema's 60 s segment limit. Segments are now capped at 60 s. Both runs and every miss are in <code className="inline">docs/EVALS.md</code>.</p>}
+    </>}
+    {crew.length > 0 && <>
+      <h3>How often each agent's answer passed the Verifier</h3>
+      <p className="muted small">On gpt-4.1-mini. Anything that fails twice is routed around to the rules crew, so nothing unverified
+        goes on air. Raw runs are in <code className="inline">docs/evals</code>.</p>
+      <div className="eval-grid">
+        {crew.map(k => { const e = evals[k] as EvalSummary; return <div key={k}>
+          <h3>{titles[k]}</h3>
+          <div className="trail-wrap"><table className="trail eval">
+            <thead><tr><th>Agent</th><th>Jobs</th><th>First try</th><th>After one retry</th><th>Routed around</th></tr></thead>
+            <tbody>{AGENTS.map(a => { const s = e.agents[a]; return <tr key={a}>
+              <td>{a}</td><td>{s.jobs}</td><td>{s.first_try}</td><td>{s.after_retry}</td><td>{s.routed_around}</td></tr> })}</tbody>
+          </table></div>
+          <p className="small">Rundown locked <b>{e.lock_median_s} s</b> after the whistle (median), {e.lock_max_s} s at worst.</p>
+        </div> })}
+      </div>
+    </>}
   </section>
 }
