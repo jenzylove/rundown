@@ -23,7 +23,7 @@ agents = [
 azure = [  # the match stream and the archive (api/bus.py, api/archive.py)
   "azure-eventhub>=5.15",
   "azure-cosmos>=4.9",
-  "websocket-client>=1.8",  # Event Hubs over 443, for networks that only allow HTTPS
+  "aiohttp>=3.9",  # Event Hubs over 443 (EVENTHUB_TRANSPORT=websocket), for networks that only allow HTTPS
 ]
 
 [project.scripts]
