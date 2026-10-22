@@ -28,7 +28,8 @@ def rows(eval_json: dict) -> list[dict]:
                 out.append(dict(seed=run["seed"], system=system, title=a["title"],
                                 query=f"Half-time talking point: {a['headline']}",
                                 response=" ".join(a["script"]),
-                                context="Facts from the stats engine:\n" + "\n".join(a["facts"])))
+                                context=f"Talking point at {a['minute']}': {a['headline']}\n"
+                                        "Facts from the stats engine:\n" + "\n".join(a["facts"])))
     return out
 
 

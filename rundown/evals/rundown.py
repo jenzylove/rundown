@@ -71,6 +71,12 @@ def _as_cand(d: dict):
                            minute=d["minute"])
 
 
+def _fact_line(f: dict) -> str:
+    """A fact as the writer saw it: value, plus its scalar detail (a goal's minute, a top speed)."""
+    extra = ", ".join(f"{k} {v}" for k, v in f.get("detail", {}).items() if isinstance(v, (int, float, str)))
+    return f"{f['label']}: {f['value']} {f['unit']}".strip() + (f" ({extra})" if extra else "")
+
+
 def score_rundown(md: MatchData, key: list[dict], r: dict) -> dict:
     segs = r["segments"]
     aired = [s["provenance"]["candidate"] for s in segs]
@@ -81,7 +87,7 @@ def score_rundown(md: MatchData, key: list[dict], r: dict) -> dict:
         aired=[dict(kind=c["kind"], team=c["team"], minute=c["minute"], headline=c["headline"], story=sid,
                     moment=c["kind"] in MOMENTS, grounded=not e, errors=e[:3], title=s["title"],
                     script=[ln["text"] for ln in s["script"]],
-                    facts=[f"{f['label']}: {f['value']} {f['unit']}".strip() for f in s["facts"]])
+                    facts=[_fact_line(f) for f in s["facts"]])
                for c, sid, e, s in zip(aired, story_of, errs, segs)],
         stories_aired=sorted({sid for sid in story_of if sid}),
         relevant=sum(1 for c, sid in zip(aired, story_of) if sid or c["kind"] in MOMENTS),
