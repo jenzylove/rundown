@@ -31,7 +31,7 @@ from . import bus as bus_mod
 SCAN_EVERY_S = 60.0
 MAX_RUNS = 12  # in memory; older runs live on in the archive
 SEND_EVERY_S = 0.1  # how often the simulator publishes a batch of frames
-CUSHION_S = 0.4  # playback delay that absorbs the stream's jitter
+CUSHION_S = 0.4  # playback runs this far behind the simulator, to absorb the stream's jitter
 
 
 @dataclass
@@ -84,7 +84,7 @@ class Run:
 
     def stream_info(self, name: str) -> dict:
         lags = sorted(self.lags)
-        return dict(name=name, messages=len(lags),
+        return dict(name=name, messages=len(lags), lag_ms_first=round(self.lags[0] * 1000) if lags else None,
                     lag_ms_p50=round(statistics.median(lags) * 1000) if lags else None,
                     lag_ms_p95=round(lags[int(len(lags) * 0.95)] * 1000) if lags else None)
 
@@ -237,7 +237,6 @@ class RunManager:
         next_scan = SCAN_EVERY_S
         period_seen = 1
         out: list[list[float]] = []
-        base: tuple[float, float] | None = None  # (wall, match time) that playback is paced from
         try:
             while True:
                 msg = run.inbox.get()
@@ -249,7 +248,7 @@ class RunManager:
                     for i, f in enumerate(msg["frames"]):
                         period, t = int(f[0]), float(f[1])
                         if period != period_seen:  # second half kicked off
-                            period_seen, base = period, None
+                            period_seen = period
                             run.status = "second_half"
                             next_scan = 2700.0 + SCAN_EVERY_S
                         new = evs.get(i, [])
@@ -266,14 +265,14 @@ class RunManager:
                             self._scan(run, period, t)
                             next_scan += SCAN_EVERY_S
                         if msg["fast"]:
-                            out, base = [], None
+                            out = []
                             continue
                         out.append(f[1:])
                         if len(out) >= 2:
-                            # replay at match speed: messages arrive in bursts, the pitch should not
-                            if base is None or time.time() - (base[0] + (t - base[1]) / run.speed) > 1.0:
-                                base = (time.time() + CUSHION_S, t)
-                            wait = base[0] + (t - base[1]) / run.speed - time.time()
+                            # messages arrive in bursts; play each frame when the simulator made it, plus
+                            # the cushion. A late message plays at once, so a delay never carries over.
+                            made = msg["sent"] - (float(msg["frames"][-1][1]) - t) / run.speed
+                            wait = made + CUSHION_S - time.time()
                             if wait > 0:
                                 time.sleep(wait)
                             self.publish(run, dict(type="frames", frames=out, period=period))
@@ -286,7 +285,7 @@ class RunManager:
                         self.publish(run, dict(type="events", events=msg["events"]))
                     if last is not None:  # the whistle frame, not the second-half lineup
                         self.publish(run, dict(type="frames", frames=[[round(float(v), 2) for v in last[1:]]], period=1))
-                    out, base = [], None
+                    out = []
                     self._half_time(run)
                 elif msg["k"] == "end":
                     run.status = "full_time"

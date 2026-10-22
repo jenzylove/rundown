@@ -40,6 +40,7 @@ def health():
     a = runs.archive
     return dict(ok=runs.bus is not None, runs=len(runs.runs), crew="agents" if runs.models() else "rules",
                 voice=voice.configured(), stream=runs.bus.name if runs.bus else f"down ({runs.bus_error})",
+                stream_stats=runs.bus.stats if runs.bus else None,
                 store=a.name, store_errors=a.errors, store_last_error=a.last_error)
 
 

@@ -17,6 +17,7 @@ import json
 import os
 import queue
 import threading
+import time
 import urllib.parse
 from typing import Callable
 
@@ -33,6 +34,7 @@ def decode(body: bytes) -> dict:
 
 class LocalBus:
     name = "local"
+    stats: dict = {}
 
     def __init__(self):
         self.handlers: dict[str, Handler] = {}
@@ -71,6 +73,7 @@ class EventHubBus:
         self._ready = threading.Event()
         self._out: queue.Queue = queue.Queue()
         self._failed: dict[str, Exception] = {}
+        self.stats = dict(sends=0, send_ms_max=0, send_ms_last=None, first_send_ms=None)
         threading.Thread(target=self._receive, daemon=True, name="eventhubs-receive").start()
         threading.Thread(target=self._send_loop, daemon=True, name="eventhubs-send").start()
 
@@ -113,7 +116,14 @@ class EventHubBus:
                             self.producer.send_batch(batch)
                             batch = self.producer.create_batch(partition_key=run_id)
                             batch.add(ev)
+                    t0 = time.time()
                     self.producer.send_batch(batch)
+                    ms = round((time.time() - t0) * 1000)
+                    st = self.stats
+                    st["sends"] += 1
+                    st["send_ms_last"], st["send_ms_max"] = ms, max(st["send_ms_max"], ms)
+                    if st["first_send_ms"] is None:
+                        st["first_send_ms"] = ms
                 except Exception as e:
                     self._failed[run_id] = e
 
