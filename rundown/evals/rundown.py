@@ -33,7 +33,6 @@ from types import SimpleNamespace
 import numpy as np
 
 from ..agents import verify
-from ..agents.crew import cand_key
 from ..engine import detect
 from ..engine.data import MatchData
 from ..sim.match import Sim
@@ -60,8 +59,7 @@ def spot(md: MatchData) -> tuple[list, float]:
     t_end = float(md.frames[md.frame_index(1, 1e9), 1])
     cands, t = {}, 60.0
     while t <= t_end:
-        for c in detect.scan(md, 1, t) + detect.moments(md, 1, t - 60, t):
-            cands.setdefault(cand_key(c), c)
+        detect.track(cands, detect.scan(md, 1, t) + detect.moments(md, 1, t - 60, t), t)
         t += 60
     return list(cands.values()), t_end
 
@@ -109,6 +107,11 @@ def evaluate_seed(seed: int, models=None) -> dict:
     row = dict(seed=seed, stories=[dict(id=s["id"], description=s["description"], start=s["start_minute"]) for s in key],
                spotted=spotted, candidates=len(cands))
     row["rules"] = score_rundown(md, key, producer.rundown(md, cands, t_end, 90.0, "neutral", "en"))
+    from .dev import persistence_pick  # a reference rule set on the practice seeds: its picks only
+    pp = persistence_pick(md, cands, t_end)
+    sid = [next((st["id"] for st in key if matches(st, c)), None) for c in pp]
+    row["persistence"] = dict(segments=len(pp), stories_aired=sorted({s for s in sid if s}),
+                              relevant=sum(1 for c, s in zip(pp, sid) if s or c.kind in MOMENTS))
     if models is not None:
         from ..agents.halftime import run_half
 
@@ -125,6 +128,11 @@ def summarise(rows: list[dict]) -> dict:
     out = dict(seeds=[r["seed"] for r in rows], stories=n_stories,
                spotted=sum(len(r["spotted"]) for r in rows),
                spotted_delay_median_min=round(statistics.median(delays), 1) if delays else None)
+    pr = [r["persistence"] for r in rows if "persistence" in r]
+    if pr:
+        out["persistence"] = dict(segments=sum(x["segments"] for x in pr),
+                                  stories_aired=sum(len(x["stories_aired"]) for x in pr),
+                                  relevant=sum(x["relevant"] for x in pr))
     for system in ("agents", "rules"):
         rs = [r[system] for r in rows if system in r]
         if not rs:
@@ -199,6 +207,11 @@ def table(s: dict) -> str:
     if a:
         lines.append(f"| Locked after the whistle (median, worst) | {a['lock_median_s']} s, {a['lock_max_s']} s | at once |")
         lines.append(f"| Answers the Verifier rejected before air | {a['rejected']} ({a['routed_around']} routed to the rules crew) | - |")
+    p = s.get("persistence")
+    if p:
+        lines += ["", f"Reference, not a product: a simple rule that prefers talking points still showing at the whistle and "
+                      f"seen in many scans (set on practice seeds 201-240) picks {_pct(p['stories_aired'], s['stories'])} of the "
+                      f"planted stories, precision {_pct(p['relevant'], p['segments'])}."]
     return "\n".join(lines)
 
 

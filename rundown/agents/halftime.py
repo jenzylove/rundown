@@ -16,7 +16,7 @@ from pathlib import Path
 
 from ..engine import detect, load
 from ..engine.data import MatchData
-from .crew import Crew, cand_key
+from .crew import Crew
 from .llm import Models
 from .state import Store
 
@@ -32,9 +32,7 @@ def run_half(md: MatchData, models: Models, cut: str = "neutral", lang: str = "e
     cands: dict = {}
     t, pending = 60.0, []
     while t <= t_end:
-        new = [c for c in detect.scan(md, 1, t) + detect.moments(md, 1, t - 60, t) if cand_key(c) not in cands]
-        for c in new:
-            cands[cand_key(c)] = c
+        new = detect.track(cands, detect.scan(md, 1, t) + detect.moments(md, 1, t - 60, t), t)
         if new:
             pending.append(crew.analyse(md, new))
         if draft and int(t) % 300 == 0:  # every five match minutes, draft the provisional picks

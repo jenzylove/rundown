@@ -27,6 +27,7 @@ from typing import Callable, Literal
 from pydantic import BaseModel, Field, create_model
 
 from ..engine.data import MatchData
+from ..engine import detect
 from ..engine.detect import Candidate
 from ..studio import producer, telestrate, writer
 from . import verify
@@ -38,7 +39,7 @@ ROLES = ("analyst", "producer", "telestrator", "writer")
 LOCK_DEADLINE_S = 20.0  # a segment not ready this long after the whistle goes out as the rules version
 SEGMENT_S = (90.0 - producer.INTRO_S) / 3  # a segment in a three-segment, 90 s rundown
 WORDS_PER_S = 2.6
-MOMENTS = ("goal", "big_chance")
+MOMENTS = detect.MOMENTS
 LANGS = {"en": "English", "es": "Spanish", "fr": "French", "pt": "Portuguese"}
 ZONE_TEXT = {
     "en": {"left channel": "left side", "centre channel": "through the middle", "right channel": "right side"},
@@ -135,8 +136,14 @@ decided the half? Strong, recent, and causal beats weak or cosmetic. Be decisive
     "producer": """You are the Producer of a half-time show. Choose the talking points that make the rundown
 and their running order, lead story first. Rules: no two points of the same kind; at most one goal or
 big chance; prefer points the Analyst says matter; for a club channel (cut home or away), lead with
-what matters most to that club's fans, good or bad. Return exactly the number asked for when there
-are enough points. Give a short reason for each, written for the human producer: what the story is
+what matters most to that club's fans, good or bad. Sustained beats fleeting: the Analyst scored each
+point when it first appeared, and `held_up` shows what happened next. A pattern the detectors saw in
+most scans since it appeared and still see at the whistle is a real change in the match; one seen in
+a few scans that faded minutes ago is probably noise, however well it was rated at first. Peak
+strength near 1 is a clear change; below about 0.5 it is marginal. A point first seen in the last two
+or three minutes hasn't had time to prove itself: it needs a strong peak to beat a sustained one.
+The talking points have been screened for clear evidence and come strongest first. Goals and big chances are marked `moment`: pick at most one of them in total. Return exactly the
+number asked for when there are enough points. Give a short reason for each, written for the human producer: what the story is
 and why it earns its place. No numbers or scores in the reasons.""",
     "telestrator": """You are the Telestrator. You plan the picture for one talking point: a short tracking
 clip that gets frozen and drawn on, like TV analysis. You choose; the studio works out timing and
@@ -179,9 +186,26 @@ def crew_loop() -> asyncio.AbstractEventLoop:
     return _loop
 
 
-def cand_key(c: Candidate) -> str:
-    moment = c.evidence[0] if c.kind in MOMENTS and c.evidence else ""
-    return f"{c.kind}:{c.team}:{c.side or ''}:{c.player or ''}:{c.period}:{moment}"
+cand_key = detect.key
+
+
+def _evidence(c: Candidate, t_now: float) -> tuple:
+    return (c.kind in MOMENTS, t_now - c.last_t <= 300, c.scans * c.peak)
+
+
+def _clear(c: Candidate, t_now: float) -> bool:
+    """Clear evidence: seen in at least half the scans since it was spotted, seen in the last five
+    minutes, and a peak strength of at least 0.6. (Set on practice seeds 201-240, never on the
+    held-out eval seeds.)"""
+    since = max(1, int((t_now - c.t) // 60) + 1)
+    return c.scans / since >= 0.5 and t_now - c.last_t <= 300 and c.peak >= 0.6
+
+
+def _held_up(c: Candidate, t_now: float) -> dict:
+    """How a talking point held up after it was first spotted, as of t_now (scans run every minute)."""
+    since = max(1, int((t_now - c.t) // 60) + 1)
+    return dict(seen_in_scans=f"{c.scans} of {since}", peak_strength=round(c.peak, 2),
+                still_showing=t_now - c.last_t <= 120, minutes_since_last_seen=round((t_now - c.last_t) / 60))
 
 
 class Crew:
@@ -214,11 +238,13 @@ class Crew:
 
     def draft(self, md: MatchData, cands: list[Candidate], t_now: float, lang: str = "en", cut: str = "neutral") -> Future:
         """Start plans and scripts in the background for the points likely to make the rundown:
-        the rules picks and the Analyst's top three."""
+        the rules picks, the Analyst's top three and the three with the clearest evidence."""
         likely = producer.pick(md, cands, t_now, 3, cut)
         rated = sorted((c for c in cands if cand_key(c) in self.analysis),
                        key=lambda c: -self.analysis[cand_key(c)]["matters"])
-        for c in rated[:3]:
+        clear = sorted((c for c in cands if c.kind not in MOMENTS and _clear(c, t_now)),
+                       key=lambda c: _evidence(c, t_now), reverse=True)
+        for c in rated[:3] + clear[:3]:
             if c not in likely:
                 likely.append(c)
 
@@ -311,14 +337,26 @@ class Crew:
 
     # ---- Producer ----
     async def _pick(self, md: MatchData, cands: list[Candidate], t_now: float, cut: str, n: int) -> list[tuple[Candidate, str]]:
-        ranked = [c for _, c in producer.rank(md, cands, t_now, cut)][:12]
+        # Code screens the evidence, the Producer decides: only points the detectors saw steadily, recently
+        # and clearly go forward (plus every goal and chance), strongest evidence first. If that leaves
+        # too few kinds to fill the rundown, the next strongest come back in.
+        by_evidence = sorted(cands, key=lambda c: _evidence(c, t_now), reverse=True)
+        ranked = [c for c in by_evidence if c.kind in MOMENTS or _clear(c, t_now)]
+        for c in by_evidence:
+            if len({x.kind for x in ranked}) >= n or len(ranked) >= 12:
+                break
+            if c not in ranked:
+                ranked.append(c)
+        ranked = ranked[:12]
         ids = {f"c{i + 1}": c for i, c in enumerate(ranked)}
         fav = {"home": md.home, "away": md.away}.get(cut)
         prompt = json.dumps(dict(
             match=_match_line(md, t_now), slot_s=90, cut=cut, club_channel=_team(md, fav) if fav else None,
             segments_wanted=n,
             talking_points=[dict(id=i, kind=c.kind, team=_team(md, c.team), player=_player(md, c), minute=_minute(c),
-                                 headline=c.headline, analyst=self.analysis.get(cand_key(c)))
+                                 headline=c.headline, analyst=self.analysis.get(cand_key(c)),
+                                 moment=c.kind in MOMENTS,
+                                 held_up=_held_up(c, t_now) if c.kind not in MOMENTS else None)
                             for i, c in ids.items()]), ensure_ascii=False)
         want = min(n, len({c.kind for c in ranked}))
 

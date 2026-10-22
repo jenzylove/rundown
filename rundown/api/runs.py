@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from ..agents import llm
-from ..agents.crew import Crew, cand_key
+from ..agents.crew import Crew
 from ..agents.state import Store
 from ..engine import detect
 from ..engine.data import MatchData
@@ -309,13 +309,9 @@ class RunManager:
     def _scan(self, run: Run, period: int, t: float):
         md = run.match_data()
         found = detect.scan(md, period, t) + detect.moments(md, period, t - SCAN_EVERY_S, t)
-        new = []
-        for c in found:
-            key = cand_key(c)
-            if key not in run.candidates:
-                run.candidates[key] = c
-                new.append(c)
-                self._log(run, "candidate", c.headline, candidate=c.to_dict())
+        new = detect.track(run.candidates, found, t)
+        for c in new:
+            self._log(run, "candidate", c.headline, candidate=c.to_dict())
         if period == 1:
             pick = producer.pick(md, [c for c in run.candidates.values() if c.period == 1], t)
             self.publish(run, dict(type="provisional", picks=[c.to_dict() for c in pick]))

@@ -30,16 +30,52 @@ class Candidate:
     player: str | None = None
     side: str | None = None
     evidence: list[str] = field(default_factory=list)
+    seen: list[tuple[float, float]] = field(default_factory=list)  # (clock, strength) of every scan it showed in
 
     @property
     def minute(self) -> float:
         return self.t / 60.0
 
+    @property
+    def scans(self) -> int:
+        return max(1, len(self.seen))
+
+    @property
+    def peak(self) -> float:
+        return max([s for _, s in self.seen] + [self.strength])
+
+    @property
+    def last_t(self) -> float:
+        return max([t for t, _ in self.seen] + [self.t])
+
     def to_dict(self) -> dict:
         return dict(kind=self.kind, team=self.team, period=self.period, t=self.t,
                     minute=round(self.minute, 1), strength=round(self.strength, 3), headline=self.headline,
                     player=self.player, side=self.side, evidence=self.evidence[:40],
-                    facts=[f.to_dict() for f in self.facts])
+                    facts=[f.to_dict() for f in self.facts],
+                    scans=self.scans, peak=round(self.peak, 3), last_minute=round(self.last_t / 60.0, 1))
+
+
+MOMENTS = ("goal", "big_chance")
+
+
+def key(c: Candidate) -> str:
+    """One talking point however many scans it shows up in (each goal or chance is its own)."""
+    moment = c.evidence[0] if c.kind in MOMENTS and c.evidence else ""
+    return f"{c.kind}:{c.team}:{c.side or ''}:{c.player or ''}:{c.period}:{moment}"
+
+
+def track(known: dict[str, Candidate], found: list[Candidate], t: float) -> list[Candidate]:
+    """Fold one scan's findings into the talking points so far: keep the first sighting of each,
+    note every scan it shows up in (how long it lasts and how strong it gets), return the new ones."""
+    new = []
+    for c in found:
+        k = key(c)
+        if k not in known:
+            known[k] = c
+            new.append(c)
+        known[k].seen.append((t, c.strength))
+    return new
 
 
 def _clip(v: float) -> float:
