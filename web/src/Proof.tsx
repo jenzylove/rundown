@@ -250,7 +250,7 @@ interface SystemScore {
 }
 interface HalftimeSummary {
   seeds: number[]; stories: number; spotted: number; spotted_delay_median_min: number | null
-  agents?: SystemScore; rules: SystemScore
+  agents?: SystemScore; rules: SystemScore; persistence?: { segments: number; stories_aired: number; relevant: number }
 }
 interface Judged { segments: number; scored: number; mean: number | null; at_least_4: number }
 
@@ -259,7 +259,7 @@ const pct = (a: number, b: number) => b ? `${a}/${b} (${Math.round(100 * a / b)}
 function Evals({ evals }: { evals: Record<string, unknown> }) {
   const half = evals['rundown'] as HalftimeSummary | undefined
   const first = evals['rundown-first'] as HalftimeSummary | undefined
-  const runs = [first, evals['rundown-second'] as HalftimeSummary | undefined, half]
+  const before = [first, evals['rundown-second'] as HalftimeSummary | undefined, evals['rundown-untuned'] as HalftimeSummary | undefined]
     .filter((x): x is HalftimeSummary => !!x?.agents)
   const judged = evals['foundry-groundedness'] as Record<string, Judged> | undefined
   const crew = (['crew-reliability', 'crew-kill-telestrator'] as const).filter(k => evals[k])
@@ -292,9 +292,12 @@ function Evals({ evals }: { evals: Record<string, unknown> }) {
             <td>{judged.rules ? `${pct(judged.rules.at_least_4, judged.rules.scored)}, mean ${judged.rules.mean}` : '–'}</td></tr>}
         </tbody>
       </table></div>
-      {runs.length > 1 && <p className="small">The agents' picks vary from run to run. Story recall over {runs.length} runs on the
-        same seeds: <b>{runs.map(x => `${Math.round(100 * x.agents!.stories_aired / x.stories)}%`).join(', ')}</b>; the
-        rules baseline is deterministic at {Math.round(100 * half.rules.stories_aired / half.stories)}%.</p>}
+      {half.persistence && <p className="small">Reference, not a product: a simple rule that prefers talking points still showing at
+        the whistle picks {pct(half.persistence.stories_aired, half.stories)} of the planted stories,
+        precision {pct(half.persistence.relevant, half.persistence.segments)}.</p>}
+      {before.length > 0 && <p className="small">Before the Producer was tuned on separate practice seeds, its story recall on these
+        seeds was <b>{before.map(x => `${Math.round(100 * x.agents!.stories_aired / x.stories)}%`).join(', ')}</b> over {before.length} runs
+        (it picked well-told one-off swings over steady stories). The rules baseline is deterministic.</p>}
       {first?.agents && <p className="muted small">First run, before its fix: the agents put nothing on air for one seed
         (slot fit worst {first.agents.slot_error_max_s} s), because a lone talking point was given the whole slot and broke the
         schema's 60 s segment limit. Segments are now capped at 60 s. Every run and every miss is in <code className="inline">docs/EVALS.md</code>.</p>}
