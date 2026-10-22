@@ -126,11 +126,15 @@ class RunManager:
             run.crew = Crew(models, run.store)
         self._evict()
         self.runs[run.id] = run
-        self.bus.subscribe(run.id, run.inbox.put)
+        self.bus.subscribe(run.id, lambda msg: self._arrived(run, msg))
         self.save(run)
         threading.Thread(target=self._consume, args=(run,), daemon=True, name=f"studio-{run.id}").start()
         threading.Thread(target=self._play, args=(run,), daemon=True, name=f"sim-{run.id}").start()
         return run
+
+    def _arrived(self, run: Run, msg: dict):
+        run.lags.append(max(0.0, time.time() - msg["sent"]))  # transit only, before playback's cushion
+        run.inbox.put(msg)
 
     def _evict(self):
         """Keep memory bounded: the oldest runs leave memory (they stay in the archive)."""
@@ -242,7 +246,6 @@ class RunManager:
                 msg = run.inbox.get()
                 if run.stop or msg["k"] == "stop":
                     return
-                run.lags.append(max(0.0, time.time() - msg["sent"]))
                 if msg["k"] == "frames":
                     evs = {i: e for i, e in msg["events"]}
                     for i, f in enumerate(msg["frames"]):

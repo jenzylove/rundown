@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import type { Fact, FeedItem, Rundown, Segment, TrailItem } from './types'
 
 interface Club { code: string; short: string; colour: string }
-interface Stream { name: string; messages: number; lag_ms_p50: number | null; lag_ms_p95: number | null }
+interface Stream { name: string; messages: number; lag_ms_first?: number | null; lag_ms_p50: number | null; lag_ms_p95: number | null }
 interface RunSummary {
   runId: string; seed: number; status: string; error?: string | null; started_at: number
   whistle_at: number | null; locked_at: number | null; score: [number, number]; clubs: Club[]
@@ -155,7 +155,7 @@ function RunDetail({ d, kill }: { d: Detail; kill: (role: string) => void }) {
     <dl className="facts-row">
       <div><dt>Rundown locked</dt><dd>{lockAfter !== null ? <><b>{lockAfter.toFixed(2)} s</b> after the whistle</> : 'not yet'}</dd></div>
       <div><dt>Match stream</dt><dd><b>{r.stream.name === 'eventhubs' ? 'Azure Event Hubs' : r.stream.name}</b>
-        {r.stream.messages > 0 && <> · {r.stream.messages} messages · lag {r.stream.lag_ms_p50} ms median, {r.stream.lag_ms_p95} ms p95</>}</dd></div>
+        {r.stream.messages > 0 && <> · {r.stream.messages} messages · in transit {r.stream.lag_ms_p50} ms median, {r.stream.lag_ms_p95} ms p95{r.stream.lag_ms_first !== null && r.stream.lag_ms_first !== undefined && <>, first message {r.stream.lag_ms_first} ms</>}</>}</dd></div>
       <div><dt>Crew</dt><dd><b>{r.crew.mode === 'agents' ? `Agents on ${r.crew.model}` : 'Rules crew'}</b>
         {r.crew.killed.length > 0 && <> · switched off: {r.crew.killed.join(', ')}</>}</dd></div>
     </dl>
