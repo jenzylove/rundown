@@ -179,7 +179,7 @@ function RunDetail({ d, kill }: { d: Detail; kill: (role: string) => void }) {
       {cuts.length > 1 && <div className="toggles" role="group" aria-label="Cut">
         {cuts.map(k => { const [c, l] = k.split('|'); return <button key={k} className={k === cut ? 'on' : ''} onClick={() => setCut(k)}>{CUT_LABEL[c] ?? c} · {l.toUpperCase()}</button> })}
       </div>}
-      <ol className="proof-segs">{rundown.segments.map((s, i) => <ProofSegment key={s.segment_id + i} s={s} i={i} />)}</ol>
+      <ol className="proof-segs">{rundown.segments.map((s, i) => <ProofSegment key={s.segment_id + i} s={s} i={i} rulesOnly={rundown.made_by !== 'crew'} />)}</ol>
       <p className="muted small">{rundown.duration_s.toFixed(1)} s for a {rundown.slot_s} s slot.</p>
     </>}
 
@@ -188,7 +188,7 @@ function RunDetail({ d, kill }: { d: Detail; kill: (role: string) => void }) {
   </>
 }
 
-function ProofSegment({ s, i }: { s: Segment; i: number }) {
+function ProofSegment({ s, i, rulesOnly }: { s: Segment; i: number; rulesOnly: boolean }) {
   const crew = s.provenance.crew
   return <li className="proof-seg">
     <div className="seg-top">
@@ -197,7 +197,7 @@ function ProofSegment({ s, i }: { s: Segment; i: number }) {
         <b className="seg-name">{s.title}</b>
         <span className="muted small"> {s.duration_s.toFixed(1)} s · clip from {Math.floor(s.clip.t0 / 60)}'</span>
         <p className="small made">
-          {s.provenance.verified === undefined
+          {rulesOnly
             ? <span>Rules crew: every number read straight from the stats engine</span>
             : <span className={s.provenance.verified ? 'ok' : 'warn'}>{s.provenance.verified ? '✓ Verified' : '✗ Not verified'}</span>}
           {crew && <> · picture by the {crew.telestrator === 'agent' ? 'Telestrator agent' : 'rules crew'} · words by the {crew.writer === 'agent' ? 'Writer agent' : 'rules crew'}</>}

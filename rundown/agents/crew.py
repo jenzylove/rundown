@@ -477,7 +477,7 @@ class Crew:
             return dict(slot_s=slot_s, cut=cut, lang=lang, segments=[], duration_s=0.0, made_by="crew")
         await self._analyse(md, cands)
         chosen = await self._pick(md, cands, t_now, cut, n)
-        each = (slot_s - producer.INTRO_S) / len(chosen)
+        each = producer.segment_length(slot_s, len(chosen))
         # shield: a segment that misses the deadline keeps being written, for swaps and other cuts
         segs = await asyncio.gather(*(asyncio.wait_for(asyncio.shield(self._segment(md, c, lang, cut, each, f"s{i + 1}")),
                                                        max(LOCK_DEADLINE_S - (time.time() - t0), 1.0))

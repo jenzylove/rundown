@@ -11,6 +11,13 @@ from ..engine.detect import Candidate
 from . import telestrate
 
 INTRO_S = 4.0
+MAX_SEGMENT_S = 60.0  # the Overlay Script schema's limit
+
+
+def segment_length(slot_s: float, n: int) -> float:
+    """Each segment's share of the slot. One talking point can't fill 90 s: it gets the schema's
+    60 s and the rundown runs short, rather than breaking the schema."""
+    return min(MAX_SEGMENT_S, (slot_s - INTRO_S) / n)
 POSITIVE = {"press_up", "flank_overload", "tempo_up", "goal", "big_chance"}
 
 
@@ -53,7 +60,7 @@ def rundown(md: MatchData, cands: list[Candidate], t_now: float, slot_s: float =
     chosen = pick(md, cands, t_now, n, cut)
     if not chosen:
         return dict(slot_s=slot_s, cut=cut, lang=lang, segments=[], duration_s=0.0)
-    each = (slot_s - INTRO_S) / len(chosen)
+    each = segment_length(slot_s, len(chosen))
     segs = []
     for i, c in enumerate(chosen):
         seg = telestrate.build(md, c, lang=lang, target_s=each, seg_id=f"s{i + 1}")
