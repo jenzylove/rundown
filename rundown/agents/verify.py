@@ -89,10 +89,129 @@ def layout_errors(md: MatchData, plan: dict, cl: dict, opts: dict) -> list[str]:
     return errs
 
 
+# ---- claims: a number can be the engine's and the sentence still be false ----
+# Most talking points compare a baseline window with the recent one, so their facts come in
+# (before, now) pairs. "Control drops from 76.9% to 55.2%" uses two real values and is still
+# wrong when control went up. These checks catch a pair quoted in the wrong order and a verb
+# that says the opposite of what the numbers did.
+
+PAIRS = {  # kind -> (before index, now index, detail field or None for the fact's value)
+    "press_up": [(0, 1, None), (2, 3, None)],
+    "flank_overload": [(0, 1, None), (2, 3, None)],
+    "deep_block": [(0, 1, None), (2, 3, None)],
+    "tempo_up": [(0, 1, None)],
+    "fatigue": [(0, 1, None), (0, 1, "top_speed_kmh"), (0, 1, "distance_m")],
+}
+UP = {
+    "en": "rise rises rising rose risen climb climbs climbed climbing increase increases increased increasing jump jumps "
+          "jumped grow grows grew growing up surge surges surged soar soars soared",
+    "es": "sube suben subió subido subiendo aumenta aumentan aumentó aumentado crece crecen creció crecido dispara disparan disparó",
+    "fr": "augmente augmentent augmenté monte montent monté grimpe grimpent grimpé bondit progresse progressé",
+    "pt": "sobe sobem subiu subido aumenta aumentam aumentou cresce crescem cresceu dispara disparou",
+}
+DOWN = {
+    "en": "drop drops dropped dropping fall falls fell falling fallen decline declines declined decrease decreases decreased "
+          "down slip slips slipped sink sinks sank shrink shrinks shrank plunge plunges plunged",
+    "es": "baja bajan bajó bajado bajando cae caen cayó caído disminuye disminuyen disminuyó desciende descienden descendió",
+    "fr": "baisse baissent baissé chute chutent chuté descend descendent descendu recule reculent reculé diminue diminuent "
+          "diminué tombe tombent tombé",
+    "pt": "cai caem caiu desce descem desceu diminui diminuem diminuiu baixa baixam baixou recua recuam recuou",
+}
+UP = {k: set(v.split()) for k, v in UP.items()}
+DOWN = {k: set(v.split()) for k, v in DOWN.items()}
+FROM = {"en": r"from", "es": r"de|desde", "fr": r"de|d'|du", "pt": r"de|do|da"}
+TO = {"en": r"to", "es": r"a|al|hasta", "fr": r"à|a", "pt": r"para|a|até"}
+NUM = re.compile(r"(?<![\w.,])\d+(?:[.,]\d+)?(?![.,]?\d)")
+SENTENCE = re.compile(r"(?<=[.!?])\s+")  # a stop then a space: "76.9" stays whole
+
+
+def _num(s: str) -> float:
+    return float(s.replace(",", "."))
+
+
+def _pairs(seg: dict) -> list[tuple[float, float]]:
+    """(before, now) value pairs for the segment's talking point, from the candidate's facts."""
+    cand = seg.get("provenance", {}).get("candidate") or {}
+    return pairs_for(seg.get("kind") or cand.get("kind"), cand.get("facts") or [])
+
+
+def pairs_for(kind: str, facts: list[dict]) -> list[tuple[float, float]]:
+    out = []
+    for a, b, field in PAIRS.get(kind, []):
+        if b >= len(facts):
+            continue
+        va = facts[a]["value"] if field is None else facts[a].get("detail", {}).get(field)
+        vb = facts[b]["value"] if field is None else facts[b].get("detail", {}).get(field)
+        if isinstance(va, (int, float)) and isinstance(vb, (int, float)) and va != vb:
+            out.append((float(va), float(vb)))
+    return out
+
+
+def _role(n: float, pairs: list[tuple[float, float]]) -> tuple[int, str] | None:
+    """Which pair a number belongs to, and whether it is the 'before' or the 'now' value.
+    None when it belongs to no pair, or to more than one (ambiguous, so not judged)."""
+    hits = [(i, "before" if abs(n - a) < 0.0051 else "now")
+            for i, (a, b) in enumerate(pairs) if abs(n - a) < 0.0051 or abs(n - b) < 0.0051]
+    return hits[0] if len(hits) == 1 else None
+
+
+def claim_errors(text: str, lang: str, pairs: list[tuple[float, float]], where: str) -> list[str]:
+    """Order and direction of every before/now pair quoted in a piece of text."""
+    if not pairs:
+        return []
+    errs = []
+    up, down = UP.get(lang, set()), DOWN.get(lang, set())
+    for sent in SENTENCE.split(text):
+        nums = [(m, _role(_num(m.group(0)), pairs)) for m in NUM.finditer(sent)]
+        # "from X to Y": X must be the before value and Y the now value
+        for (m1, r1), (m2, r2) in zip(nums, nums[1:]):
+            if not (r1 and r2 and r1[0] == r2[0] and r1[1] != r2[1]):
+                continue
+            head = sent[max(0, m1.start() - 14):m1.start()].lower()
+            mid = sent[m1.end():m2.start()].lower()
+            if (re.search(rf"\b({FROM.get(lang, 'from')})\s*$", head) and len(mid) <= 40
+                    and re.search(rf"(^|\W)({TO.get(lang, 'to')})\W*$", mid)) or "→" in mid:
+                if r1[1] == "now":
+                    errs.append(f"{where}: \"{sent.strip()[:70]}\" quotes {m1.group(0)} → {m2.group(0)}, "
+                                f"but {m2.group(0)} came first and {m1.group(0)} is now")
+        # a direction verb must agree with what the pair did
+        quoted = {r[0] for _, r in nums if r}
+        words = set(re.findall(r"[^\W\d_]+", sent.lower()))
+        said_up, said_down = bool(words & up), bool(words & down)
+        if said_up == said_down:
+            continue  # no direction word, or both: not judged
+        for i in quoted:
+            if {r[1] for _, r in nums if r and r[0] == i} != {"before", "now"}:
+                continue  # only judge a pair when both values are in the sentence
+            before, now = pairs[i]
+            if said_up and now < before or said_down and now > before:
+                verb = sorted(words & (up if said_up else down))[0]
+                errs.append(f"{where}: \"{sent.strip()[:70]}\" says \"{verb}\", but the value went "
+                            f"{'down' if now < before else 'up'} ({before:g} → {now:g})")
+    return errs
+
+
+def segment_claim_errors(seg: dict) -> list[str]:
+    """Every spoken line, the subtitle and the stat card rows of a finished segment."""
+    lang, pairs = seg.get("lang", "en"), _pairs(seg)
+    errs = []
+    for i, ln in enumerate(seg.get("script", [])):
+        errs += claim_errors(ln["text"], lang, pairs, f"line {i}")
+    for q in seg.get("cues", []):
+        if q.get("kind") == "label" and q.get("sub"):
+            errs += claim_errors(q["sub"], lang, pairs, "subtitle")
+        if q.get("kind") == "statcard":
+            for j, row in enumerate(q.get("rows", [])):
+                errs += claim_errors(f"{row[0]}: {row[1]}", lang, pairs, f"stat card row {j}")
+    return errs
+
+
 def segment_errors(md: MatchData, seg: dict) -> list[str]:
     """The finished segment: schema, every cited fact recomputed from the engine, every
-    event id real, every cue and line inside the segment."""
+    event id real, every cue and line inside the segment, and every before/now claim the
+    right way round."""
     errs = [f"schema: {e.message} at /{'/'.join(map(str, e.path))}" for e in _VALIDATOR.iter_errors(seg)]
+    errs += segment_claim_errors(seg)
     facts = {f["key"]: f for f in seg["facts"]}
     for key, f in facts.items():
         again = S.recompute(md, f["stat"], f["args"])

@@ -447,12 +447,15 @@ class Crew:
         row = create_model("Row", __base__=Row, facts=(list[Literal[tuple(table.row_aliases())]], Row.model_fields["facts"]))
         schema = create_model("Script", __base__=Script, rows=(list[row], Script.model_fields["rows"]))
 
+        pairs = verify.pairs_for(c.kind, [f.to_dict() for f in c.facts])
+
         def check(v: Script):
             errs = []
             title, _, e = table.fill(v.title, lang)
             errs += [f"title: {x}" for x in e] + verify.text_errors(title, lang, "title", 48)
             sub, sub_keys, e = table.fill(v.sub, lang)
             errs += [f"subtitle: {x}" for x in e] + verify.text_errors(sub, lang, "subtitle", 80)
+            errs += verify.claim_errors(sub, lang, pairs, "subtitle")
             errs += verify.text_errors(v.card_title, lang, "card title", 44)
             if not 1 <= len(v.rows) <= 4:
                 errs.append("the stat card needs 1 to 4 rows")
@@ -461,6 +464,7 @@ class Crew:
                 val, keys, e = table.value(r.facts, lang)
                 label, lkeys, le = table.fill(r.label, lang)
                 errs += [f"row {i}: {x}" for x in e + le] + verify.text_errors(label, lang, f"row {i}", 44)
+                errs += verify.claim_errors(f"{label}: {val}", lang, pairs, f"row {i}")
                 rows.append([label, val])
                 keys += lkeys
                 card_keys += [k for k in keys if k not in card_keys]
@@ -470,6 +474,7 @@ class Crew:
             for i, ln in enumerate(v.lines):
                 text, keys, e = table.fill(ln, lang)
                 errs += [f"line {i}: {x}" for x in e] + verify.text_errors(text, lang, f"line {i}")
+                errs += verify.claim_errors(text, lang, pairs, f"line {i}")
                 lines.append((text, keys))
             words = sum(len(t.split()) for t, _ in lines)
             if words > budget * 1.25:
