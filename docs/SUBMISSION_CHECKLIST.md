@@ -39,4 +39,3 @@ Source: [Official Rules](https://github.com/microsoft/insidethegamehackathon/blo
 - [x] Azure Event Hubs
 - [x] Azure Container Apps
 - [x] Azure Cosmos DB
-- [ ] GitHub Copilot agent mode (used in build; noted in README)
