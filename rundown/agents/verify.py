@@ -119,6 +119,15 @@ DOWN = {
 }
 UP = {k: set(v.split()) for k, v in UP.items()}
 DOWN = {k: set(v.split()) for k, v in DOWN.items()}
+# words that put a value in time: "now it's 4.3" must be the recent value, "they were allowing 10.7"
+# the earlier one
+NOW_WORDS = {"en": "now currently lately recently", "es": "ahora ya actualmente últimamente",
+             "fr": "maintenant désormais actuellement aujourd'hui", "pt": "agora já atualmente"}
+THEN_WORDS = {"en": "were was before earlier previously", "es": "antes era eran estaba estaban dejaban",
+              "fr": "avant était étaient auparavant", "pt": "antes era eram estava estavam"}
+NOW_WORDS = {k: set(v.split()) for k, v in NOW_WORDS.items()}
+THEN_WORDS = {k: set(v.split()) for k, v in THEN_WORDS.items()}
+FROM_ONLY = {"en": r"from", "es": r"desde", "fr": r"contre|depuis", "pt": r"desde"}  # never "to" words
 FROM = {"en": r"from", "es": r"de|desde", "fr": r"de|d'|du", "pt": r"de|do|da"}
 TO = {"en": r"to", "es": r"a|al|hasta", "fr": r"à|a", "pt": r"para|a|até"}
 NUM = re.compile(r"(?<![\w.,])\d+(?:[.,]\d+)?(?![.,]?\d)")
@@ -175,6 +184,20 @@ def claim_errors(text: str, lang: str, pairs: list[tuple[float, float]], where: 
                 if r1[1] == "now":
                     errs.append(f"{where}: \"{sent.strip()[:70]}\" quotes {m1.group(0)} → {m2.group(0)}, "
                                 f"but {m2.group(0)} came first and {m1.group(0)} is now")
+        # a time word just before a value must match it: "now" with the recent value, "were" with the earlier
+        prev = 0
+        for m, r in nums:
+            window = sent[prev:m.start()].lower()[-40:]
+            prev = m.end()
+            if not r:
+                continue
+            ws = set(re.findall(r"[^\W\d_']+(?:'[^\W\d_]+)?", window))
+            if r[1] == "now" and re.search(rf"(^|\W)({FROM_ONLY.get(lang, 'from')})\s*$", window):
+                errs.append(f"{where}: \"{sent.strip()[:70]}\" says from {m.group(0)}, but that is the value now")
+            if r[1] == "before" and ws & NOW_WORDS.get(lang, set()):
+                errs.append(f"{where}: \"{sent.strip()[:70]}\" says {m.group(0)} is the value now, but that was the value before")
+            if r[1] == "now" and ws & THEN_WORDS.get(lang, set()):
+                errs.append(f"{where}: \"{sent.strip()[:70]}\" says {m.group(0)} was the earlier value, but it is the value now")
         # a direction verb must agree with what the pair did
         quoted = {r[0] for _, r in nums if r}
         # "down the left", "up that side": places, not directions
@@ -241,13 +264,69 @@ def segment_claim_errors(seg: dict) -> list[str]:
     return errs
 
 
+def _allowed(md: MatchData, seg: dict, keys: list[str] | None = None) -> list[float]:
+    """Every number a segment may say: its facts' values and details (only the facts in `keys`
+    when given), the minutes it is about (as clock minutes and as broadcast minutes, one higher),
+    and the recent window's length."""
+    vals: list[float] = [10.0]  # the detectors' recent window, "the last 10 minutes"
+    for f in seg.get("facts", []):
+        if keys and f["key"] not in keys:
+            continue
+        for v in [f.get("value")] + list((f.get("detail") or {}).values()):
+            if isinstance(v, (int, float)) and not isinstance(v, bool):
+                vals.append(float(v))
+        eid = (f.get("args") or {}).get("event_id")
+        if eid in md.by_id:
+            m = int(md.by_id[eid]["minute"])
+            vals += [m, m + 1]
+    cand = (seg.get("provenance") or {}).get("candidate") or {}
+    for t in [cand.get("t"), seg.get("clip", {}).get("t0")]:
+        if isinstance(t, (int, float)):
+            vals += [int(t // 60), int(t // 60) + 1, round(t / 60)]
+    return vals
+
+
+def _said(n_text: str, allowed: list[float]) -> bool:
+    n = _num(n_text)
+    dec = len(n_text.replace(",", ".").partition(".")[2])
+    tol = 0.5 * 10 ** -dec + 1e-9  # "0.26" may stand for 0.261; "33" for 33.3 is a rounding, not a new number
+    return any(abs(n - v) <= tol for v in allowed)
+
+
+def number_errors(md: MatchData, seg: dict) -> list[str]:
+    """The last gate before air: every number in the spoken lines, the subtitle and the stat card
+    is one the segment's facts hold. A number typed or changed after the Writer's gate fails here."""
+    allowed = _allowed(md, seg)
+    # a line that cites facts may only say their numbers: a value moved into the wrong sentence fails
+    texts = [(f"line {i}", ln["text"], _allowed(md, seg, ln["fact_keys"]) if ln.get("fact_keys") else allowed)
+             for i, ln in enumerate(seg.get("script", []))]
+    for q in seg.get("cues", []):
+        # the title's subtitle carries facts; a label drawn from its own events (a passing move's
+        # length) is counted by code from those events, not written by an agent
+        if q.get("kind") == "label" and q.get("sub") and "fact_keys" in q:
+            texts.append(("subtitle", q["sub"], allowed))
+        if q.get("kind") == "statcard":
+            texts += [(f"stat card row {j}", f"{r[0]} {r[1]}", allowed) for j, r in enumerate(q.get("rows", []))]
+    errs = []
+    for where, text, ok in texts:
+        for m in NUM.finditer(text):
+            if not _said(m.group(0), ok):
+                errs.append(f"{where}: {m.group(0)} in \"{text[:60]}\" is not a value the engine computed")
+    return errs
+
+
 def segment_errors(md: MatchData, seg: dict) -> list[str]:
-    """The finished segment: schema, every cited fact recomputed from the engine, every
-    event id real, every cue and line inside the segment, and every before/now claim the
-    right way round."""
+    """The finished segment: schema, every cited fact recomputed from the engine, every event id
+    real, every cue and line inside the segment (the checks of 22 Oct), and since 25 Oct every
+    number said is one the engine computed, every before/now claim is the right way round, and
+    the depth is what the fan asked for."""
+    return (base_errors(md, seg) + number_errors(md, seg) + segment_claim_errors(seg)
+            + segment_depth_errors(seg))
+
+
+def base_errors(md: MatchData, seg: dict) -> list[str]:
+    """The Verifier as it was on 22 Oct: schema, facts recomputed, events real, timing inside."""
     errs = [f"schema: {e.message} at /{'/'.join(map(str, e.path))}" for e in _VALIDATOR.iter_errors(seg)]
-    errs += segment_claim_errors(seg)
-    errs += segment_depth_errors(seg)
     facts = {f["key"]: f for f in seg["facts"]}
     for key, f in facts.items():
         again = S.recompute(md, f["stat"], f["args"])

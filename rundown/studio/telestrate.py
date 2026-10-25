@@ -12,9 +12,12 @@ import numpy as np
 from ..engine import stats as S
 from ..engine.data import PITCH_LEN, PITCH_WID, MatchData
 from ..engine.detect import Candidate
+from ..agents.words import fmt
 from . import writer
 
 LABEL_S = 3.5
+MOVE_WORDS = {"en": ("passes", "seconds"), "es": ("pases", "segundos"), "fr": ("passes", "secondes"),
+              "pt": ("passes", "segundos")}
 END_HOLD_S = 5.0
 
 
@@ -183,7 +186,7 @@ def options(md: MatchData, c: Candidate, cl: dict, anchor: float) -> dict:
     return dict(zones=zones, lines=lines)
 
 
-def _rules_layout(md: MatchData, c: Candidate, cl: dict, tl: Timeline, anchor: float) -> list[dict]:
+def _rules_layout(md: MatchData, c: Candidate, cl: dict, tl: Timeline, anchor: float, lang: str = "en") -> list[dict]:
     period = c.period
     clip_t0 = cl["t0"]
     t0, t1 = cl["t0"], cl["t1"]
@@ -240,7 +243,8 @@ def _rules_layout(md: MatchData, c: Candidate, cl: dict, tl: Timeline, anchor: f
         cues += [_arrow(e, tl, clip_t0, d=2.0) for e in chain]
         if chain:
             cues.append(dict(t=round(tl.seg(chain[0]["t"] - clip_t0), 2), d=1.5 + chain[-1]["t"] - chain[0]["t"],
-                             kind="label", text=f"{len(chain)} passes", sub=f"{round(chain[-1]['t'] - chain[0]['t'], 1)} seconds",
+                             kind="label", text=f"{len(chain)} {MOVE_WORDS[lang][0]}",
+                             sub=f"{fmt(round(chain[-1]['t'] - chain[0]['t'], 1), lang)} {MOVE_WORDS[lang][1]}",
                              event_ids=[e["id"] for e in chain]))
     elif c.kind == "player_focus":
         tl.freeze(max(a, 0.5), 3.2)
@@ -315,7 +319,7 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
     clip_t0 = cl["t0"]
     tl = Timeline(cl["t1"] - clip_t0)
     if plan is None:
-        cues = _rules_layout(md, c, cl, tl, anchor)
+        cues = _rules_layout(md, c, cl, tl, anchor, lang)
     else:
         cues = plan_layout(md, plan, cl, tl, options(md, c, cl, anchor))
 

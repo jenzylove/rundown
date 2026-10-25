@@ -76,3 +76,12 @@ def test_rules_segments_raise_no_false_alarms(seed):
         for lang in ("en", "es"):
             seg = telestrate.build(md, c, lang=lang, target_s=28.0)
             assert verify.segment_claim_errors(seg) == [], (c.kind, lang)
+
+
+@pytest.mark.parametrize("text", [
+    "They were allowing 4.3 passes per defensive action.",
+    "Now it's 36.3 metres.",
+    "Eastmoor have 55.2% of the passes, up from 76.9%.",
+])
+def test_time_words_must_match_the_value(text):
+    assert errs(text)
