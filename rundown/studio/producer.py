@@ -76,7 +76,7 @@ def focus(md: MatchData, player: str | None, period: int, t_from: float | None, 
 def choose(md: MatchData, cands: list[Candidate], t_now: float, n: int, cut: str = "neutral",
            player: str | None = None, t_from: float | None = None) -> list[Candidate]:
     """The rules choice for a profile: the best stories, and the followed player's segment last."""
-    period = cands[0].period if cands else 1
+    period = cands[0].period if cands else int(md.frames[-1, 0])  # nothing spotted: the half being played
     mine = focus(md, player, period, t_from, t_now) if n >= 2 else None
     chosen = pick(md, cands, t_now, n - (1 if mine else 0), cut, player)
     if mine:

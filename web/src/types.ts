@@ -40,10 +40,21 @@ export interface Voice {
   words: { text: string; t: number; d: number }[]  // segment time
 }
 
+export interface Profile { side: 'neutral' | 'home' | 'away'; lang: 'en' | 'es' | 'fr' | 'pt'; depth: 'casual' | 'analyst'; player: string | null; key?: string }
+
+export type Phase = 'ht' | 'ft' | 'catchup'
+
 export interface Rundown {
   slot_s: number; cut: string; lang: string; made_by: string; score: string
   intro: { d: number; home: string; away: string }
   segments: Segment[]; duration_s: number
+  depth?: string; player?: string | null; profile?: Profile; phase?: Phase
+  window?: { from_s: number; to_s: number }; id?: string; built_ms?: number
+}
+
+export interface WallItem {
+  key: string; phase: 'ht' | 'ft'; profile: Profile; player_name: string | null; ready_s: number; took_s: number
+  segments: number; verified: number; lead: string | null; kinds: string[]; made_by: string; agent_words: number
 }
 
 export interface FeedItem {
@@ -60,7 +71,7 @@ export interface CrewInfo { mode: 'agents' | 'rules'; model: string | null; kill
 export interface RunSnapshot {
   id: string; seed: number; speed: number; status: string; error?: string | null; clock: number; period: number
   score: [number, number]; meta: Meta; feed: FeedItem[]; candidates: Candidate[]
-  locked_at: number | null; whistle_at: number | null; crew: CrewInfo
+  locked_at: number | null; whistle_at: number | null; crew: CrewInfo; wall?: WallItem[]
 }
 
 export interface MatchEvent { id: string; t: number; period: number; minute: number; type: string; team: string | null; player: string | null; [k: string]: unknown }

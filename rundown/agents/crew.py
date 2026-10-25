@@ -534,7 +534,7 @@ class Crew:
         t0 = time.time()
         n = producer.n_segments(slot_s)
         base = dict(slot_s=slot_s, cut=cut, lang=lang, depth=depth, player=player)
-        period = cands[0].period if cands else (1 if t_now <= 2700 else 2)
+        period = cands[0].period if cands else int(md.frames[-1, 0])
         mine = producer.focus(md, player, period, t_from, t_now)
         if not cands and not mine:
             return dict(base, segments=[], duration_s=0.0, made_by="crew")

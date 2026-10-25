@@ -122,6 +122,7 @@ DOWN = {k: set(v.split()) for k, v in DOWN.items()}
 FROM = {"en": r"from", "es": r"de|desde", "fr": r"de|d'|du", "pt": r"de|do|da"}
 TO = {"en": r"to", "es": r"a|al|hasta", "fr": r"à|a", "pt": r"para|a|até"}
 NUM = re.compile(r"(?<![\w.,])\d+(?:[.,]\d+)?(?![.,]?\d)")
+PLACE = re.compile(r"\b(?:down|up)\s+(?:the|that|this|their|his|her|its|a|our|your)\b")
 SENTENCE = re.compile(r"(?<=[.!?])\s+")  # a stop then a space: "76.9" stays whole
 
 
@@ -176,7 +177,9 @@ def claim_errors(text: str, lang: str, pairs: list[tuple[float, float]], where: 
                                 f"but {m2.group(0)} came first and {m1.group(0)} is now")
         # a direction verb must agree with what the pair did
         quoted = {r[0] for _, r in nums if r}
-        words = set(re.findall(r"[^\W\d_]+", sent.lower()))
+        # "down the left", "up that side": places, not directions
+        plain = PLACE.sub(" ", sent.lower()) if lang == "en" else sent.lower()
+        words = set(re.findall(r"[^\W\d_]+", plain))
         said_up, said_down = bool(words & up), bool(words & down)
         if said_up == said_down:
             continue  # no direction word, or both: not judged

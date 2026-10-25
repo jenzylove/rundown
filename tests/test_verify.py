@@ -30,6 +30,8 @@ def test_the_live_bug_is_caught():
     "Eastmoor now have 76.9% of the passes in the final third, up from 55.2%.",
     "The line sits at 32.3 m now.",
     "From 55.2% to 76.9%: Eastmoor own the ball.",
+    "Attacks down that side: 55.2% → 76.9%",
+    "They go down the left: from 55.2% to 76.9% of attacks.",
 ])
 def test_true_claims_pass(text):
     assert errs(text) == []

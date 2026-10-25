@@ -207,3 +207,48 @@ code.inline { display: inline; }
   .facts-row { grid-template-columns: 1fr; gap: 14px; }
   .proof-intro h1 { font-size: 42px; }
 }
+
+/* Whistle wall */
+.wall { margin-top: 22px; }
+.wall-lede { max-width: 640px; margin: 4px 0 8px; }
+.wall-sum { font-family: "IBM Plex Mono", monospace; margin: 6px 0 0; color: var(--ink); }
+.wall-wrap { overflow-x: auto; margin-top: 10px; }
+.wall-table { min-width: 720px; }
+.wall-table td { white-space: nowrap; }
+.wall-table td.wall-fan { font-weight: 600; }
+.wall-table td.wall-lead { white-space: normal; min-width: 180px; color: var(--ink-muted); }
+.wall-num { font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+.wall-ok { color: var(--ink); font-weight: 600; }
+.wall-warn { color: var(--warn); font-weight: 600; }
+.wall-catch { list-style: none; margin: 8px 0 0; padding: 0; }
+.wall-catch > li { padding: 10px 0; border-top: 1px solid var(--rule); }
+.wall-catch ul { margin: 4px 0 0; padding-left: 18px; }
+
+/* fan profile: the front door */
+.fan-card { display: flex; flex-direction: column; gap: 16px; }
+.fan-card .eyebrow { margin: 0; font: 600 12px/1 "IBM Plex Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); }
+.fan-card h2 { margin: 0; font: 800 clamp(30px, 3.4vw, 44px)/0.95 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+.fan-card p { margin: 0; }
+.fan-card fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.fan-card legend, .fan-card .follow span { font: 700 13px/1 "Barlow Condensed", sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); padding: 0; margin-bottom: 8px; }
+.choice { display: flex; gap: 6px; flex-wrap: wrap; }
+.choice button { background: var(--surface-2); color: var(--ink); display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; }
+.choice button.on { background: var(--accent); color: var(--accent-ink); }
+.choice button i { width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 1px var(--rule); display: inline-block; }
+.choice.two { display: grid; grid-template-columns: 1fr 1fr; }
+.choice.two button { flex-direction: column; align-items: flex-start; gap: 4px; text-align: left; line-height: 1.2; }
+.choice.two button span { font-weight: 500; font-size: 13px; opacity: .8; }
+.fan-card .follow { display: flex; flex-direction: column; }
+.fan-card select { font: 500 15px Barlow, sans-serif; color: var(--ink); background: var(--surface-2); border: 1px solid var(--rule); border-radius: 3px; padding: 10px; max-width: 100%; }
+.fan-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.fan-actions .go { flex: 1 1 auto; }
+.fan-badge { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule); font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fan-badge .muted { color: var(--ink-muted); font-weight: 500; margin-right: 4px; }
+.for-whom { margin: 4px 0 10px; font-size: 14px; }
+button.link { background: none; color: inherit; padding: 0; text-decoration: underline; font-weight: 600; }
+.making { padding: 18px 0; color: var(--ink-muted); }
+.missed { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 12px 0; padding: 10px 14px; background: var(--surface-2); border-left: 3px solid var(--accent); }
+.missed span { font-weight: 600; margin-right: auto; }
+.wall-line { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--rule); color: var(--ink-muted); }
+.wall-line b { color: var(--ink); }
+.ok-mark { color: var(--ink); font-weight: 600; }

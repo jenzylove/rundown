@@ -7,8 +7,14 @@ interface RunSummary {
   runId: string; seed: number; status: string; error?: string | null; started_at: number
   whistle_at: number | null; locked_at: number | null; score: [number, number]; clubs: Club[]
   crew: { mode: string; model: string | null; killed: string[] }; stream: Stream; live: boolean
-  clock?: number; feed?: FeedItem[]
+  clock?: number; feed?: FeedItem[]; wall?: WallItem[]
 }
+interface WallProfile { side: string; lang: string; depth: string; player?: string | null; key?: string }
+interface WallItem {
+  key: string; phase: 'ht' | 'ft'; profile: WallProfile; player_name: string | null; ready_s: number; took_s: number
+  segments: number; verified: number; lead: string | null; kinds: string[]; made_by: 'crew' | 'rules'; agent_words: number
+}
+type CatchupRundown = Rundown & { window?: { from_s: number; to_s: number }; profile?: WallProfile }
 interface Detail { live: boolean; now: number; run: RunSummary; trail: TrailItem[]; rundowns: Record<string, Rundown> }
 interface AgentScore { jobs: number; first_try: number; after_retry: number; routed_around: number }
 interface EvalSummary { agents: Record<string, AgentScore>; lock_median_s: number; lock_max_s: number; rundowns: unknown[] }
@@ -17,6 +23,38 @@ const AGENTS = ['analyst', 'producer', 'telestrator', 'writer']
 const CUT_LABEL: Record<string, string> = { neutral: 'Neutral', home: 'Home fans', away: 'Away fans' }
 const STATUS_LABEL: Record<string, string> = {
   first_half: 'First half', half_time: 'Half-time', second_half: 'Second half', full_time: 'Full time', failed: 'Failed',
+}
+
+const PHASE_LABEL: Record<string, string> = { ht: 'Half-time', ft: 'Full-time' }
+
+function fanText(p: WallProfile, clubs: Club[], playerName?: string | null) {
+  const who = p.side === 'home' ? `${clubs[0]?.short ?? 'Home'} fan` : p.side === 'away' ? `${clubs[1]?.short ?? 'Away'} fan` : 'Neutral'
+  const depth = p.depth ? p.depth.charAt(0).toUpperCase() + p.depth.slice(1) : ''
+  const follow = p.player && p.player !== '-' ? ` · follows ${playerName ?? p.player}` : ''
+  return `${who} · ${depth} · ${p.lang.toUpperCase()}${follow}`
+}
+
+/** Label for a rundown key: new shape ht|side|lang|depth|player, catchup|id, or the old side|lang. */
+function cutLabel(k: string, clubs: Club[], wall: WallItem[], rd?: CatchupRundown) {
+  const parts = k.split('|')
+  if (parts[0] === 'catchup') {
+    const w = rd?.window
+    const prof = rd?.profile ? fanText(rd.profile, clubs, wall.find(x => x.profile.player === rd.profile!.player)?.player_name) : ''
+    return `Catch-up${w ? ` ${Math.floor(w.from_s / 60)}' to ${Math.ceil(w.to_s / 60)}'` : ''}${prof ? ` · ${prof}` : ''}`
+  }
+  if (parts.length >= 5 && (parts[0] === 'ht' || parts[0] === 'ft')) {
+    const [ph, side, lang, depth, player] = parts
+    const name = wall.find(x => x.profile.player === player)?.player_name
+    return `${PHASE_LABEL[ph]} · ${fanText({ side, lang, depth, player }, clubs, name)}`
+  }
+  const [c, l] = parts
+  return `${CUT_LABEL[c] ?? c} · ${(l ?? '').toUpperCase()}`
+}
+
+function median(xs: number[]) {
+  if (!xs.length) return 0
+  const a = [...xs].sort((x, y) => x - y), m = a.length >> 1
+  return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2
 }
 
 function ago(t: number, now: number) {
@@ -148,8 +186,10 @@ export default function Proof() {
 function RunDetail({ d, kill }: { d: Detail; kill: (role: string) => void }) {
   const r = d.run
   const cuts = Object.keys(d.rundowns)
-  const [cut, setCut] = useState(cuts[0])
-  useEffect(() => { if (!cut || !d.rundowns[cut]) setCut(Object.keys(d.rundowns)[0]) }, [d, cut])
+  const firstCut = cuts.find(k => !k.startsWith('catchup|')) ?? cuts[0]
+  const [cut, setCut] = useState(firstCut)
+  useEffect(() => { if (!cut || !d.rundowns[cut]) setCut(firstCut) }, [d, cut, firstCut])
+  const wall = r.wall ?? []
   const lockAfter = r.whistle_at && r.locked_at ? r.locked_at - r.whistle_at : null
   const rundown = cut ? d.rundowns[cut] : undefined
   const canKill = d.live && r.status === 'first_half' && r.crew.mode === 'agents'
@@ -173,11 +213,14 @@ function RunDetail({ d, kill }: { d: Detail; kill: (role: string) => void }) {
     {canKill && !r.crew.killed.includes('telestrator') &&
       <button className="ghost" onClick={() => kill('telestrator')}>Switch off the Telestrator now</button>}
 
+    <WhistleWall wall={wall} clubs={r.clubs} />
+    <Catchups rundowns={d.rundowns} clubs={r.clubs} wall={wall} />
+
     <h3>On air</h3>
     {!rundown && <p className="muted small">{r.status === 'first_half' ? 'The rundown locks at the half-time whistle.' : 'No rundown was saved for this run.'}</p>}
     {rundown && <>
       {cuts.length > 1 && <div className="toggles" role="group" aria-label="Cut">
-        {cuts.map(k => { const [c, l] = k.split('|'); return <button key={k} className={k === cut ? 'on' : ''} onClick={() => setCut(k)}>{CUT_LABEL[c] ?? c} · {l.toUpperCase()}</button> })}
+        {cuts.map(k => <button key={k} className={k === cut ? 'on' : ''} onClick={() => setCut(k)}>{cutLabel(k, r.clubs, wall, d.rundowns[k] as CatchupRundown)}</button>)}
       </div>}
       <ol className="proof-segs">{rundown.segments.map((s, i) => <ProofSegment key={s.segment_id + i} s={s} i={i} rulesOnly={rundown.made_by !== 'crew'} />)}</ol>
       <p className="muted small">{rundown.duration_s.toFixed(1)} s for a {rundown.slot_s} s slot.</p>
@@ -186,6 +229,52 @@ function RunDetail({ d, kill }: { d: Detail; kill: (role: string) => void }) {
     <h3>Trail <span className="muted small">({d.trail.length} entries: every agent call, retry, fallback and Verifier check)</span></h3>
     <Trail trail={d.trail} t0={r.started_at} />
   </>
+}
+
+function WhistleWall({ wall, clubs }: { wall: WallItem[]; clubs: Club[] }) {
+  const rows = [...wall].sort((a, b) => (a.phase === b.phase ? 0 : a.phase === 'ht' ? -1 : 1) || a.ready_s - b.ready_s)
+  const full = rows.filter(w => w.segments > 0 && w.verified === w.segments).length
+  return <section className="wall">
+    <h3>Whistle wall</h3>
+    <p className="muted small wall-lede">Every cut the crew made for this match: who it was for, how long after the whistle it was ready,
+      and how much of it the Verifier passed.</p>
+    {rows.length === 0 ? <p className="muted small">This run was recorded before per-fan cuts.</p> : <>
+      <p className="small wall-sum">{rows.length} cuts · {full} fully verified · median ready {median(rows.map(w => w.ready_s)).toFixed(1)} s after the whistle</p>
+      <div className="wall-wrap">
+        <table className="trail wall-table">
+          <thead><tr><th>Fan</th><th>Phase</th><th>Ready</th><th>Lead story</th><th>Verified</th><th>Words</th></tr></thead>
+          <tbody>{rows.map(w => {
+            const ok = w.segments > 0 && w.verified === w.segments
+            return <tr key={w.key}>
+              <td className="wall-fan">{fanText(w.profile, clubs, w.player_name)}</td>
+              <td>{PHASE_LABEL[w.phase] ?? w.phase}</td>
+              <td className="wall-num">{w.ready_s.toFixed(1)} s after the whistle</td>
+              <td className="wall-lead">{w.lead ?? '–'}</td>
+              <td className={`wall-num ${ok ? 'wall-ok' : 'wall-warn'}`}>{ok ? '✓ ' : '⚠ '}{w.verified} of {w.segments}</td>
+              <td className="wall-num">{w.made_by === 'rules' ? 'rules' : `agents ${w.agent_words} of ${w.segments}`}</td>
+            </tr>
+          })}</tbody>
+        </table>
+      </div>
+    </>}
+  </section>
+}
+
+function Catchups({ rundowns, clubs, wall }: { rundowns: Record<string, Rundown>; clubs: Club[]; wall: WallItem[] }) {
+  const items = Object.entries(rundowns).filter(([k]) => k.startsWith('catchup|')) as [string, CatchupRundown][]
+  if (!items.length) return null
+  return <section className="wall">
+    <h3>Catch-ups</h3>
+    <ul className="wall-catch">{items.map(([k, rd]) => {
+      const name = rd.profile ? wall.find(x => x.profile.player === rd.profile!.player)?.player_name : null
+      return <li key={k}>
+        <b>{rd.profile ? fanText(rd.profile, clubs, name) : 'Fan'}</b>
+        {rd.window && <span className="wall-num"> · {Math.floor(rd.window.from_s / 60)}' to {Math.ceil(rd.window.to_s / 60)}'</span>}
+        <ul>{rd.segments.map((sg, i) => <li key={sg.segment_id + i} className="small">{sg.title}{' '}
+          <span className={sg.provenance.verified ? 'wall-ok' : 'wall-warn'}>{sg.provenance.verified ? '✓ Verified' : '⚠ Not verified'}</span></li>)}</ul>
+      </li>
+    })}</ul>
+  </section>
 }
 
 function ProofSegment({ s, i, rulesOnly }: { s: Segment; i: number; rulesOnly: boolean }) {

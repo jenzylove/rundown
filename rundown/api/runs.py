@@ -265,7 +265,9 @@ class RunManager:
                         period, t = int(f[0]), float(f[1])
                         if period != period_seen:  # second half kicked off
                             period_seen = period
-                            run.status = "second_half"
+                            if run.status != "second_half":
+                                run.status = "second_half"
+                                self.publish(run, dict(type="status", status=run.status))
                             next_scan = 2700.0 + SCAN_EVERY_S
                         new = evs.get(i, [])
                         with run.lock:
@@ -293,6 +295,9 @@ class RunManager:
                                 time.sleep(wait)
                             self.publish(run, dict(type="frames", frames=out, period=period))
                             out = []
+                    if msg["fast"] and msg["frames"]:  # skipping: one frame a batch, so the clock is seen racing
+                        last = msg["frames"][-1]
+                        self.publish(run, dict(type="frames", frames=[last[1:]], period=int(last[0])))
                 elif msg["k"] == "whistle":
                     with run.lock:
                         run.events.extend(msg["events"])
@@ -317,6 +322,7 @@ class RunManager:
         if run.status == "half_time":
             run.status = "second_half"
             run.resume.set()
+            self.publish(run, dict(type="status", status=run.status))
             self.save(run)
         return run.status
 

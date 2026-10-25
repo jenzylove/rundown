@@ -249,9 +249,17 @@ def _light(rundown: dict) -> dict:
                                    for s in rundown["segments"]])
 
 
+LIVE_FOR_S = 3 * 3600  # a match in memory longer than this has stalled; it isn't live
+
+
+def _is_live(run) -> bool:
+    """Live means the match is still in play on this server, not just held in memory."""
+    return run.status in ("first_half", "half_time", "second_half") and time.time() - run.started_at < LIVE_FOR_S
+
+
 @app.get("/api/proof/runs")
 def proof_runs():
-    live = [dict(runs.summary(r), live=True) for r in sorted(runs.runs.values(), key=lambda r: -r.started_at)]
+    live = [dict(runs.summary(r), live=_is_live(r)) for r in sorted(runs.runs.values(), key=lambda r: -r.started_at)]
     seen = {r["runId"] for r in live}
     error = None
     try:
@@ -269,7 +277,7 @@ def proof_run(run_id: str):
     if run:
         rundowns = {k: _light(r) for k, r in run.rundowns.items()}
         rundowns.update({f"catchup|{k}": _light(r) for k, r in run.catchups.items()})
-        return dict(live=True, now=time.time(), run=runs.summary(run), trail=run.store.trail, rundowns=rundowns)
+        return dict(live=_is_live(run), now=time.time(), run=runs.summary(run), trail=run.store.trail, rundowns=rundowns)
     try:
         saved = runs.archive.load(run_id)
     except Exception as e:

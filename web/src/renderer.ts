@@ -234,8 +234,9 @@ function lowerThird(p: Pitch, q: Cue, t: number, occupied: [number, number][]) {
   g.font = `800 ${s * 4.6}px ${DISPLAY}`
   const w = Math.max(g.measureText(q.text ?? '').width, (g.font = `500 ${s * 2.4}px ${BODY}`, g.measureText(q.sub ?? '').width)) + s * 7
   const h = s * 10
-  let box = { x: p.sx(2), y: p.sy(WID - 2) - h, w, h }
-  if (hits(box, occupied)) box = { ...box, y: p.sy(6) }
+  // top left, under the score bug: the bottom of the frame belongs to the captions
+  let box = { x: p.sx(2), y: p.sy(7), w, h }
+  if (hits(box, occupied)) box = { ...box, y: p.sy(WID * 0.5) - h / 2 }
   g.save(); g.globalAlpha = 1 - out; g.translate(-s * 6 * (1 - k), 0)
   g.fillStyle = p.theme.accent; g.fillRect(box.x, box.y, s * 1.1, h)
   g.fillStyle = p.theme.panel; g.fillRect(box.x + s * 1.1, box.y, (w - s * 1.1) * k, h)
@@ -248,21 +249,45 @@ function lowerThird(p: Pitch, q: Cue, t: number, occupied: [number, number][]) {
 function statCard(p: Pitch, q: Cue, t: number, occupied: [number, number][]) {
   const g = p.ctx, s = p.scale, rows = q.rows ?? []
   const k = ease((t - q.t) / 0.5)
-  const w = s * 38, h = s * (7.5 + 5.2 * rows.length)
+  // size the card to its text: a row whose label and value don't fit side by side stacks them
+  const pad = s * 2.4, gap = s * 2.5, maxW = s * 52
+  const title = (q.text ?? '').toUpperCase()
+  const fonts = { title: `800 ${s * 3.4}px ${DISPLAY}`, label: `500 ${s * 2.3}px ${BODY}`, val: `700 ${s * 3.3}px ${DISPLAY}` }
+  const measure = (font: string, text: string) => (g.font = font, g.measureText(text).width)
+  const titleW = measure(fonts.title, title)
+  const sizes = rows.map(([label, val]) => ({ lw: measure(fonts.label, label), vw: measure(fonts.val, val) }))
+  const side = Math.max(titleW, ...sizes.map(z => z.lw + gap + z.vw)) + pad * 2
+  const w = Math.max(s * 30, Math.min(maxW, side))
+  const stacked = sizes.map(z => z.lw + gap + z.vw > w - pad * 2)
+  const rowH = stacked.map(st => s * (st ? 8.2 : 5.2))
+  const h = s * 7.5 + rowH.reduce((a, b) => a + b, 0)
   let box = { x: p.sx(LEN - 2) - w, y: p.sy(8), w, h }
-  if (hits(box, occupied)) box = { ...box, y: p.sy(WID - 2) - h }
+  if (hits(box, occupied)) box = { ...box, y: p.sy(WID - 2) - h - s * 8 }
   g.save(); g.globalAlpha = k; g.translate(s * 4 * (1 - k), 0)
   g.fillStyle = p.theme.panel; g.fillRect(box.x, box.y, w, h)
   g.fillStyle = p.theme.accent; g.fillRect(box.x, box.y, w, s * 0.7)
-  g.fillStyle = p.theme.gfxInk; g.font = `800 ${s * 3.4}px ${DISPLAY}`; g.textAlign = 'left'; g.textBaseline = 'top'
-  g.fillText((q.text ?? '').toUpperCase(), box.x + s * 2.4, box.y + s * 2.2)
+  g.fillStyle = p.theme.gfxInk; g.font = fonts.title; g.textAlign = 'left'; g.textBaseline = 'top'
+  const tScale = Math.min(1, (w - pad * 2) / Math.max(titleW, 1))  // a long name shrinks rather than spill
+  g.save(); g.translate(box.x + pad, box.y + s * 2.2); g.scale(tScale, tScale); g.fillText(title, 0, 0); g.restore()
+  let y = box.y + s * 7.6
   rows.forEach(([label, val], i) => {
-    const r = ease((t - q.t - 0.2 * (i + 1)) / 0.5), y = box.y + s * (7.6 + 5.2 * i)
+    const r = ease((t - q.t - 0.2 * (i + 1)) / 0.5)
     g.globalAlpha = k * r
-    g.font = `500 ${s * 2.3}px ${BODY}`; g.fillStyle = p.theme.gfxMuted; g.textAlign = 'left'; g.fillText(label, box.x + s * 2.4, y + s * 0.6)
-    g.font = `700 ${s * 3.3}px ${DISPLAY}`; g.fillStyle = p.theme.accent; g.textAlign = 'right'; g.fillText(val, box.x + w - s * 2.4, y)
+    g.font = fonts.label; g.fillStyle = p.theme.gfxMuted; g.textAlign = 'left'
+    g.fillText(fit(g, label, w - pad * 2), box.x + pad, y + s * 0.6)
+    g.font = fonts.val; g.fillStyle = p.theme.accent; g.textAlign = 'right'
+    g.fillText(val, box.x + w - pad, stacked[i] ? y + s * 3.6 : y)
+    y += rowH[i]
   })
   g.restore()
+}
+
+/** Trim text with an ellipsis to fit a width, in the context's current font. */
+function fit(g: CanvasRenderingContext2D, text: string, width: number): string {
+  if (g.measureText(text).width <= width) return text
+  let t = text
+  while (t.length > 1 && g.measureText(t + '…').width > width) t = t.slice(0, -1)
+  return t + '…'
 }
 
 export function bug(p: Pitch, text: string, frozen: boolean) {
