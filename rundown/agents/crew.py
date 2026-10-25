@@ -451,7 +451,10 @@ class Crew:
         budget = int(SEGMENT_S * WORDS_PER_S * 0.7)  # leave room for the picture to breathe
         prompt = json.dumps(dict(
             language=LANGS[lang], cut=cut, club_channel=_team(md, fav) if fav else None, word_budget=budget,
-            fan=dict(depth=depth, follows=md.name(player) if player else None),
+            fan=dict(depth=depth, follows=md.name(player) if player else None,
+                     rules=("casual: every spoken line has at most ONE number (one placeholder or one value); "
+                            "no PPDA, xG or field tilt anywhere, not even in the stat card; stat card 1 or 2 rows"
+                            if depth == "casual" else "analyst: stat card of 2 to 4 rows")),
             match=_match_line(md), talking_point=dict(kind=c.kind, team=_team(md, c.team), player=_player(md, c),
                                                       side=c.side, minute=_minute(c), headline=c.headline),
             analyst=self.analysis.get(cand_key(c), {}).get("why"),

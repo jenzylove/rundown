@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import anyio
 from mcp.server.fastmcp import FastMCP
+from mcp.server.transport_security import TransportSecuritySettings
 
 from ..studio.profile import Profile
 
@@ -19,6 +20,9 @@ mcp = FastMCP(
         "Every number in a segment was recomputed by the Verifier from the stats engine."),
     stateless_http=True,
     streamable_http_path="/",
+    # a public, read-only server behind Container Apps' ingress: the DNS-rebinding guard is for
+    # servers on a user's own machine, and here it would reject the public host name
+    transport_security=TransportSecuritySettings(enable_dns_rebinding_protection=False),
 )
 _runs = None  # the API's RunManager, set by attach()
 

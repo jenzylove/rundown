@@ -370,20 +370,18 @@ class RunManager:
     def _fan_out(self, run: Run, phase: str, md: MatchData):
         """Make every viewer's cut, then the wall, a few at a time, in the background. Each one is
         published the moment it is ready, and the wall records how long it took and what aired."""
-        todo, seen = [], {MASTER.key}
-        for prof in list(run.viewers.values()) + (WALL if phase == "ht" else []):
-            if prof.key not in seen:
-                seen.add(prof.key)
-                todo.append(prof)
+        viewers = [p for p in run.viewers.values() if p.key != MASTER.key]
+        wall = [p for p in (WALL if phase == "ht" else []) if p.key != MASTER.key and p.key not in run.viewers]
 
         def one(prof: Profile):
             r = self.rundown(run, prof, md, phase)
             self.publish(run, dict(type="rundown", key=prof.key, phase=phase, rundown=r))
             self.save(run)
 
-        def go():
+        def go():  # the people watching first, then the wall
             with ThreadPoolExecutor(FANOUT) as ex:
-                list(ex.map(one, todo))
+                list(ex.map(one, viewers))
+                list(ex.map(one, wall))
         threading.Thread(target=go, daemon=True, name=f"fanout-{run.id}").start()
 
     def watch(self, run: Run, prof: Profile) -> dict:
