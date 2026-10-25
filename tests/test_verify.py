@@ -79,7 +79,7 @@ def test_rules_segments_raise_no_false_alarms(seed):
 
 
 @pytest.mark.parametrize("text", [
-    "They were allowing 4.3 passes per defensive action.",
+    "The line was at 32.3 metres before the break.",
     "Now it's 36.3 metres.",
     "Eastmoor have 55.2% of the passes, up from 76.9%.",
 ])
