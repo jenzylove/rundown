@@ -193,6 +193,23 @@ def scan(md: MatchData, period: int, t: float) -> list[Candidate]:
     return out
 
 
+def player_focus(md: MatchData, player: str, period: int, t0: float, t1: float) -> Candidate | None:
+    """A followed player's window: his passing and his running, as one talking point.
+    Made on request for a fan who follows him, not by the scans."""
+    if player not in md.players:
+        return None
+    team = md.players[player]["team"]
+    ps, ph = S.player_passing(md, player, period, t0, t1), S.player_physical(md, player, period, t0, t1)
+    if ps.detail["attempted"] == 0 and ph.detail["distance_m"] == 0:
+        return None  # not on the pitch in this window
+    shots = [e for e in md.window(period, t0, t1, ("shot",)) if e.get("player") == player]
+    facts = [ps, ph] + [S.shot_xg(md, e["id"]) for e in shots[:2]]
+    return Candidate("player_focus", team, period, t1, 0.5,
+                     f"{md.name(player)}: {ps.detail['completed']} of {ps.detail['attempted']} passes, "
+                     f"{ph.detail['distance_m']} m covered",
+                     facts, player=player, evidence=(ps.evidence + [e["id"] for e in shots])[:40])
+
+
 def moments(md: MatchData, period: int, t0: float, t1: float) -> list[Candidate]:
     """Discrete key moments: goals, big chances, big saves."""
     out = []

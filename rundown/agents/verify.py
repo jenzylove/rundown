@@ -191,6 +191,38 @@ def claim_errors(text: str, lang: str, pairs: list[tuple[float, float]], where: 
     return errs
 
 
+# ---- depth: a casual fan and an analyst get genuinely different segments ----
+JARGON = re.compile(r"\b(ppda|xg|field tilt|dominio territorial|domination territoriale|domínio territorial)\b", re.I)
+
+
+def depth_errors(lines: list[str], rows: list[list[str]], depth: str, n_facts: int, where: str = "") -> list[str]:
+    """Casual: plain words, at most one number a line, no abbreviations, a short stat card.
+    Analyst: the stat card carries the evidence (two rows or more when there are facts for them)."""
+    errs = []
+    p = f"{where}: " if where else ""
+    if depth == "casual":
+        for i, t in enumerate(lines):
+            n = len(NUM.findall(t))
+            if n > 1:
+                errs.append(f"{p}line {i} has {n} numbers; a casual fan gets at most one a line")
+            if JARGON.search(t):
+                errs.append(f"{p}line {i} uses \"{JARGON.search(t).group(0)}\"; say it in plain words for a casual fan")
+        if len(rows) > 2:
+            errs.append(f"{p}{len(rows)} stat card rows; a casual fan gets at most 2")
+        for j, r in enumerate(rows):
+            if JARGON.search(r[0]):
+                errs.append(f"{p}stat card row {j} label uses \"{JARGON.search(r[0]).group(0)}\"; use plain words")
+    elif depth == "analyst" and n_facts >= 2 and len(rows) < 2:
+        errs.append(f"{p}an analyst gets at least 2 stat card rows")
+    return errs
+
+
+def segment_depth_errors(seg: dict) -> list[str]:
+    card = next((q for q in seg.get("cues", []) if q.get("kind") == "statcard"), {})
+    return depth_errors([ln["text"] for ln in seg.get("script", [])], card.get("rows", []),
+                        seg.get("depth", "analyst"), len(seg.get("facts", [])))
+
+
 def segment_claim_errors(seg: dict) -> list[str]:
     """Every spoken line, the subtitle and the stat card rows of a finished segment."""
     lang, pairs = seg.get("lang", "en"), _pairs(seg)
@@ -212,6 +244,7 @@ def segment_errors(md: MatchData, seg: dict) -> list[str]:
     right way round."""
     errs = [f"schema: {e.message} at /{'/'.join(map(str, e.path))}" for e in _VALIDATOR.iter_errors(seg)]
     errs += segment_claim_errors(seg)
+    errs += segment_depth_errors(seg)
     facts = {f["key"]: f for f in seg["facts"]}
     for key, f in facts.items():
         again = S.recompute(md, f["stat"], f["args"])

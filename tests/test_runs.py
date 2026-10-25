@@ -10,6 +10,7 @@ from rundown.api import archive as archive_mod
 from rundown.api.bus import LocalBus
 from rundown.api.runs import RunManager
 from rundown.sim.match import Sim
+from rundown.studio.profile import MASTER, Profile
 
 
 class ListArchive(archive_mod.MemoryArchive):
@@ -67,7 +68,7 @@ def test_rundown_locks_at_the_whistle(played):
     rm, run, _ = played
     assert run.status == "half_time"
     assert run.locked_at - run.whistle_at < 10
-    r = rm.rundown(run, "neutral", "en")
+    r = rm.rundown(run, MASTER)
     assert len(r["segments"]) >= 1 and abs(r["duration_s"] - 90) <= 3
     assert any(f["kind"] == "locked" for f in run.feed)
 
@@ -76,8 +77,25 @@ def test_archive_gets_the_run_and_its_rundown(played):
     _, run, archive = played
     last = archive.saved["run"][-1]
     assert last["runId"] == run.id and last["locked_at"] == run.locked_at and last["candidates"]
-    assert ("rundown", "neutral|en") in archive.saved["doc"]
+    assert ("rundown", "ht|" + MASTER.key) in archive.saved["doc"]
     assert last["stream"]["name"] == "local" and last["stream"]["messages"] > 0
+
+
+def test_every_fan_gets_their_own_cut(played):
+    rm, run, _ = played
+    home = run.meta["home"]["code"]
+    player = next(p["id"] for p in run.meta["home"]["players"][1:])
+    fan = Profile("home", "en", "casual", player)
+    rm.watch(run, fan)
+    r = rm.rundown(run, fan)
+    assert r["profile"]["key"] == fan.key and r["depth"] == "casual"
+    assert r["segments"][-1]["kind"] == "player_focus" and r["segments"][-1]["provenance"]["candidate"]["player"] == player
+    away = rm.rundown(run, Profile("away", "en", "analyst"))
+    assert [s["kind"] for s in away["segments"]] != [s["kind"] for s in r["segments"]]
+    assert all(s["provenance"]["verified"] for s in r["segments"] + away["segments"])
+    wait(lambda: len(run.wall) >= 7, 120)  # the master, the fan's cut and the wall of six
+    item = run.wall["ht|" + fan.key]
+    assert item["segments"] == len(r["segments"]) and item["player_name"]
 
 
 def test_second_half_restarts_on_cue(played):
@@ -100,3 +118,13 @@ def test_stream_down_fails_closed(monkeypatch):
     rm = RunManager(archive=ListArchive())
     with pytest.raises(RuntimeError, match="stream is down"):
         rm.create(5, 8)
+
+
+def test_catch_up_on_what_you_missed(played):
+    rm, run, _ = played
+    wait(lambda: run.clock > 2700 + 900, 120)  # fifteen minutes into the second half
+    r = rm.catch_up(run, Profile("away", "es", "casual"), run.clock - 600)
+    assert r["phase"] == "catchup" and r["window"]["to_s"] - r["window"]["from_s"] >= 590
+    assert len(r["segments"]) <= 1
+    for seg in r["segments"]:
+        assert seg["lang"] == "es" and seg["duration_s"] <= 40

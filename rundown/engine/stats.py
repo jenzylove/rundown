@@ -135,6 +135,20 @@ def hardest_pass(md: MatchData, team: str, period: int, t0: float, t1: float) ->
                 [e["id"]], detail=dict(length=e["length"], minute=e["minute"]))
 
 
+@stat
+def player_passing(md: MatchData, player: str, period: int, t0: float, t1: float) -> Fact:
+    """One player's passing in a window: completion, attempts, and his hardest completed pass."""
+    ev = [e for e in md.window(period, t0, t1, ("pass", "cross")) if e.get("player") == player]
+    done = [e for e in ev if e["outcome"] == "complete"]
+    pct = round(100.0 * len(done) / len(ev), 1) if ev else 0.0
+    hard = [(pass_difficulty_score(pass_features(md, e)), e) for e in done if not e.get("restart")]
+    best = max(hard, key=lambda x: x[0]) if hard else (0.0, None)
+    return Fact("player_passing", dict(player=player, period=period, t0=t0, t1=t1), pct, "%",
+                f"{md.name(player)} pass completion", [e["id"] for e in ev],
+                detail=dict(attempted=len(ev), completed=len(done), hardest=best[0],
+                            hardest_id=best[1]["id"] if best[1] else None))
+
+
 # ---------------------------------------------------------------- speed
 
 def _ball_speed_series(md: MatchData, a: int, b: int) -> np.ndarray:

@@ -66,9 +66,11 @@ class FakeModels:
                        highlights=[dict(slot=3, freeze=0, show_name=True)], arrows=arrows,
                        zones=[dict(name=p["options"]["zones"][0], freeze=0)])
         else:
-            a = next(f["alias"] for f in p["facts"] if isinstance(f["value"], (int, float)))
+            nums = [f["alias"] for f in p["facts"] if isinstance(f["value"], (int, float))]
+            a = nums[0]
+            rows = [dict(label=lab, facts=[x]) for lab, x in zip(("Before", "Now"), nums[:2])]
             out = dict(title="Test segment", sub=f"Now {{{a}}}", card_title="Test",
-                       rows=[dict(label="Value", facts=[a])], lines=["Look at this.", f"It is {{{a}}} now."])
+                       rows=rows, lines=["Look at this.", f"It is {{{a}}} now."])
         return schema.model_validate(out), {}
 
 

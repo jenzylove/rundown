@@ -17,6 +17,7 @@ from pydantic import BaseModel
 
 from ..agents.crew import ROLES
 from ..studio import voice
+from ..studio.profile import Profile
 from .runs import RunManager
 
 app = FastAPI(title="Rundown")
@@ -79,29 +80,85 @@ def second_half(run_id: str):
     return dict(status=runs.second_half(_get(run_id)))
 
 
-@app.get("/api/runs/{run_id}/rundown")
-def get_rundown(run_id: str, cut: str = "neutral", lang: str = "en"):
-    run = _get(run_id)
-    if cut not in ("neutral", "home", "away") or lang not in ("en", "es"):
-        raise HTTPException(400, "unsupported cut or language")
-    if run.locked_at is None:
-        raise HTTPException(409, "rundown locks at the half-time whistle")
-    return runs.rundown(run, cut, lang)
-
-
-class Swap(BaseModel):
+class Fan(BaseModel):
+    """Who is watching: their side, language, depth, and the player they follow (an id from the run's meta)."""
     cut: str = "neutral"
     lang: str = "en"
+    depth: str = "analyst"
+    player: str | None = None
+
+
+def _profile(run, cut: str, lang: str, depth: str, player: str | None) -> Profile:
+    try:
+        prof = Profile(cut, lang, depth, player or None)
+    except ValueError as e:
+        raise HTTPException(400, str(e))
+    if prof.player and not any(p["id"] == prof.player for side in ("home", "away") for p in run.meta[side]["players"]):
+        raise HTTPException(400, "no such player in this match")
+    return prof
+
+
+def _phase(run, phase: str) -> str:
+    if phase not in ("ht", "ft"):
+        raise HTTPException(400, "phase is ht or ft")
+    if phase == "ht" and run.locked_at is None:
+        raise HTTPException(409, "rundown locks at the half-time whistle")
+    if phase == "ft" and run.status != "full_time":
+        raise HTTPException(409, "the full-time rundown locks at the final whistle")
+    return phase
+
+
+@app.get("/api/runs/{run_id}/rundown")
+def get_rundown(run_id: str, cut: str = "neutral", lang: str = "en", depth: str = "analyst",
+                player: str | None = None, phase: str = "ht"):
+    run = _get(run_id)
+    prof = _profile(run, cut, lang, depth, player)
+    return runs.rundown(run, prof, phase=_phase(run, phase))
+
+
+@app.post("/api/runs/{run_id}/watch")
+def watch(run_id: str, body: Fan):
+    """A fan's profile: their cut is drafted during the half and made first at the whistle."""
+    run = _get(run_id)
+    return runs.watch(run, _profile(run, body.cut, body.lang, body.depth, body.player))
+
+
+class CatchUp(Fan):
+    since_s: float  # match clock (s) the fan stopped watching
+
+
+@app.post("/api/runs/{run_id}/catchup")
+def catch_up(run_id: str, body: CatchUp):
+    """One short segment, voiced, on what the fan missed since `since_s`, made for their profile."""
+    run = _get(run_id)
+    if run.status not in ("first_half", "second_half"):
+        raise HTTPException(409, "catch-up works while the match is playing")
+    if run.clock - body.since_s < 60:
+        raise HTTPException(409, "less than a minute to catch up on")
+    try:
+        return runs.catch_up(run, _profile(run, body.cut, body.lang, body.depth, body.player), body.since_s)
+    except RuntimeError as e:
+        raise HTTPException(502, str(e))
+
+
+@app.get("/api/runs/{run_id}/wall")
+def wall(run_id: str):
+    """Every cut the crew has made for this run: who it was for, when it was ready, what led, what verified."""
+    run = _get(run_id)
+    return dict(whistle_at=run.whistle_at, ft_at=run.ft_at, items=sorted(run.wall.values(), key=lambda w: w["ready_s"]))
+
+
+class Swap(Fan):
     segment_id: str
+    phase: str = "ht"
 
 
 @app.post("/api/runs/{run_id}/rundown/swap")
 def swap_segment(run_id: str, body: Swap):
     run = _get(run_id)
-    if run.locked_at is None:
-        raise HTTPException(409, "rundown locks at the half-time whistle")
+    phase = _phase(run, body.phase)
     try:
-        return runs.swap(run, body.cut, body.lang, body.segment_id)
+        return runs.swap(run, _profile(run, body.cut, body.lang, body.depth, body.player), body.segment_id, phase)
     except KeyError:
         raise HTTPException(404, "no such segment")
     except LookupError as e:
@@ -109,17 +166,16 @@ def swap_segment(run_id: str, body: Swap):
 
 
 @app.post("/api/runs/{run_id}/rundown/voice")
-def voice_rundown(run_id: str, cut: str = "neutral", lang: str = "en"):
+def voice_rundown(run_id: str, cut: str = "neutral", lang: str = "en", depth: str = "analyst",
+                  player: str | None = None, phase: str = "ht"):
     """Voice-over for every segment of a cut: audio URLs and word timings, script re-timed to the voice."""
     run = _get(run_id)
-    if cut not in ("neutral", "home", "away") or lang not in ("en", "es"):
-        raise HTTPException(400, "unsupported cut or language")
-    if run.locked_at is None:
-        raise HTTPException(409, "rundown locks at the half-time whistle")
+    prof = _profile(run, cut, lang, depth, player)
+    phase = _phase(run, phase)
     if not voice.configured():
         raise HTTPException(503, "voice-over needs AZURE_SPEECH_REGION and a key")
     try:
-        return runs.voice(run, cut, lang)
+        return runs.voice(run, prof, phase)
     except RuntimeError as e:
         raise HTTPException(502, str(e))
 
@@ -211,8 +267,9 @@ def proof_runs():
 def proof_run(run_id: str):
     run = runs.runs.get(run_id)
     if run:
-        return dict(live=True, now=time.time(), run=runs.summary(run), trail=run.store.trail,
-                    rundowns={f"{c}|{l}": _light(r) for (c, l), r in run.rundowns.items()})
+        rundowns = {k: _light(r) for k, r in run.rundowns.items()}
+        rundowns.update({f"catchup|{k}": _light(r) for k, r in run.catchups.items()})
+        return dict(live=True, now=time.time(), run=runs.summary(run), trail=run.store.trail, rundowns=rundowns)
     try:
         saved = runs.archive.load(run_id)
     except Exception as e:

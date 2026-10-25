@@ -153,6 +153,17 @@ def moment(md: MatchData, c: Candidate) -> tuple[float, float, float]:
                 best = list(run)
         anchor = best[0]["t"] if best else c.t - 30
         return anchor, anchor - 1.5, (best[-1]["t"] + 2.5) if best else anchor + 10
+    if c.kind == "player_focus":
+        # his best moment of the window: a shot if he had one, else his hardest completed pass
+        shots = [f for f in c.facts if f.stat == "shot_xg"]
+        eid = (max(shots, key=lambda f: f.value).args["event_id"] if shots
+               else c.facts[0].detail.get("hardest_id"))
+        ev = md.by_id.get(eid) if eid else None
+        if ev is None:
+            mine = [md.by_id[i] for i in c.evidence if i in md.by_id]
+            ev = mine[-1] if mine else None
+        anchor = ev["t"] if ev else c.t - 30
+        return anchor, anchor - 6, anchor + 3
     # goal / big chance
     shot = md.by_id[c.evidence[0]]
     anchor = shot["t"]
@@ -231,6 +242,16 @@ def _rules_layout(md: MatchData, c: Candidate, cl: dict, tl: Timeline, anchor: f
             cues.append(dict(t=round(tl.seg(chain[0]["t"] - clip_t0), 2), d=1.5 + chain[-1]["t"] - chain[0]["t"],
                              kind="label", text=f"{len(chain)} passes", sub=f"{round(chain[-1]['t'] - chain[0]['t'], 1)} seconds",
                              event_ids=[e["id"] for e in chain]))
+    elif c.kind == "player_focus":
+        tl.freeze(max(a, 0.5), 3.2)
+        ft = tl.seg_at_freeze(max(a, 0.5))
+        s = md.slot_of(c.player, period, anchor)
+        if s is not None:
+            cues.append(dict(t=round(ft, 2), d=3.2, kind="highlight", slot=s, text=md.name(c.player)))
+            cues.append(dict(t=round(ft + 0.4, 2), d=2.8, kind="run", slot=s, from_t=0.0, to_t=round(max(a, 0.5), 2)))
+        own = [e for e in md.window(period, t0, t1, ("pass", "cross", "shot", "carry"))
+               if e.get("player") == c.player and e.get("end_x") is not None]
+        cues += [_arrow(e, tl, clip_t0) for e in own[-2:]]
     else:
         build_up = [e for e in md.window(period, t0, anchor, ("pass", "cross", "carry"), c.team)][-3:]
         tl.freeze(max(a - 0.1, 0.5), 2.0)
@@ -283,7 +304,7 @@ def plan_layout(md: MatchData, plan: dict, cl: dict, tl: Timeline, opts: dict) -
 
 def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None = None,
           seg_id: str = "seg", plan: dict | None = None, words: dict | None = None,
-          made_by: str = "rules") -> dict:
+          made_by: str = "rules", depth: str = "analyst") -> dict:
     """Talking point -> segment. `plan` (an agent's visual plan) replaces the rules layout and
     `words` (an agent Writer's text, numbers already filled in) the rules writer; timing,
     geometry and the end card are always worked out here."""
@@ -318,11 +339,11 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
                 q["d"] = round(q["d"] + _grow_inside(q, old, grown), 2)
     end_t = tl.seg_at_freeze(tl.clip_len)
     if words is None:
-        rows, card_facts = writer.stat_rows(md, c, lang)
+        rows, card_facts = writer.stat_rows(md, c, lang, depth)
         card_keys = [f.key for f in card_facts]
         words = dict(title=writer.title(md, c, lang), sub=writer.subtitle(md, c, lang), sub_keys=[f.key for f in c.facts[:2]],
                      card_title=writer.card_title(md, c, lang), rows=rows, card_keys=card_keys,
-                     lines=writer.script(md, c, lang))
+                     lines=writer.script(md, c, lang, depth))
     else:
         card_facts = [f for f in c.facts if f.key in set(words["card_keys"])]
     cues.append(dict(t=round(end_t, 2), d=round(tl.freezes[-1][1], 2), kind="statcard",
@@ -342,7 +363,7 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
         script.append(dict(t=round(t, 2), d=round(d, 2), text=text, fact_keys=keys))
         t += d + 0.3
 
-    return dict(version="1", segment_id=seg_id, title=title[:48], kind=c.kind, team=c.team, lang=lang,
+    return dict(version="1", segment_id=seg_id, title=title[:48], kind=c.kind, team=c.team, lang=lang, depth=depth,
                 duration_s=round(max(tl.duration, t), 2), clip=cl, cues=cues, script=script,
                 facts=list({f.key: f.to_dict() for f in facts + card_facts}.values()),
                 provenance=dict(made_by=made_by, candidate=c.to_dict(), verified=False))

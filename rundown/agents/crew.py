@@ -142,7 +142,10 @@ most scans since it appeared and still see at the whistle is a real change in th
 a few scans that faded minutes ago is probably noise, however well it was rated at first. Peak
 strength near 1 is a clear change; below about 0.5 it is marginal. A point first seen in the last two
 or three minutes hasn't had time to prove itself: it needs a strong peak to beat a sustained one.
-The talking points have been screened for clear evidence and come strongest first. Goals and big chances are marked `moment`: pick at most one of them in total. Return exactly the
+A fan profile shapes the choice: a casual fan wants clear, visible stories (a goal or chance, a player
+fading, a side being pinned back) over subtle metric shifts; an analyst wants the tactical changes. When
+the fan follows a player, a segment on that player is added after yours, so don't spend a pick on him
+unless he is the story of a point. The talking points have been screened for clear evidence and come strongest first. Goals and big chances are marked `moment`: pick at most one of them in total. Return exactly the
 number asked for when there are enough points. Give a short reason for each, written for the human producer: what the story is
 and why it earns its place. No numbers or scores in the reasons.""",
     "telestrator": """You are the Telestrator. You plan the picture for one talking point: a short tracking
@@ -159,7 +162,12 @@ moment is a good first freeze. Write `focus` in English.""",
 language: a title, a lower-third subtitle, the stat card (heading and 1 to 4 rows, each row a label
 plus the facts that fill it), and 2 to 5 short spoken lines that walk the viewer through the picture.
 Speak like TV: plain, vivid, present tense, no jargon without a gloss. For a club channel (cut home or
-away), speak to that club's fans. Keep to the word budget and the character limits. Use the language's own words
+away), speak to that club's fans. Depth: for a casual fan, plain words, at most one number in a line,
+never PPDA, xG or field tilt (say what they mean), and a stat card of 1 or 2 rows; for an analyst, name
+the metric, give the before and the now values, explain the mechanism, and a stat card of 2 to 4 rows.
+When the fan follows a player, mention him if he is part of the picture. Before and now: when you quote
+both values of a change, say "from" the earlier value "to" the recent one, and a rise or fall word must
+match what the values did. Keep to the word budget and the character limits. Use the language's own words
 for units. Everything here happened in the first half; minutes past 45 are first-half stoppage time.
 {NUMBERS_RULE}""",
 }
@@ -236,10 +244,11 @@ class Crew:
     def analyse(self, md: MatchData, cands: list[Candidate]) -> Future:
         return self.submit(self._analyse(md, cands))
 
-    def draft(self, md: MatchData, cands: list[Candidate], t_now: float, lang: str = "en", cut: str = "neutral") -> Future:
+    def draft(self, md: MatchData, cands: list[Candidate], t_now: float, lang: str = "en", cut: str = "neutral",
+              depth: str = "analyst", player: str | None = None) -> Future:
         """Start plans and scripts in the background for the points likely to make the rundown:
         the rules picks, the Analyst's top three and the three with the clearest evidence."""
-        likely = producer.pick(md, cands, t_now, 3, cut)
+        likely = producer.pick(md, cands, t_now, 3, cut, player)
         rated = sorted((c for c in cands if cand_key(c) in self.analysis),
                        key=lambda c: -self.analysis[cand_key(c)]["matters"])
         clear = sorted((c for c in cands if c.kind not in MOMENTS and _clear(c, t_now)),
@@ -249,16 +258,17 @@ class Crew:
                 likely.append(c)
 
         async def go():
-            await asyncio.gather(*(self._script(md, c, lang, cut) for c in likely), return_exceptions=True)
+            await asyncio.gather(*(self._script(md, c, lang, cut, depth, player) for c in likely), return_exceptions=True)
         return self.submit(go())
 
     def rundown(self, md: MatchData, cands: list[Candidate], t_now: float, slot_s: float = 90.0,
-                cut: str = "neutral", lang: str = "en", timeout: float = 120.0) -> dict:
-        return self.submit(self._rundown(md, cands, t_now, slot_s, cut, lang)).result(timeout)
+                cut: str = "neutral", lang: str = "en", timeout: float = 120.0, depth: str = "analyst",
+                player: str | None = None, t_from: float | None = None) -> dict:
+        return self.submit(self._rundown(md, cands, t_now, slot_s, cut, lang, depth, player, t_from)).result(timeout)
 
     def segment(self, md: MatchData, c: Candidate, lang: str, cut: str, target_s: float, seg_id: str,
-                timeout: float = 90.0) -> dict:
-        return self.submit(self._segment(md, c, lang, cut, target_s, seg_id)).result(timeout)
+                timeout: float = 90.0, depth: str = "analyst", player: str | None = None) -> dict:
+        return self.submit(self._segment(md, c, lang, cut, target_s, seg_id, depth, player)).result(timeout)
 
     # ---- one agent call, gated by the Verifier ----
     async def _call(self, role: str, action: str, prompt: str, schema: type[BaseModel],
@@ -336,7 +346,8 @@ class Crew:
             self.analysis[cand_key(c)] = out[i]
 
     # ---- Producer ----
-    async def _pick(self, md: MatchData, cands: list[Candidate], t_now: float, cut: str, n: int) -> list[tuple[Candidate, str]]:
+    async def _pick(self, md: MatchData, cands: list[Candidate], t_now: float, cut: str, n: int,
+                    depth: str = "analyst", player: str | None = None) -> list[tuple[Candidate, str]]:
         # Code screens the evidence, the Producer decides: only points the detectors saw steadily, recently
         # and clearly go forward (plus every goal and chance), strongest evidence first. If that leaves
         # too few kinds to fill the rundown, the next strongest come back in.
@@ -352,7 +363,7 @@ class Crew:
         fav = {"home": md.home, "away": md.away}.get(cut)
         prompt = json.dumps(dict(
             match=_match_line(md, t_now), slot_s=90, cut=cut, club_channel=_team(md, fav) if fav else None,
-            segments_wanted=n,
+            fan=dict(depth=depth, follows=md.name(player) if player else None), segments_wanted=n,
             talking_points=[dict(id=i, kind=c.kind, team=_team(md, c.team), player=_player(md, c), minute=_minute(c),
                                  headline=c.headline, analyst=self.analysis.get(cand_key(c)),
                                  moment=c.kind in MOMENTS,
@@ -387,10 +398,10 @@ class Crew:
                 errs += verify.text_errors(p.reason, "en", f"{p.id} reason", on_air=False)
             return errs, [(ids[p.id], p.reason) for p in v.picks]
         try:
-            return await self._call("producer", f"planned the {cut} rundown", prompt, schema, check)
+            return await self._call("producer", f"planned the {cut} {depth} rundown", prompt, schema, check)
         except (AgentDown, Rejected):
-            self.store.record("producer", f"planned the {cut} rundown", "fallback", why="used the rules ranking")
-            return [(c, "rules ranking") for c in producer.pick(md, cands, t_now, n, cut)]
+            self.store.record("producer", f"planned the {cut} {depth} rundown", "fallback", why="used the rules ranking")
+            return [(c, "rules ranking") for c in producer.pick(md, cands, t_now, n, cut, player)]
 
     # ---- Telestrator (one plan per talking point, cached) ----
     async def _plan(self, md: MatchData, c: Candidate) -> dict | None:
@@ -425,19 +436,22 @@ class Crew:
             return None
 
     # ---- Writer (per talking point, language and cut, cached) ----
-    async def _script(self, md: MatchData, c: Candidate, lang: str, cut: str) -> tuple[dict | None, dict | None]:
-        k = (cand_key(c), lang, cut)
+    async def _script(self, md: MatchData, c: Candidate, lang: str, cut: str, depth: str = "analyst",
+                      player: str | None = None) -> tuple[dict | None, dict | None]:
+        k = (cand_key(c), lang, cut, depth, player)
         if k not in self._scripts:
-            self._scripts[k] = asyncio.ensure_future(self._make_script(md, c, lang, cut))
+            self._scripts[k] = asyncio.ensure_future(self._make_script(md, c, lang, cut, depth, player))
         return await self._scripts[k]
 
-    async def _make_script(self, md: MatchData, c: Candidate, lang: str, cut: str) -> tuple[dict | None, dict | None]:
+    async def _make_script(self, md: MatchData, c: Candidate, lang: str, cut: str, depth: str = "analyst",
+                           player: str | None = None) -> tuple[dict | None, dict | None]:
         plan = await self._plan(md, c)
         table = Table(c)
         fav = {"home": md.home, "away": md.away}.get(cut)
         budget = int(SEGMENT_S * WORDS_PER_S * 0.7)  # leave room for the picture to breathe
         prompt = json.dumps(dict(
             language=LANGS[lang], cut=cut, club_channel=_team(md, fav) if fav else None, word_budget=budget,
+            fan=dict(depth=depth, follows=md.name(player) if player else None),
             match=_match_line(md), talking_point=dict(kind=c.kind, team=_team(md, c.team), player=_player(md, c),
                                                       side=c.side, minute=_minute(c), headline=c.headline),
             analyst=self.analysis.get(cand_key(c), {}).get("why"),
@@ -476,35 +490,37 @@ class Crew:
                 errs += [f"line {i}: {x}" for x in e] + verify.text_errors(text, lang, f"line {i}")
                 errs += verify.claim_errors(text, lang, pairs, f"line {i}")
                 lines.append((text, keys))
+            errs += verify.depth_errors([t for t, _ in lines], rows, depth, len(c.facts))
             words = sum(len(t.split()) for t, _ in lines)
             if words > budget * 1.25:
                 errs.append(f"{words} words; the budget is {budget}")
             return errs, dict(title=title, sub=sub, sub_keys=sub_keys, card_title=v.card_title, rows=rows,
                               card_keys=card_keys, lines=lines)
         try:
-            words = await self._call("writer", f"wrote {c.kind} ({c.team}) in {lang}, {cut} cut", prompt, schema, check)
-            self.store.put("scripts", f"{cand_key(c)}|{lang}|{cut}", words, agent="writer")
+            words = await self._call("writer", f"wrote {c.kind} ({c.team}) in {lang}, {cut} {depth} cut", prompt, schema, check)
+            self.store.put("scripts", f"{cand_key(c)}|{lang}|{cut}|{depth}|{player or '-'}", words, agent="writer")
         except (AgentDown, Rejected):
             words = None
-            self.store.record("writer", f"wrote {c.kind} ({c.team}) in {lang}, {cut} cut", "fallback",
+            self.store.record("writer", f"wrote {c.kind} ({c.team}) in {lang}, {cut} {depth} cut", "fallback",
                               why="routed around: rules Writer")
         return plan, words
 
     # ---- assembly, gated by the Verifier ----
-    async def _segment(self, md: MatchData, c: Candidate, lang: str, cut: str, target_s: float, seg_id: str) -> dict:
-        plan, words = await self._script(md, c, lang, cut)
+    async def _segment(self, md: MatchData, c: Candidate, lang: str, cut: str, target_s: float, seg_id: str,
+                       depth: str = "analyst", player: str | None = None) -> dict:
+        plan, words = await self._script(md, c, lang, cut, depth, player)
         if words is None and lang not in writer.T:
             raise Rejected([f"no rules Writer for {lang}"])
         if plan is not None:
             plan = _localise(plan, lang)
         made_by = dict(telestrator="agent" if plan else "rules", writer="agent" if words else "rules")
-        seg = telestrate.build(md, c, lang=lang, target_s=target_s, seg_id=seg_id, plan=plan, words=words,
+        seg = telestrate.build(md, c, lang=lang, target_s=target_s, seg_id=seg_id, plan=plan, words=words, depth=depth,
                                made_by="agents" if plan and words else "agents+rules" if plan or words else "rules")
         errs = verify.segment_errors(md, seg)
         if errs and (plan or words):
             self.store.record("verifier", f"checked {seg_id}", "fallback", why="; ".join(errs[:3]),
                               detail=dict(errors=errs[:8]))
-            seg = telestrate.build(md, c, lang=lang, target_s=target_s, seg_id=seg_id)
+            seg = telestrate.build(md, c, lang=lang, target_s=target_s, seg_id=seg_id, depth=depth)
             made_by = dict(telestrator="rules", writer="rules")
             errs = verify.segment_errors(md, seg)
         seg["provenance"].update(verified=not errs, crew=made_by, why=self.analysis.get(cand_key(c), {}).get("why"))
@@ -513,16 +529,25 @@ class Crew:
                           event_ids=[e for q in seg["cues"] for e in q.get("event_ids", [])])
         return seg
 
-    async def _rundown(self, md: MatchData, cands: list[Candidate], t_now: float, slot_s: float, cut: str, lang: str) -> dict:
+    async def _rundown(self, md: MatchData, cands: list[Candidate], t_now: float, slot_s: float, cut: str, lang: str,
+                       depth: str = "analyst", player: str | None = None, t_from: float | None = None) -> dict:
         t0 = time.time()
-        n = 3 if slot_s >= 60 else 2
-        if not cands:
-            return dict(slot_s=slot_s, cut=cut, lang=lang, segments=[], duration_s=0.0, made_by="crew")
-        await self._analyse(md, cands)
-        chosen = await self._pick(md, cands, t_now, cut, n)
+        n = producer.n_segments(slot_s)
+        base = dict(slot_s=slot_s, cut=cut, lang=lang, depth=depth, player=player)
+        period = cands[0].period if cands else (1 if t_now <= 2700 else 2)
+        mine = producer.focus(md, player, period, t_from, t_now)
+        if not cands and not mine:
+            return dict(base, segments=[], duration_s=0.0, made_by="crew")
+        chosen = []
+        if cands:
+            await self._analyse(md, cands)
+            chosen = await self._pick(md, cands, t_now, cut, n - (1 if mine and n >= 2 else 0), depth, player)
+        if mine and (n >= 2 or not chosen):
+            chosen.append((mine, f"you follow {md.name(player)}"))
         each = producer.segment_length(slot_s, len(chosen))
         # shield: a segment that misses the deadline keeps being written, for swaps and other cuts
-        segs = await asyncio.gather(*(asyncio.wait_for(asyncio.shield(self._segment(md, c, lang, cut, each, f"s{i + 1}")),
+        segs = await asyncio.gather(*(asyncio.wait_for(asyncio.shield(self._segment(md, c, lang, cut, each, f"s{i + 1}",
+                                                                                     depth, player)),
                                                        max(LOCK_DEADLINE_S - (time.time() - t0), 1.0))
                                       for i, (c, _) in enumerate(chosen)), return_exceptions=True)
         out = []
@@ -531,11 +556,11 @@ class Crew:
                 why = (f"not ready {LOCK_DEADLINE_S:.0f} s after the whistle; the rules version goes out"
                        if isinstance(s, asyncio.TimeoutError) else f"{type(s).__name__}: {s}")
                 self.store.record("producer", f"segment s{i + 1} ({c.kind})", "fallback", why=why)
-                s = telestrate.build(md, c, lang=lang, target_s=each, seg_id=f"s{i + 1}")
+                s = telestrate.build(md, c, lang=lang, target_s=each, seg_id=f"s{i + 1}", depth=depth)
                 s["provenance"].update(crew=dict(telestrator="rules", writer="rules"),
                                        verified=not verify.segment_errors(md, s))
             if not s["provenance"]["verified"]:  # never on air: the next point that verifies takes the slot
-                s = self._replacement(md, cands, t_now, cut, lang, each, f"s{i + 1}", [c for c, _ in chosen])
+                s = self._replacement(md, cands, t_now, cut, lang, each, f"s{i + 1}", [c for c, _ in chosen], depth)
                 if s is None:
                     continue
                 reason = "replaced a segment that failed the Verifier"
@@ -543,20 +568,21 @@ class Crew:
             out.append(s)
         total = producer.INTRO_S + sum(s["duration_s"] for s in out)
         score = f"{producer._goals(md, md.home, t_now)}-{producer._goals(md, md.away, t_now)}"
-        r = dict(slot_s=slot_s, cut=cut, lang=lang, made_by="crew", score=score,
+        r = dict(base, made_by="crew", score=score,
                  intro=dict(d=producer.INTRO_S, home=md.meta["home"]["short"], away=md.meta["away"]["short"]),
                  segments=out, duration_s=round(total, 2), built_ms=round((time.time() - t0) * 1000))
-        self.store.put("rundowns", f"{cut}|{lang}", dict(segments=[s["segment_id"] for s in out], duration_s=r["duration_s"]),
+        self.store.put("rundowns", f"{cut}|{lang}|{depth}|{player or '-'}|{slot_s:g}",
+                       dict(segments=[s["segment_id"] for s in out], duration_s=r["duration_s"]),
                        agent="producer", why=" / ".join(rs for _, rs in chosen))
         return r
 
 
-    def _replacement(self, md, cands, t_now, cut, lang, target_s, seg_id, taken) -> dict | None:
+    def _replacement(self, md, cands, t_now, cut, lang, target_s, seg_id, taken, depth="analyst") -> dict | None:
         kinds = {c.kind for c in taken}
         for _, c in producer.rank(md, cands, t_now, cut):
             if c in taken or c.kind in kinds or c.kind in MOMENTS:
                 continue
-            s = telestrate.build(md, c, lang=lang, target_s=target_s, seg_id=seg_id)
+            s = telestrate.build(md, c, lang=lang, target_s=target_s, seg_id=seg_id, depth=depth)
             if not verify.segment_errors(md, s):
                 s["provenance"].update(verified=True, crew=dict(telestrator="rules", writer="rules"))
                 self.store.record("producer", f"{seg_id}: swapped in {c.kind} ({c.team})", "fallback",
