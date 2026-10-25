@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import json
 import time
 from pathlib import Path
@@ -18,17 +19,25 @@ from pydantic import BaseModel
 from ..agents.crew import ROLES
 from ..studio import voice
 from ..studio.profile import Profile
+from . import mcp_server
 from .runs import RunManager
 
-app = FastAPI(title="Rundown")
 runs = RunManager()
+mcp = mcp_server.attach(runs)
+mcp_app = mcp.streamable_http_app()
+
+
+@contextlib.asynccontextmanager
+async def lifespan(_app):
+    runs.loop = asyncio.get_running_loop()
+    async with mcp.session_manager.run():
+        yield
+
+
+app = FastAPI(title="Rundown", lifespan=lifespan)
+app.mount("/mcp", mcp_app)
 WEB = Path(__file__).resolve().parents[2] / "web" / "dist"
 EVALS = Path(__file__).resolve().parents[2] / "docs" / "evals"
-
-
-@app.on_event("startup")
-async def _startup():
-    runs.loop = asyncio.get_running_loop()
 
 
 class NewRun(BaseModel):
