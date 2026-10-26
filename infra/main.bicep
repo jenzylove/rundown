@@ -128,6 +128,7 @@ resource app 'Microsoft.App/containerApps@2024-03-01' = {
           { name: 'COSMOS_KEY', secretRef: 'cosmos-key' }
           { name: 'EVENTHUB_CONNECTION', secretRef: 'hubs-connection' }
           { name: 'EVENTHUB_NAME', value: matchHub.name }
+          { name: 'RUNDOWN_PUBLIC_HOST', value: '${name}.${env.properties.defaultDomain}' }  // the MCP server's allowed host
         ]
         probes: usesAcr ? [
           { type: 'Liveness', httpGet: { path: '/api/health', port: 8000 }, periodSeconds: 30 }

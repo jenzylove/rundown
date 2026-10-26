@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { postRun, rememberOwner } from './owners'
 import { bug, Pitch, readTheme, renderSegment } from './renderer'
 import type { Candidate, FeedItem, MatchEvent, Meta, Phase, Profile, Rundown, RunSnapshot, Segment, TrailItem, WallItem } from './types'
 
@@ -93,7 +94,8 @@ export default function App() {
       wsRef.current?.close()
       const r = await fetch('/api/runs', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ seed, speed: 8 }) })
       if (!r.ok) throw new Error(`Could not start a match: ${(await r.json().catch(() => ({}))).detail ?? r.status}`)
-      const snap: RunSnapshot = await r.json()
+      const snap: RunSnapshot & { owner?: string } = await r.json()
+      rememberOwner(snap.id, snap.owner)
       setRun(snap); setFeed([]); setTrail([]); setPicks([]); setRundowns({}); setWall([]); setDecisions({}); setStatus(snap.status)
       setScore([0, 0]); setView('live'); setOnStage(null); setMissed(null); eventsRef.current = []; frameRef.current = null
       // a returning fan keeps their side, language and depth; squads change every match, so not the player
@@ -172,10 +174,10 @@ export default function App() {
     if (run) await watch(run.id, p)
   }
 
-  const skip = async () => { if (run) await fetch(`/api/runs/${run.id}/skip`, { method: 'POST' }) }
+  const skip = async () => { if (run) await postRun(`/api/runs/${run.id}/skip`) }
   const secondHalf = async () => {
     if (!run) return
-    const r = await fetch(`/api/runs/${run.id}/second-half`, { method: 'POST' })
+    const r = await postRun(`/api/runs/${run.id}/second-half`)
     if (r.ok) { setStatus((await r.json()).status); setShowing(fan) }
   }
 

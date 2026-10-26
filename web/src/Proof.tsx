@@ -1,3 +1,4 @@
+import { postRun, rememberOwner } from './owners'
 import { useCallback, useEffect, useState } from 'react'
 import type { Fact, FeedItem, Rundown, Segment, TrailItem } from './types'
 
@@ -79,9 +80,11 @@ function matchLine(r: RunSummary) {
 }
 
 async function post(url: string, body?: unknown) {
-  const r = await fetch(url, { method: 'POST', headers: { 'content-type': 'application/json' }, body: body ? JSON.stringify(body) : undefined })
+  const r = await postRun(url, body)
   if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail ?? `${url} failed (${r.status})`)
-  return r.json()
+  const out = await r.json()
+  if (url === '/api/runs') rememberOwner(out.id, out.owner)
+  return out
 }
 
 export default function Proof() {

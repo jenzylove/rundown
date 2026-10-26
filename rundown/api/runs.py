@@ -30,7 +30,8 @@ from . import archive as archive_mod
 from . import bus as bus_mod
 
 SCAN_EVERY_S = 60.0
-MAX_RUNS = 12  # in memory; older runs live on in the archive
+MAX_RUNS = 24  # in memory; older runs live on in the archive
+MAX_PLAYING_PER_CLIENT = 3  # matches in play started from one address
 SEND_EVERY_S = 0.1  # how often the simulator publishes a batch of frames
 CUSHION_S = 0.4  # playback runs this far behind the simulator, to absorb the stream's jitter
 # At the whistle the crew makes the viewers' own cuts first, then this wall of cuts in English: every
@@ -47,6 +48,8 @@ class Run:
     seed: int
     speed: float
     sim: Sim  # the simulator side only; the studio side reads the stream
+    owner: str = ""  # handed only to the browser that started the run; it may skip, restart or kill agents
+    client: str = ""
     meta: dict = field(default_factory=dict)
     started_at: float = field(default_factory=time.time)
     frames: list[np.ndarray] = field(default_factory=list)
@@ -124,14 +127,20 @@ class RunManager:
             self._models = llm.Models()
         return self._models
 
-    def create(self, seed: int | None, speed: float) -> Run:
+    def playing_for(self, client: str) -> int:
+        return sum(1 for r in self.runs.values() if r.client == client and r.status in ("first_half", "half_time", "second_half"))
+
+    def create(self, seed: int | None, speed: float, client: str = "") -> Run:
+        if client and self.playing_for(client) >= MAX_PLAYING_PER_CLIENT:
+            raise PermissionError(f"{MAX_PLAYING_PER_CLIENT} matches are already playing from here; finish one or wait")
         if self.bus is None:
             raise RuntimeError(f"the match stream is down ({self.bus_error})")
         if not self.bus.ready(30):
             raise RuntimeError("the match stream is not ready yet")
         seed = int(seed if seed is not None else np.random.default_rng().integers(1000, 99999))
         sim = Sim(seed)
-        run = Run(id=uuid.uuid4().hex[:10], seed=seed, speed=speed, sim=sim, meta=archive_mod.plain(sim.match.meta()))
+        run = Run(id=uuid.uuid4().hex[:10], seed=seed, speed=speed, sim=sim, meta=archive_mod.plain(sim.match.meta()),
+                  owner=uuid.uuid4().hex, client=client)
         run.store = Store(on_record=lambda item: self._trail(run, item),
                           on_put=lambda coll, key, doc: self.archive.save_doc(run.id, "crew", f"{coll}/{key}", doc))
         models = self.models()
@@ -150,9 +159,9 @@ class RunManager:
         run.inbox.put(msg)
 
     def _evict(self):
-        """Keep memory bounded: the oldest runs leave memory (they stay in the archive)."""
+        """Keep memory bounded: finished runs leave memory first, then the oldest (all stay in the archive)."""
         while len(self.runs) >= MAX_RUNS:
-            old = min(self.runs.values(), key=lambda r: r.started_at)
+            old = min(self.runs.values(), key=lambda r: (r.status in ("first_half", "half_time", "second_half"), r.started_at))
             old.stop = True
             old.resume.set()
             old.inbox.put(dict(k="stop"))

@@ -5,11 +5,24 @@ verified Overlay Script the studio plays, minus the tracking frames."""
 
 from __future__ import annotations
 
+import os
+
 import anyio
 from mcp.server.fastmcp import FastMCP
 from mcp.server.transport_security import TransportSecuritySettings
 
 from ..studio.profile import Profile
+
+
+def _hosts() -> list[str]:
+    """localhost for development, and the public host: set by Container Apps (app name plus the
+    environment's DNS suffix), or RUNDOWN_PUBLIC_HOST."""
+    hosts = ["localhost:*", "127.0.0.1:*"]
+    name, suffix = os.environ.get("CONTAINER_APP_NAME"), os.environ.get("CONTAINER_APP_ENV_DNS_SUFFIX")
+    for h in [f"{name}.{suffix}" if name and suffix else None, os.environ.get("RUNDOWN_PUBLIC_HOST")]:
+        if h:
+            hosts += [h, f"{h}:*"]
+    return hosts
 
 mcp = FastMCP(
     "Rundown",
@@ -20,9 +33,9 @@ mcp = FastMCP(
         "Every number in a segment was recomputed by the Verifier from the stats engine."),
     stateless_http=True,
     streamable_http_path="/",
-    # a public, read-only server behind Container Apps' ingress: the DNS-rebinding guard is for
-    # servers on a user's own machine, and here it would reject the public host name
-    transport_security=TransportSecuritySettings(enable_dns_rebinding_protection=False),
+    # the DNS-rebinding guard stays on; it accepts localhost and this app's own public host name
+    transport_security=TransportSecuritySettings(enable_dns_rebinding_protection=True, allowed_hosts=_hosts(),
+                                                 allowed_origins=[f"https://{h.split(':')[0]}" for h in _hosts()]),
 )
 _runs = None  # the API's RunManager, set by attach()
 

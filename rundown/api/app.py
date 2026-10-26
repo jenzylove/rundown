@@ -11,7 +11,7 @@ import json
 import time
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Header, HTTPException, Request, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -36,6 +36,35 @@ async def lifespan(_app):
 
 app = FastAPI(title="Rundown", lifespan=lifespan)
 app.mount("/mcp", mcp_app)
+
+# Every match, cut and catch-up spends model and voice calls, and the app is open with no sign-up,
+# so each address gets a budget per ten minutes. Generous for a judge clicking around; a loop stops.
+LIMITS = {("POST", "/api/runs"): 8, ("POST", "catchup"): 20, ("POST", "watch"): 40,
+          ("GET", "rundown"): 120, ("POST", "voice"): 40, ("POST", "swap"): 40, ("POST", "/mcp"): 120}
+WINDOW_S = 600.0
+_hits: dict = {}
+
+
+def _client(request: Request) -> str:
+    return request.client.host if request.client else "unknown"
+
+
+@app.middleware("http")
+async def rate_limit(request: Request, call_next):
+    path, method = request.url.path, request.method
+    rule = next((k for k in LIMITS if k[0] == method and (path == k[1] or path.endswith("/" + k[1])
+                                                          or (k[1] == "/mcp" and path.startswith("/mcp")))), None)
+    if rule:
+        now, key = time.time(), (_client(request), rule)
+        recent = [t for t in _hits.get(key, []) if now - t < WINDOW_S]
+        if len(recent) >= LIMITS[rule]:
+            from fastapi.responses import JSONResponse
+            return JSONResponse({"detail": "Too many requests from here; try again in a few minutes"}, status_code=429)
+        recent.append(now)
+        _hits[key] = recent
+        if len(_hits) > 50000:
+            _hits.clear()
+    return await call_next(request)
 WEB = Path(__file__).resolve().parents[2] / "web" / "dist"
 EVALS = Path(__file__).resolve().parents[2] / "docs" / "evals"
 
@@ -55,14 +84,23 @@ def health():
 
 
 @app.post("/api/runs")
-def create_run(body: NewRun):
+def create_run(body: NewRun, request: Request):
     if not 1 <= body.speed <= 32:
         raise HTTPException(400, "speed must be 1-32")
     try:
-        run = runs.create(body.seed, body.speed)
+        run = runs.create(body.seed, body.speed, _client(request))
+    except PermissionError as e:
+        raise HTTPException(429, str(e))
     except RuntimeError as e:
         raise HTTPException(503, str(e))
-    return run.snapshot()
+    return dict(run.snapshot(), owner=run.owner)  # the owner token goes only to the browser that started it
+
+
+def _owned(run, owner: str | None):
+    """Skipping, restarting and switching agents off change the match for everyone watching it,
+    so only the browser that started the run may do them."""
+    if not owner or owner != run.owner:
+        raise HTTPException(403, "only the browser that started this match can do that")
 
 
 def _get(run_id: str):
@@ -78,15 +116,18 @@ def get_run(run_id: str):
 
 
 @app.post("/api/runs/{run_id}/skip")
-def skip_to_half_time(run_id: str):
+def skip_to_half_time(run_id: str, x_run_owner: str | None = Header(None)):
     run = _get(run_id)
+    _owned(run, x_run_owner)
     run.skip = True
     return dict(ok=True)
 
 
 @app.post("/api/runs/{run_id}/second-half")
-def second_half(run_id: str):
-    return dict(status=runs.second_half(_get(run_id)))
+def second_half(run_id: str, x_run_owner: str | None = Header(None)):
+    run = _get(run_id)
+    _owned(run, x_run_owner)
+    return dict(status=runs.second_half(run))
 
 
 class Fan(BaseModel):
@@ -210,9 +251,10 @@ class Switch(BaseModel):
 
 
 @app.post("/api/runs/{run_id}/crew/kill")
-def kill_agent(run_id: str, body: Switch):
+def kill_agent(run_id: str, body: Switch, x_run_owner: str | None = Header(None)):
     """Switch an agent off mid-run; the crew routes around it and the trail shows how."""
     run = _get(run_id)
+    _owned(run, x_run_owner)
     if not run.crew:
         raise HTTPException(409, "this run uses the rules crew")
     if body.role not in ROLES:
@@ -222,8 +264,9 @@ def kill_agent(run_id: str, body: Switch):
 
 
 @app.post("/api/runs/{run_id}/crew/revive")
-def revive_agent(run_id: str, body: Switch):
+def revive_agent(run_id: str, body: Switch, x_run_owner: str | None = Header(None)):
     run = _get(run_id)
+    _owned(run, x_run_owner)
     if not run.crew:
         raise HTTPException(409, "this run uses the rules crew")
     run.crew.revive(body.role)

@@ -37,7 +37,7 @@ was pointed at every fan (this document), and the Verifier now checks what each 
   [Football365 on Sky's MNF](https://www.football365.com/news/a-football365-love-letter-to-monday-night-football)).
 - Personalized shows exist, but daily and checked by hand (ESPN SC For You). Late joiners get a
   clip reel with no explanation (Peacock's Catch Up With Key Plays,
-  [Sports Video Group](https://www.sportsvideo.org/2024/12/03/peacocks-multiview-feature-makes-its-premier-league-debut-tomorrow-dec-4-with-four-matches-leading-into-arsenal-manchester-united-match/)).
+  [World Soccer Talk](https://worldsoccertalk.com/2022/08/22/peacock-major-new-features-for-premier-league-games/)).
 - AI written text invents numbers and gets directions wrong; a paragraph cannot go on air, and an
   unchecked one should not.
 - The brief asks for the same intelligence to reach "a data-hungry analyst and a casual fan as two
