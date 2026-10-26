@@ -218,19 +218,25 @@ def claim_errors(text: str, lang: str, pairs: list[tuple[float, float]], where: 
 
 
 # ---- depth: a casual fan and an analyst get genuinely different segments ----
+CASUAL_MAX_NUMBERS = 3
 JARGON = re.compile(r"\b(ppda|xg|field tilt|dominio territorial|domination territoriale|domínio territorial)\b", re.I)
 
 
 def depth_errors(lines: list[str], rows: list[list[str]], depth: str, n_facts: int, where: str = "") -> list[str]:
-    """Casual: plain words, at most one number a line, no abbreviations, a short stat card.
+    """Casual: plain words, a light touch on numbers (at most two in a line, a before and a now, and
+    at most three in the whole script), no abbreviations, a short stat card.
     Analyst: the stat card carries the evidence (two rows or more when there are facts for them)."""
     errs = []
     p = f"{where}: " if where else ""
     if depth == "casual":
+        total = sum(len(NUM.findall(t)) for t in lines)
+        if total > CASUAL_MAX_NUMBERS:
+            errs.append(f"{p}{total} numbers in the script; a casual fan gets at most {CASUAL_MAX_NUMBERS}: "
+                        f"keep the one or two that tell the story and say the rest in words")
         for i, t in enumerate(lines):
             n = len(NUM.findall(t))
-            if n > 1:
-                errs.append(f"{p}line {i} has {n} numbers; a casual fan gets at most one a line")
+            if n > 2:
+                errs.append(f"{p}line {i} has {n} numbers; a casual fan gets at most two in a line")
             if JARGON.search(t):
                 errs.append(f"{p}line {i} uses \"{JARGON.search(t).group(0)}\"; say it in plain words for a casual fan")
         if len(rows) > 2:

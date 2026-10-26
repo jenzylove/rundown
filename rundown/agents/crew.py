@@ -136,7 +136,7 @@ decided the half? Strong, recent, and causal beats weak or cosmetic. Be decisive
     "producer": """You are the Producer of a half-time show. Choose the talking points that make the rundown
 and their running order, lead story first. Rules: no two points of the same kind; at most one goal or
 big chance; prefer points the Analyst says matter; for a club channel (cut home or away), lead with
-what matters most to that club's fans, good or bad. Sustained beats fleeting: the Analyst scored each
+what matters most to that club's fans, good or bad: a point where about_your_club is true. Sustained beats fleeting: the Analyst scored each
 point when it first appeared, and `held_up` shows what happened next. A pattern the detectors saw in
 most scans since it appeared and still see at the whistle is a real change in the match; one seen in
 a few scans that faded minutes ago is probably noise, however well it was rated at first. Peak
@@ -162,8 +162,8 @@ moment is a good first freeze. Write `focus` in English.""",
 language: a title, a lower-third subtitle, the stat card (heading and 1 to 4 rows, each row a label
 plus the facts that fill it), and 2 to 5 short spoken lines that walk the viewer through the picture.
 Speak like TV: plain, vivid, present tense, no jargon without a gloss. For a club channel (cut home or
-away), speak to that club's fans. Depth: for a casual fan, plain words, at most one number in a line,
-never PPDA, xG or field tilt (say what they mean), and a stat card of 1 or 2 rows; for an analyst, name
+away), speak to that club's fans. Depth: for a casual fan, plain words, at most three numbers in the whole script and two
+in a line, never PPDA, xG or field tilt (say what they mean), and a stat card of 1 or 2 rows; for an analyst, name
 the metric, give the before and the now values, explain the mechanism, and a stat card of 2 to 4 rows.
 When the fan follows a player, mention him if he is part of the picture. Before and now: when you quote
 both values of a change, say "from" the earlier value "to" the recent one, and a rise or fall word must
@@ -367,9 +367,11 @@ class Crew:
             talking_points=[dict(id=i, kind=c.kind, team=_team(md, c.team), player=_player(md, c), minute=_minute(c),
                                  headline=c.headline, analyst=self.analysis.get(cand_key(c)),
                                  moment=c.kind in MOMENTS,
-                                 held_up=_held_up(c, t_now) if c.kind not in MOMENTS else None)
+                                 held_up=_held_up(c, t_now) if c.kind not in MOMENTS else None,
+                                 about_your_club=(c.team == fav or c.kind in MOMENTS) if fav else None)
                             for i, c in ids.items()]), ensure_ascii=False)
         want = min(n, len({c.kind for c in ranked}))
+        ours = fav is not None and any(c.team == fav or c.kind in MOMENTS for c in ranked)
 
         pick = create_model("Pick", __base__=Pick, id=(Literal[tuple(ids)], ...))
         schema = create_model("Picks", __base__=Picks, picks=(list[pick], Picks.model_fields["picks"]))
@@ -392,6 +394,10 @@ class Crew:
                 errs.append("more than one goal or big chance")
             if len(v.picks) != want:
                 errs.append(f"pick exactly {want}")
+            lead = ids.get(v.picks[0].id) if v.picks else None
+            if fav and ours and lead is not None and lead.team != fav and lead.kind not in MOMENTS:
+                errs.append(f"this is {_team(md, fav)}'s fans' show: lead with a point about {_team(md, fav)} "
+                            f"(about_your_club is true), good news or bad")
             for p in v.picks:
                 if any(ch.isdigit() for ch in p.reason):
                     errs.append(f"{p.id}: the reason quotes a number; explain in words")
@@ -452,7 +458,7 @@ class Crew:
         prompt = json.dumps(dict(
             language=LANGS[lang], cut=cut, club_channel=_team(md, fav) if fav else None, word_budget=budget,
             fan=dict(depth=depth, follows=md.name(player) if player else None,
-                     rules=("casual: every spoken line has at most ONE number (one placeholder or one value); "
+                     rules=("casual: at most THREE numbers in all the spoken lines together, at most two in one line; "
                             "no PPDA, xG or field tilt anywhere, not even in the stat card; stat card 1 or 2 rows"
                             if depth == "casual" else "analyst: stat card of 2 to 4 rows")),
             match=_match_line(md), talking_point=dict(kind=c.kind, team=_team(md, c.team), player=_player(md, c),

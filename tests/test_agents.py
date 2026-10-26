@@ -69,8 +69,8 @@ class FakeModels:
             nums = [f["alias"] for f in p["facts"] if isinstance(f["value"], (int, float))]
             a = nums[0]
             rows = [dict(label=lab, facts=[x]) for lab, x in zip(("Before", "Now"), nums[:2])]
-            out = dict(title="Test segment", sub=f"Now {{{a}}}", card_title="Test",
-                       rows=rows, lines=["Look at this.", f"It is {{{a}}} now."])
+            out = dict(title="Test segment", sub=f"Earlier {{{a}}}", card_title="Test",
+                       rows=rows, lines=["Look at this.", f"It was {{{a}}} earlier."])
         return schema.model_validate(out), {}
 
 

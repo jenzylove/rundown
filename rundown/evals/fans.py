@@ -11,7 +11,7 @@ rules crew. Scores:
   agent words    segments whose words the Writer agent wrote (the rest fell back to the rules)
   different      home and away cuts of the same depth that lead with a different story;
                  casual and analyst cuts of the same side whose scripts differ
-  casual         spoken lines in casual cuts with more than one number, or PPDA/xG (target 0)
+  casual         casual segments with more than three numbers, two in a line, or PPDA/xG (target 0)
   player         followed players who got their own segment
   time           seconds to make each cut after the whistle (agents)
 
@@ -61,7 +61,7 @@ def cut_row(prof: Profile, r: dict, took_s: float | None) -> dict:
                 agent_words=sum(1 for s in segs if (s["provenance"].get("crew") or {}).get("writer") == "agent"),
                 lead=(segs[0]["kind"], segs[0]["team"]) if segs else None, kinds=[s["kind"] for s in segs],
                 titles=[s["title"] for s in segs], script=lines,
-                casual_breaks=sum(1 for t in lines if len(verify.NUM.findall(t)) > 1 or verify.JARGON.search(t))
+                casual_breaks=sum(1 for s in segs if verify.depth_errors([ln["text"] for ln in s["script"]], [], "casual", 0))
                 if prof.depth == "casual" else 0,
                 player_segment=any(s["kind"] == "player_focus" for s in segs) if prof.player else None,
                 errors=[e for s in segs for e in s["provenance"]["errors"]][:4],
@@ -197,7 +197,7 @@ def table(s: dict) -> str:
     both("Segments that pass the Verifier", lambda x: _pct(x["verified"], x["segments"]))
     both("Home and away cuts that differ", lambda x: _pct(*x["home_away_different"]))
     both("Casual and analyst scripts that differ", lambda x: _pct(*x["casual_analyst_different"]))
-    both("Casual lines with two numbers, PPDA or xG", lambda x: str(x["casual_breaks"]))
+    both("Casual segments that break the casual rules", lambda x: str(x["casual_breaks"]))
     both("Followed players with their own segment", lambda x: _pct(*x["player_segments"]))
     if a:
         lines.append(f"| Words written by the Writer agent | {_pct(a['agent_words'], a['segments'])} | - |")
