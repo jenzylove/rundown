@@ -50,7 +50,7 @@ fan who joins late presses **Catch me up**. Nothing reaches a fan without passin
 
 1. Open the [live site](https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io). The hero plays a real segment; switch between the two fans to see one match cut two ways. Press **Make my show**: a fresh synthetic match starts playing.
 2. **Who's watching?** Pick a side, Casual or Analyst, a language, and a player to follow. Press **Make my show**.
-3. Press **Catch me up** after a few minutes of play: a short voiced segment on what you missed, for your profile.
+3. Once the clock passes about 20 minutes (two and a half minutes of real time at 8×), press **Catch me up**: a short voiced segment on what you missed, for your profile. The detectors compare each ten minutes with what came before, so earlier than that there is nothing to tell yet, and the app says so.
 4. Press **Skip to half-time**. Your show appears on the desk with its segments verified. Press **Watch it**.
 5. Flip the desk to another fan (the other club, Analyst, English) and compare: a different lead, different words, different numbers.
 6. Open **Proof**: the whistle wall shows every cut made this break, how many seconds after the whistle each was ready, and how much of it the Verifier passed.
@@ -151,7 +151,7 @@ Rerun any of it without keys: `python -m rundown.evals.fans --seeds 101-112 --ru
 | Archive and replays | Real Cosmos DB; `/proof` marks each run live or replay |
 | MCP | Real server at `/mcp/`: `list_matches`, `get_match`, `get_fan_show`, `catch_me_up`, `whistle_wall` |
 
-The renderer is a 2D pitch; the Overlay Script is the format a broadcast renderer would play. The
+The studio draws the match in a 3D stadium in the browser; the Overlay Script is the format a broadcast renderer would play on a real feed. The
 Verifier checks numbers, their order and their direction, not tone or colour; the Foundry judge
 watches that.
 

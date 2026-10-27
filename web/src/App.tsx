@@ -77,6 +77,7 @@ export default function App() {
   const [busy, setBusy] = useState(false)
   const [making, setMaking] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [notice, setNotice] = useState<string | null>(null)  // information, not a failure: fades on its own
   const [missed, setMissed] = useState<number | null>(null)  // match clock when the fan looked away
   const frameRef = useRef<number[] | null>(null)
   const eventsRef = useRef<MatchEvent[]>([])
@@ -135,6 +136,14 @@ export default function App() {
   }, [watch])
 
   useEffect(() => { start() }, [start])
+
+  // a notice never outlives the moment it was about: it fades, and goes at the whistle or a new match
+  useEffect(() => {
+    if (!notice) return
+    const t = setTimeout(() => setNotice(null), 8000)
+    return () => clearTimeout(t)
+  }, [notice])
+  useEffect(() => { setNotice(null) }, [status, run])
 
   // a fan who looks away and comes back gets offered what they missed
   useEffect(() => {
@@ -209,12 +218,14 @@ export default function App() {
     if (!run) return
     const p = fan ?? DEFAULT_FAN
     const from = since ?? Math.max(clock.period === 1 ? 0 : 2700, clock.t - SINCE_DEFAULT_S)
-    setCatching(true); setMissed(null); setError(null)
+    setCatching(true); setMissed(null); setError(null); setNotice(null)
     try {
       const r = await fetch(`/api/runs/${run.id}/catchup`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ ...body(p), since_s: from }) })
       if (!r.ok) throw new Error((await r.json().catch(() => ({}))).detail ?? 'Could not catch you up')
       const rd: Rundown = await r.json()
-      if (!rd.segments.length) setError('Nothing worth a segment happened in that spell. You are all caught up.')
+      if (!rd.segments.length) setNotice(clock.period === 1 && clock.t < 1080
+        ? `You're all caught up: ${score[0]}–${score[1]}. The crew compares each ten minutes with what came before, so the first talking points arrive about eighteen minutes in.`
+        : `You're all caught up: ${score[0]}–${score[1]}, and nothing in that spell was worth a segment.`)
       else { setOnStage({ ...rd, phase: 'catchup' }); setView('studio') }
     } catch (e) { setError((e as Error).message) } finally { setCatching(false) }
   }
@@ -248,6 +259,7 @@ export default function App() {
         </div>
       </header>
       {error && <div className="error" role="alert">{error}</div>}
+      {notice && <div className="notice" role="status">{notice}</div>}
       {missed !== null && playing && <div className="missed" role="status">
         <span>You missed {Math.round((clock.t - missed) / 60)} minutes.</span>
         <button onClick={() => catchUp(missed)} disabled={catching}>{catching ? 'Catching you up…' : 'Catch me up ▸'}</button>

@@ -72,6 +72,7 @@ code { font: 12px "IBM Plex Mono", monospace; color: var(--ink-muted); display: 
 .scorebug .clock { color: var(--accent); font-family: "IBM Plex Mono", monospace; font-size: 16px; min-width: 62px; }
 .actions { margin-left: auto; display: flex; gap: 8px; }
 .error { margin: 12px 0; padding: 10px 14px; background: color-mix(in srgb, var(--warn) 18%, transparent); border-left: 3px solid var(--warn); }
+.notice { margin: 12px 0; padding: 10px 14px; background: color-mix(in srgb, var(--ink-muted) 10%, transparent); border-left: 3px solid var(--ink-muted); }
 
 .live { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 24px; padding-top: 18px; }
 .stage { min-width: 0; }
