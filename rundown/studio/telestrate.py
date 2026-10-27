@@ -16,6 +16,12 @@ from ..agents.words import fmt
 from . import writer
 
 LABEL_S = 3.5
+LABEL_WORDS = {  # labels drawn on the pitch by the rules layout, in the cut's language
+    "en": dict(halfway="halfway", won_back="Won back", line="line", overload="overload"),
+    "es": dict(halfway="medio campo", won_back="Recuperada", line="línea", overload="superioridad"),
+    "fr": dict(halfway="milieu de terrain", won_back="Récupéré", line="ligne", overload="surnombre"),
+    "pt": dict(halfway="meio de campo", won_back="Recuperada", line="linha", overload="superioridade"),
+}
 MOVE_WORDS = {"en": ("passes", "seconds"), "es": ("pases", "segundos"), "fr": ("passes", "secondes"),
               "pt": ("passes", "segundos")}
 END_HOLD_S = 5.0
@@ -198,7 +204,7 @@ def _rules_layout(md: MatchData, c: Candidate, cl: dict, tl: Timeline, anchor: f
         ft = tl.seg_at_freeze(a)
         bx_team = md.to_team(c.team, *md.ball(md.frame_index(period, anchor))[:2])[0]
         cues.append(dict(t=round(ft, 2), d=5.5, kind="zone", rect=_channel_rect(md, c.team, c.side, float(bx_team)),
-                         text=over.detail.get("biggest") or "overload", fact_keys=[over.key]))
+                         text=over.detail.get("biggest") or LABEL_WORDS[lang]["overload"], fact_keys=[over.key]))
         own = slice(0, 11) if md.side(c.team) == 0 else slice(11, 22)
         pos = md.positions(md.frame_index(period, anchor))
         ball = md.ball(md.frame_index(period, anchor))[:2]
@@ -218,11 +224,11 @@ def _rules_layout(md: MatchData, c: Candidate, cl: dict, tl: Timeline, anchor: f
             if cue:
                 cues.append(cue)
         x_line = 52.5
-        cues.append(dict(t=round(ft, 2), d=2.8, kind="line", x=x_line, text="halfway"))
+        cues.append(dict(t=round(ft, 2), d=2.8, kind="line", x=x_line, text=LABEL_WORDS[lang]["halfway"]))
         turn = md.by_id[c.facts[1].evidence[-1]] if c.facts[1].evidence else None
         if turn and t0 <= turn["t"] <= t1:  # the latest regain can be outside this clip
             cues.append(dict(t=round(tl.seg(turn["t"] - clip_t0), 2), d=2.5, kind="highlight",
-                             slot=md.slot_of(turn["player"], period, turn["t"]) or 0, text="Won back",
+                             slot=md.slot_of(turn["player"], period, turn["t"]) or 0, text=LABEL_WORDS[lang]["won_back"],
                              event_ids=[turn["id"]]))
     elif c.kind == "fatigue":
         tl.freeze(max(a, 0.5), 3.0)
@@ -237,7 +243,7 @@ def _rules_layout(md: MatchData, c: Candidate, cl: dict, tl: Timeline, anchor: f
         line_fact = c.facts[1]
         lx, _ = _team_abs(md, c.team, line_fact.value, 34.0)
         cues.append(dict(t=round(ft, 2), d=3.2, kind="line", x=round(lx, 1),
-                         text=f"line {line_fact.value} m", fact_keys=[line_fact.key]))
+                         text=f"{LABEL_WORDS[lang]['line']} {fmt(line_fact.value, lang)} m", fact_keys=[line_fact.key]))
     elif c.kind == "tempo_up":
         chain = [e for e in md.window(period, t0, t1, ("pass",), c.team)]
         cues += [_arrow(e, tl, clip_t0, d=2.0) for e in chain]

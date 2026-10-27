@@ -44,9 +44,13 @@ LANGS = {"en": "English", "es": "Spanish", "fr": "French", "pt": "Portuguese"}
 ZONE_TEXT = {
     "en": {"left channel": "left side", "centre channel": "through the middle", "right channel": "right side"},
     "es": {"left channel": "banda izquierda", "centre channel": "por el centro", "right channel": "banda derecha"},
+    "fr": {"left channel": "côté gauche", "centre channel": "dans l'axe", "right channel": "côté droit"},
+    "pt": {"left channel": "lado esquerdo", "centre channel": "pelo meio", "right channel": "lado direito"},
 }
 LINE_TEXT = {"en": {"halfway": "halfway", "back line": "back line"},
-             "es": {"halfway": "medio campo", "back line": "línea defensiva"}}
+             "es": {"halfway": "medio campo", "back line": "línea defensiva"},
+             "fr": {"halfway": "milieu de terrain", "back line": "ligne défensive"},
+             "pt": {"halfway": "meio de campo", "back line": "linha defensiva"}}
 
 # ---- what each agent returns ----
 
