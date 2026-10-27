@@ -31,10 +31,10 @@
    "facts_checked": 96,
    "slot_error_median_s": 0.01,
    "slot_error_max_s": 26.0,
-   "lock_median_s": 1.97,
-   "lock_max_s": 7.85,
-   "rejected": 39,
-   "routed_around": 6
+   "lock_median_s": 5.58,
+   "lock_max_s": 14.05,
+   "rejected": 76,
+   "routed_around": 25
   },
   "rules": {
    "rundowns": 12,
@@ -47,7 +47,7 @@
    "slot_error_max_s": 26.0
   }
  },
- "table": "12 fresh seeds (101 to 112), neutral English rundown, 90 s slot. Planted first-half stories spotted by half-time: **23/33 (70%)**, a median 6.8 min after they start.\n\n| | Agent crew | Rules-only baseline |\n|---|---|---|\n| Story recall (planted stories on air) | 19/33 (58%) | 17/33 (52%) |\n| Precision (aired points that are a planted story or a real moment) | 27/34 (79%) | 25/34 (74%) |\n| Grounding (segments whose every fact the Verifier recomputes) | 34/34 (100%) | 34/34 (100%) |\n| Slot fit (median, worst) | 0.01 s, 26.0 s | 0.01 s, 26.0 s |\n| Locked after the whistle (median, worst) | 1.97 s, 7.85 s | at once |\n| Answers the Verifier rejected before air | 39 (6 routed to the rules crew) | - |\n\nReference, not a product: a simple rule that prefers talking points still showing at the whistle and seen in many scans (set on practice seeds 201-240) picks 18/33 (55%) of the planted stories, precision 26/34 (76%).",
+ "table": "12 fresh seeds (101 to 112), neutral English rundown, 90 s slot. Planted first-half stories spotted by half-time: **23/33 (70%)**, a median 6.8 min after they start.\n\n| | Agent crew | Rules-only baseline |\n|---|---|---|\n| Story recall (planted stories on air) | 19/33 (58%) | 17/33 (52%) |\n| Precision (aired points that are a planted story or a real moment) | 27/34 (79%) | 25/34 (74%) |\n| Grounding (segments whose every fact the Verifier recomputes) | 34/34 (100%) | 34/34 (100%) |\n| Slot fit (median, worst) | 0.01 s, 26.0 s | 0.01 s, 26.0 s |\n| Locked after the whistle (median, worst) | 5.58 s, 14.05 s | at once |\n| Answers the Verifier rejected before air | 76 (25 routed to the rules crew) | - |\n\nReference, not a product: a simple rule that prefers talking points still showing at the whistle and seen in many scans (set on practice seeds 201-240) picks 18/33 (55%) of the planted stories, precision 26/34 (76%).",
  "misses": [
   "seed 101: not spotted by half-time: Harbour drop into a deep block from 15'",
   "seed 102: not spotted by half-time: Eastmoor drop into a deep block from 9'",
@@ -119,8 +119,8 @@
       "errors": [],
       "title": "The press is on",
       "script": [
-       "Look at how Harbour have changed in the last ten minutes.",
-       "They were allowing 5.0 passes per defensive action. Now it's 2.6.",
+       "Look at how Harbour have changed in recent minutes.",
+       "They were allowing 5 passes per defensive action. Now it's 2.6.",
        "They're pressing higher, and Eastmoor have no time to play out."
       ],
       "facts": [
@@ -159,13 +159,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City presses higher up the pitch",
+      "title": "Harbour City's press steps up midway",
       "script": [
-       "Harbour City steps up their game, pressing the opposition more intensely.",
-       "Their PPDA falls from 5 to 2.6, meaning fewer passes per defensive action.",
-       "This shows Harbour gain control and pressure in the last 10 minutes.",
-       "Pressures rise from 3.9 to 5.5 per minute, with more in the opponent's half.",
-       "Here, Omar Tanaka wins a key tackle high up the pitch, sparking the press."
+       "Harbour City cuts down opposition's pass options with PPDA falling from 5 to 2.6.",
+       "You see in this pic Omar Tanaka pressing high upfield, part of this ramped-up effort.",
+       "Their pressures per minute rise from 3.9 to 5.5, showing more aggression and control.",
+       "This strategy pressures Eastmoor earlier, shifting the game dynamics already at 20 minutes."
       ],
       "facts": [
        "Harbour PPDA: 5.0 passes per action (opp_passes 30, defensive_actions 6)",
@@ -183,9 +182,9 @@
     "facts_checked": 4,
     "duration_s": 64.0,
     "slot_error_s": 26.0,
-    "lock_s": 2.14,
-    "rejected": 2,
-    "routed_around": 0
+    "lock_s": 1.96,
+    "rejected": 4,
+    "routed_around": 1
    }
   },
   {
@@ -228,7 +227,7 @@
       "script": [
        "Eastmoor have made their plan obvious. Everything goes down the right.",
        "61.1% of their final-third attacks start there, up from 37.5%.",
-       "And they arrive with the extra man: 6 times in ten minutes."
+       "And they arrive with the extra man: 6 times lately."
       ],
       "facts": [
        "Eastmoor attacks down the right: 37.5 % (in_channel 3, final_third_actions 8)",
@@ -309,12 +308,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor Increasing Their Passing Speed",
+      "title": "Eastmoor Accelerates Passing Tempo",
       "script": [
-       "Eastmoor Athletic really steps up the pace here.",
-       "You see their passes per minute jump from 10.3 to 12.7 by the 25th minute.",
-       "This quickened rhythm shows they’re pushing hard to control the game.",
-       "They’re moving the ball faster and advancing quickly from their own half."
+       "At 25 minutes in, Eastmoor picks up the pace with quicker passing.",
+       "They move from 10.3 to 12.7 passes per possession minute, increasing their rhythm.",
+       "This faster tempo signals a sharper control and more chances ahead.",
+       "Watch how defenders and midfielders link fast and precise, driving pressure."
       ],
       "facts": [
        "Eastmoor tempo: 10.3 passes per possession minute (passes 80, possession_minutes 7.8)",
@@ -330,12 +329,11 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City Drops Defensive Line Deep",
+      "title": "Backs to the wall",
       "script": [
-       "Take a look at Harbour City's defense dropping deeper at 19 minutes, retreating from 44.1 m to 38.3 m.",
-       "This shift makes sense as Eastmoor's field tilt grows from 26.7% to 31.2%, pressing the game forward.",
-       "Harbour City adjusts to absorb this pressure, changing the defensive risk in the opening half.",
-       "It's a key moment showing how the battle on the pitch evolves early on."
+       "Harbour have taken a step back.",
+       "Their back line has dropped from 44.1 to 38.3 metres from goal.",
+       "Eastmoor now have 31.2% of the passes in the final third."
       ],
       "facts": [
        "Harbour defensive line height: 44.1 m",
@@ -353,12 +351,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor shifts attack to the right flank",
+      "title": "Eastmoor's right flank dominance",
       "script": [
-       "Eastmoor start with 37.5% of their attacks down the right flank.",
-       "After minute 8, that rises sharply to 61.1%, signaling a notable tactical shift.",
-       "They go from 0 overloads on the right to 6, upping their attacking pressure.",
-       "This picture shows their increased presence on the right wing with key passes and movements."
+       "Eastmoor Athletic has ramped up their right-side attacks from 37.5% to 61.1%.",
+       "Alongside this, we've seen their overload plays on this flank jump from 0 to 6.",
+       "This shift shows a clear focus on pressuring down the right side.",
+       "It�s a tactic that likely shaped the game's opening half momentum."
       ],
       "facts": [
        "Eastmoor attacks down the right: 37.5 % (in_channel 3, final_third_actions 8)",
@@ -377,7 +375,7 @@
     "facts_checked": 10,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 1.61,
+    "lock_s": 2.71,
     "rejected": 4,
     "routed_around": 1
    }
@@ -460,7 +458,7 @@
       "title": "Faster, faster",
       "script": [
        "Harbour have turned up the tempo.",
-       "From 11.5 to 14.0 passes for every minute on the ball."
+       "From 11.5 to 14 passes for every minute on the ball."
       ],
       "facts": [
        "Harbour tempo: 11.5 passes per possession minute (passes 198, possession_minutes 17.3)",
@@ -492,12 +490,11 @@
       "moment": true,
       "grounded": true,
       "errors": [],
-      "title": "Early Goal Sets the Tone",
+      "title": "Rafael Osei's Early Goal Sets the Tone",
       "script": [
-       "Just 2 minutes in, Rafael Osei breaks the deadlock for Harbour City.",
-       "Watch him carry the ball forward, skipping past the defender.",
-       "He finishes calmly despite the close pressure.",
-       "A smart and early strike that gives Harbour City control."
+       "Right from the 2nd minute, Rafael Osei seizes a clear chance with a quality worth 0.086 expected goals.",
+       "He drives forward under pressure and finishes accurately from close range.",
+       "This early goal puts Harbour City in charge and shapes the pattern of the first half."
       ],
       "facts": [
        "chance quality, Rafael Osei: 0.086 xG (outcome goal, minute 1.88)"
@@ -512,12 +509,11 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor Defensive Line Drops Deeper",
+      "title": "Backs to the wall",
       "script": [
-       "At 36 minutes, Eastmoor drop their defensive line from 34.3 metres to 29.9 metres.",
-       "This deeper line helps tighten their defensive block against Harbour City.",
-       "Meanwhile, Harbour’s field tilt rises sharply from 51% to 92.3%, showing their increased pressure.",
-       "Eastmoor are playing smart, choosing solidity by sitting deeper in this first half phase."
+       "Eastmoor have taken a step back.",
+       "Their back line has dropped from 34.3 to 29.9 metres from goal.",
+       "Harbour now have 92.3% of the passes in the final third."
       ],
       "facts": [
        "Eastmoor defensive line height: 34.3 m",
@@ -535,12 +531,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City picks up the pace",
+      "title": "Harbour City cranks up tempo before halftime",
       "script": [
-       "Harbour City is moving the ball quicker as we near half-time.",
-       "They raised their passing tempo from 11.5 to 14 passes per possession minute in the last 10 minutes.",
-       "This faster rhythm could spark more attacking chances before the break.",
-       "Look at how their key midfielders and wide players connect with sharp, successive passes."
+       "Here you see Harbour City speeding up, moving the ball faster as halftime nears.",
+       "Their passes per possession minute jump from 11.5 to 14, a smart shift to heighten pressure.",
+       "This quicker rhythm helps unsettle Eastmoor Athletic just before the half.",
+       "Expect more sharp moves as Harbour City push this advantage."
       ],
       "facts": [
        "Harbour tempo: 11.5 passes per possession minute (passes 198, possession_minutes 17.3)",
@@ -554,9 +550,9 @@
     "facts_checked": 7,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 3.25,
-    "rejected": 7,
-    "routed_around": 2
+    "lock_s": 5.22,
+    "rejected": 8,
+    "routed_around": 3
    }
   },
   {
@@ -638,7 +634,7 @@
       "script": [
        "Harbour have made their plan obvious. Everything goes down the left.",
        "40.6% of their final-third attacks start there, up from 28.1%.",
-       "And they arrive with the extra man: 6 times in ten minutes."
+       "And they arrive with the extra man: 6 times lately."
       ],
       "facts": [
        "Harbour attacks down the left: 28.1 % (in_channel 16, final_third_actions 57)",
@@ -670,21 +666,21 @@
      {
       "kind": "goal",
       "team": "HAR",
-      "minute": 43.2,
-      "headline": "Emeka Saari scores (0.108 xG)",
+      "minute": 32.9,
+      "headline": "Malik Ilunga scores (0.028 xG)",
       "story": null,
       "moment": true,
       "grounded": true,
       "errors": [],
-      "title": "Emeka Saari's First Half Goal",
+      "title": "Malik Ilunga's Decisive Goal",
       "script": [
-       "Emeka Saari breaks the deadlock with a smart finish at 43 minutes.",
-       "He receives a perfect header and places his shot precisely.",
-       "That goal, with a 0.108 expected goal value, changes the half-time momentum.",
-       "A key score that sets Harbour City ahead before the break."
+       "Here we see Malik Ilunga break past the defense on the right wing.",
+       "He receives a clever pass and immediately shoots.",
+       "That shot has a chance value of 0.028, showing it was a solid scoring opportunity.",
+       "Ilunga's goal at 33 minutes swings the match clearly in Harbour City's favor."
       ],
       "facts": [
-       "chance quality, Emeka Saari: 0.108 xG (outcome goal, minute 43.16)"
+       "chance quality, Malik Ilunga: 0.028 xG (outcome goal, minute 32.91)"
       ]
      },
      {
@@ -696,11 +692,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Down the left",
+      "title": "Harbour City shifts attacks leftwards",
       "script": [
-       "Harbour have made their plan obvious. Everything goes down the left.",
-       "40.6% of their final-third attacks start there, up from 28.1%.",
-       "And they arrive with the extra man: 6 times in ten minutes."
+       "Harbour City pushes more attacks down the left wing.",
+       "Their share rises from 28.1% to 40.6% by minute 32.",
+       "Overload episodes increase from 2 to 6, showing focused pressure.",
+       "This tactic might give Harbour better control early on."
       ],
       "facts": [
        "Harbour attacks down the left: 28.1 % (in_channel 16, final_third_actions 57)",
@@ -718,12 +715,11 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor Athletic's High Press Impacts Game",
+      "title": "Eastmoor's rising press intensity",
       "script": [
-       "Eastmoor drops PPDA from 8 to 4.8, showing tighter pressing.",
-       "Pressures per minute rise from 1.41 to 1.7, increasing pressure intensity.",
-       "A successful high press deep in Harbour City's half forces a crucial interception at minute 42.",
-       "This strategy change will likely influence control as half-time approaches."
+       "Eastmoor's PPDA drops from 8 to 4.8, showing stronger pressing in the last 10 minutes.",
+       "Their pressures rise from 1.41 to 1.7 per minute, pressing higher on Harbour City.",
+       "This intense pressing forces turnovers upfield, as seen in the picture."
       ],
       "facts": [
        "Eastmoor PPDA: 8.0 passes per action (opp_passes 159, defensive_actions 20)",
@@ -741,9 +737,9 @@
     "facts_checked": 9,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 7.85,
-    "rejected": 3,
-    "routed_around": 1
+    "lock_s": 14.05,
+    "rejected": 5,
+    "routed_around": 0
    }
   },
   {
@@ -805,7 +801,7 @@
       "script": [
        "Keep an eye on Kenji Adeyemi.",
        "His top speed has dropped from 26.6 to 21.9 kilometres an hour.",
-       "His sprints are down from 16 to 0. Harbour will go at him."
+       "His sprints went from 16 to 0. Harbour will go at him."
       ],
       "facts": [
        "Kenji Adeyemi sprints: 16 sprints (distance_m 3343, top_speed_kmh 26.6)",
@@ -825,7 +821,7 @@
       "script": [
        "Eastmoor have made their plan obvious. Everything goes down the left.",
        "44.4% of their final-third attacks start there, up from 29.4%.",
-       "And they arrive with the extra man: 4 times in ten minutes."
+       "And they arrive with the extra man: 4 times lately."
       ],
       "facts": [
        "Eastmoor attacks down the left: 29.4 % (in_channel 10, final_third_actions 34)",
@@ -865,12 +861,12 @@
       "moment": true,
       "grounded": true,
       "errors": [],
-      "title": "Ilya Petit Breaks the Deadlock at 25 Minutes",
+      "title": "Key moment: Ilya Petit breaks the deadlock",
       "script": [
-       "Here we see Ilya Petit ready to finish after Jonah Halvorsen’s header cross.",
-       "At 25 minutes, Petit takes the shot with precision and scores.",
-       "His chance had an xG of 0.202, showing a decent quality chance converted.",
-       "This goal really shifts Harbour City's momentum as we approach half-time."
+       "At minute 25, Ilya Petit finishes a strong attacking move.",
+       "Petit's shot has a chance quality of 0.202, showing a well-placed finish.",
+       "This goal proves crucial as it decides the first half's outcome.",
+       "The setup came from Halvorsen's precise cross, showing good teamwork."
       ],
       "facts": [
        "chance quality, Ilya Petit: 0.202 xG (outcome goal, minute 25.32)"
@@ -885,13 +881,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor shifts the attack down the left",
+      "title": "Eastmoor ramps up left side attacks",
       "script": [
-       "Watch Eastmoor redirect their attacks down the left flank.",
-       "Their share rises sharply from 29.4% to 44.4% in the first half.",
-       "This reflects an increase from 1 to 4 overload episodes on that side.",
-       "This tactical focus adds clear pressure on Harbour City's defence.",
-       "This left-flank surge defines the rhythm up to minute 29."
+       "Eastmoor boosts left side attacks from 29.4% to 44.4%.",
+       "Left flank overloads grow from 1 to 4 episodes, showing clear pressure there.",
+       "Their tactic focuses on concentrated play down the left.",
+       "Harbour City must adjust to this rising threat."
       ],
       "facts": [
        "Eastmoor attacks down the left: 29.4 % (in_channel 10, final_third_actions 34)",
@@ -909,12 +904,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Kenji Adeyemi's sharp drop in pace",
+      "title": "Kenji Adeyemi's fading speed in first half",
       "script": [
-       "At minute 40, Kenji Adeyemi slows from 26.6 km/h to 21.9 km/h.",
-       "His sprint count is down to 0 after 16 in the first part of the match.",
-       "This drop in pace shows fatigue hitting hard and may blunt Eastmoor Athletic's attacks.",
-       "Watch how his runs get shorter and slower as the first half ends."
+       "Here we see Kenji Adeyemi's drop in top speed by minute 40.",
+       "His sprint count fell from 16 to zero in the first half.",
+       "Speed drops from 26.6 to 21.9 km/h, showing clear fatigue.",
+       "This shorter run after the key play highlights his tiring body."
       ],
       "facts": [
        "Kenji Adeyemi sprints: 16 sprints (distance_m 3343, top_speed_kmh 26.6)",
@@ -931,9 +926,9 @@
     "facts_checked": 7,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 1.62,
-    "rejected": 1,
-    "routed_around": 0
+    "lock_s": 5.26,
+    "rejected": 4,
+    "routed_around": 1
    }
   },
   {
@@ -970,8 +965,8 @@
       "title": "Running on empty",
       "script": [
        "Keep an eye on Malik Nunes.",
-       "His top speed has dropped from 27.6 to 22.0 kilometres an hour.",
-       "His sprints are down from 10 to 0. Harbour will go at him."
+       "His top speed has dropped from 27.6 to 22 kilometres an hour.",
+       "His sprints went from 10 to 0. Harbour will go at him."
       ],
       "facts": [
        "Malik Nunes sprints: 10 sprints (distance_m 3115, top_speed_kmh 27.6)",
@@ -990,8 +985,8 @@
       "title": "Down the right",
       "script": [
        "Harbour have made their plan obvious. Everything goes down the right.",
-       "39.0% of their final-third attacks start there, up from 25.9%.",
-       "And they arrive with the extra man: 4 times in ten minutes."
+       "39% of their final-third attacks start there, up from 25.9%.",
+       "And they arrive with the extra man: 4 times lately."
       ],
       "facts": [
        "Harbour attacks down the right: 25.9 % (in_channel 7, final_third_actions 27)",
@@ -1048,11 +1043,11 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Running on empty",
+      "title": "Malik Nunes Sees Sharp Drop in Speed",
       "script": [
-       "Keep an eye on Malik Nunes.",
-       "His top speed has dropped from 27.6 to 22.0 kilometres an hour.",
-       "His sprints are down from 10 to 0. Harbour will go at him."
+       "Here, watch Malik Nunes leading a sprint early in the first half, clocking 27.6 km/h.",
+       "Later, at minute 38, he fades significantly, slowing to 22 km/h and moving deeper on the pitch.",
+       "This drop in top speed signals clear fatigue, which weakens Eastmoor Athletic's attack as the half progresses."
       ],
       "facts": [
        "Malik Nunes sprints: 10 sprints (distance_m 3115, top_speed_kmh 27.6)",
@@ -1068,13 +1063,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City steps up the right flank attack",
+      "title": "Harbour City's Right Flank Surge",
       "script": [
-       "At 20 minutes in, Harbour City is really pushing down the right.",
-       "Their share of attacks on that flank grows from 25.9% to 39%.",
-       "You can see sharp runs and smart passes driving this surge.",
-       "Notice the increase in overload episodes from 0 to 4 as they exploit this channel.",
-       "Harbour's tactical shift here is clear and puts Eastmoor under real pressure."
+       "Harbour City shifts tactics, ramping up attacks on the right flank.",
+       "Their share of attacks down this side jumps from 25.9% to 39% in the first 20 minutes.",
+       "This tactical change sees overloads on the right increase from 0 to 4 episodes.",
+       "Harbour is clearly pushing that channel hard, aiming to unsettle Eastmoor's defence."
       ],
       "facts": [
        "Harbour attacks down the right: 25.9 % (in_channel 7, final_third_actions 27)",
@@ -1092,12 +1086,10 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City ups their passing tempo",
+      "title": "Faster, faster",
       "script": [
-       "Harbour City lifts their passing tempo early in the half.",
-       "They move from 11.2 to 13.7 passes per possession minute.",
-       "This quicker rhythm boosts their attacking chances.",
-       "Watch those precise, speedy passes opening up space."
+       "Harbour have turned up the tempo.",
+       "From 11.2 to 13.7 passes for every minute on the ball."
       ],
       "facts": [
        "Harbour tempo: 11.2 passes per possession minute (passes 60, possession_minutes 5.4)",
@@ -1113,9 +1105,9 @@
     "facts_checked": 8,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 1.73,
-    "rejected": 4,
-    "routed_around": 1
+    "lock_s": 6.05,
+    "rejected": 7,
+    "routed_around": 2
    }
   },
   {
@@ -1175,8 +1167,8 @@
       "title": "Running on empty",
       "script": [
        "Keep an eye on Kwame Baptiste.",
-       "His top speed has dropped from 26.1 to 21.0 kilometres an hour.",
-       "His sprints are down from 11 to 0. Eastmoor will go at him."
+       "His top speed has dropped from 26.1 to 21 kilometres an hour.",
+       "His sprints went from 11 to 0. Eastmoor will go at him."
       ],
       "facts": [
        "Kwame Baptiste sprints: 11 sprints (distance_m 3172, top_speed_kmh 26.1)",
@@ -1195,7 +1187,7 @@
       "title": "Backs to the wall",
       "script": [
        "Harbour have taken a step back.",
-       "Their back line has dropped from 37.9 to 33.0 metres from goal.",
+       "Their back line has dropped from 37.9 to 33 metres from goal.",
        "Eastmoor now have 47.1% of the passes in the final third."
       ],
       "facts": [
@@ -1235,12 +1227,12 @@
       "moment": true,
       "grounded": true,
       "errors": [],
-      "title": "Samir Osei's Opening Goal",
+      "title": "Samir Osei's early strike shifts game",
       "script": [
-       "Samir Osei picks up the ball near the penalty area after a clever cross.",
-       "He makes a clean strike that finds the net at 12 minutes.",
-       "His chance had a 0.183 expected goals value, showing a decent opportunity.",
-       "That goal puts Eastmoor Athletic ahead early in this first half."
+       "Samir Osei nets a well-crafted goal at minute 12.",
+       "His shot had a quality rating of 0.183, showing it was a valuable chance.",
+       "This early strike decisively sets the tone for Eastmoor Athletic.",
+       "The goal came from a rapid sequence after a cross into the box."
       ],
       "facts": [
        "chance quality, Samir Osei: 0.183 xG (outcome goal, minute 11.68)"
@@ -1255,12 +1247,11 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City shift defensive line",
+      "title": "Backs to the wall",
       "script": [
-       "At minute 36, Harbour City's defensive line slides back from 37.9 m to 33 m.",
-       "This deeper line boosts their defensive strength in the face of growing pressure.",
-       "Eastmoor's field tilt rises from 37.5% to 47.1%, showing more control on the ball.",
-       "This tactical shift aims to curb Eastmoor's advances as the half develops."
+       "Harbour have taken a step back.",
+       "Their back line has dropped from 37.9 to 33 metres from goal.",
+       "Eastmoor now have 47.1% of the passes in the final third."
       ],
       "facts": [
        "Harbour defensive line height: 37.9 m",
@@ -1281,8 +1272,8 @@
       "title": "Running on empty",
       "script": [
        "Keep an eye on Kwame Baptiste.",
-       "His top speed has dropped from 26.1 to 21.0 kilometres an hour.",
-       "His sprints are down from 11 to 0. Eastmoor will go at him."
+       "His top speed has dropped from 26.1 to 21 kilometres an hour.",
+       "His sprints went from 11 to 0. Eastmoor will go at him."
       ],
       "facts": [
        "Kwame Baptiste sprints: 11 sprints (distance_m 3172, top_speed_kmh 26.1)",
@@ -1299,9 +1290,9 @@
     "facts_checked": 7,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 1.71,
-    "rejected": 3,
-    "routed_around": 1
+    "lock_s": 2.25,
+    "rejected": 8,
+    "routed_around": 3
    }
   },
   {
@@ -1362,7 +1353,7 @@
       "script": [
        "Eastmoor have made their plan obvious. Everything goes down the left.",
        "44.8% of their final-third attacks start there, up from 20.3%.",
-       "And they arrive with the extra man: 3 times in ten minutes."
+       "And they arrive with the extra man: 3 times lately."
       ],
       "facts": [
        "Eastmoor attacks down the left: 20.3 % (in_channel 13, final_third_actions 64)",
@@ -1382,7 +1373,7 @@
       "errors": [],
       "title": "The press is on",
       "script": [
-       "Look at how Eastmoor have changed in the last ten minutes.",
+       "Look at how Eastmoor have changed in recent minutes.",
        "They were allowing 9.8 passes per defensive action. Now it's 6.2.",
        "They're pressing higher, and Harbour have no time to play out."
       ],
@@ -1417,20 +1408,21 @@
      {
       "kind": "goal",
       "team": "EMA",
-      "minute": 26.7,
-      "headline": "Oskar Zielinski scores (0.255 xG)",
+      "minute": 35.5,
+      "headline": "Oskar Zielinski scores (0.124 xG)",
       "story": null,
       "moment": true,
       "grounded": true,
       "errors": [],
-      "title": "Zielinski's decisive header opens scoring",
+      "title": "Oskar Zielinski's Key Goal",
       "script": [
-       "Here it is! Oskar Zielinski powers a header into the net at minute 27.",
-       "That opportunity carried a 0.255 expected goal value—quite the finish!",
-       "This goal shifts the momentum firmly in Eastmoor Athletic's favour early on."
+       "Here's Oskar Zielinski finishing from close range after Pablo's precise cross.",
+       "This goal at 35 minutes had a chance quality of 0.124, showing a good scoring opportunity.",
+       "It decisively shifted the half-time narrative in favour of Eastmoor Athletic.",
+       "This moment is key in understanding Eastmoor's edge going into the break."
       ],
       "facts": [
-       "chance quality, Oskar Zielinski: 0.255 xG (outcome goal, minute 26.74)"
+       "chance quality, Oskar Zielinski: 0.124 xG (outcome goal, minute 35.45)"
       ]
      },
      {
@@ -1442,12 +1434,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor Turns Up the Heat with High Press",
+      "title": "Eastmoor Athletic's Pressing Rises",
       "script": [
-       "Eastmoor drops PPDA from 9.8 to 6.2 showing stronger pressing.",
-       "They increase pressures from 1.2 to 2.2 per minute in the last 10.",
-       "This forces Harbour City into tight build-up near midfield.",
-       "Eastmoor’s urgent defense is shifting control their way."
+       "Eastmoor Athletic cut the passes allowed per defensive action from 9.8 to 6.2, showing a tighter pressing game.",
+       "This means they win the ball more quickly, blocking Harbour City's build-up effectively.",
+       "Their pressures jumped from 1.2 to 2.2 per minute, with more efforts high up the field.",
+       "That turnover in midfield at minute 25 is a perfect example of their pressing paying off."
       ],
       "facts": [
        "Eastmoor PPDA: 9.8 passes per action (opp_passes 78, defensive_actions 8)",
@@ -1465,12 +1457,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City surges down the left flank",
+      "title": "Harbour City's Left Flank Surge",
       "script": [
-       "Look closely at Harbour City's left wing where action is intensifying.",
-       "They ramp up left-side attacks from 40% to 58.1% past minute 23.",
-       "No overloads early on, but two clear episodes emerge as they push higher.",
-       "This tactical shift is creating space and pressing Eastmoor deep in their half."
+       "Look at Harbour City's shift: attacks down the left rise from 40% to 58.1%.",
+       "No overloads early on; now 2 overload bursts put extra pressure on this flank.",
+       "This tactical change boosts their control and chances in the final third.",
+       "Watch how their key passes build progressively on the left to break down Eastmoor's defense."
       ],
       "facts": [
        "Harbour attacks down the left: 40.0 % (in_channel 12, final_third_actions 30)",
@@ -1489,8 +1481,8 @@
     "facts_checked": 9,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 1.87,
-    "rejected": 2,
+    "lock_s": 5.9,
+    "rejected": 3,
     "routed_around": 0
    }
   },
@@ -1553,7 +1545,7 @@
       "script": [
        "Eastmoor have made their plan obvious. Everything goes down the right.",
        "55.6% of their final-third attacks start there, up from 17.9%.",
-       "And they arrive with the extra man: 2 times in ten minutes."
+       "And they arrive with the extra man: 2 times lately."
       ],
       "facts": [
        "Eastmoor attacks down the right: 17.9 % (in_channel 5, final_third_actions 28)",
@@ -1574,7 +1566,7 @@
       "title": "Backs to the wall",
       "script": [
        "Harbour have taken a step back.",
-       "Their back line has dropped from 39.0 to 34.2 metres from goal.",
+       "Their back line has dropped from 39 to 34.2 metres from goal.",
        "Eastmoor now have 42.9% of the passes in the final third."
       ],
       "facts": [
@@ -1608,45 +1600,21 @@
     "aired": [
      {
       "kind": "goal",
-      "team": "EMA",
-      "minute": 24.9,
-      "headline": "Mateo Castillo scores (0.27 xG)",
+      "team": "HAR",
+      "minute": 7.3,
+      "headline": "Rafael Castillo scores (0.239 xG)",
       "story": null,
       "moment": true,
       "grounded": true,
       "errors": [],
-      "title": "Castillo's Decisive Header",
+      "title": "Rafael Castillo's Early Strike",
       "script": [
-       "Here we see Mateo Castillo rising above to meet the cross from Samir Rasku.",
-       "His header finds the net at 25 minutes, turning the game in Eastmoor's favor.",
-       "That 0.27 xG represents a solid scoring chance that he neatly converted.",
-       "A moment that truly shaped the opening half."
+       "Rafael Castillo connects with Emeka Vidal's precise cross.",
+       "A perfect header from Castillo finds the net at minute 7.",
+       "This chance carried an expected goal value of 0.239, showing real quality."
       ],
       "facts": [
-       "chance quality, Mateo Castillo: 0.27 xG (outcome goal, minute 24.9)"
-      ]
-     },
-     {
-      "kind": "deep_block",
-      "team": "HAR",
-      "minute": 20.0,
-      "headline": "Harbour dropping deeper: line 39.0 m to 34.2 m",
-      "story": "s1",
-      "moment": false,
-      "grounded": true,
-      "errors": [],
-      "title": "Harbour City Defensive Shift Deepens",
-      "script": [
-       "At 20 minutes, Harbour City pulls back their defensive line from 39 m to 34.2 m.",
-       "This is a clear sign they're digging in as Eastmoor's control grows.",
-       "Eastmoor's field tilt jumps from 23.5% to 42.9% after this moment.",
-       "The visitors are pushing higher up the pitch, testing Harbour's defense."
-      ],
-      "facts": [
-       "Harbour defensive line height: 39.0 m",
-       "Harbour defensive line height: 34.2 m",
-       "Eastmoor field tilt: 23.5 % (ours 4, theirs 13)",
-       "Eastmoor field tilt: 42.9 % (ours 6, theirs 8)"
+       "chance quality, Rafael Castillo: 0.239 xG (outcome goal, minute 7.32)"
       ]
      },
      {
@@ -1658,18 +1626,40 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor hikes right flank pressure",
+      "title": "Eastmoor's Right Flank Surge",
       "script": [
-       "Eastmoor start with 17.9% of their attacks down the right flank.",
-       "By 30 minutes, that surges to 55.6%, a massive tactical shift.",
-       "Critically, they add 2 new overload episodes on the right side.",
-       "This picture maps key carries and passes fueling that right-side surge."
+       "Eastmoor shifts tactics strongly, pushing their attacks on the right side from 17.9% up to 55.6%.",
+       "This surge brings more balls carried forward, creating dangerous chances near the box.",
+       "Over the last 10 minutes, they've also mounted 2 overload episodes on the right, taking control out wide.",
+       "Harbour City now under serious pressure to handle Eastmoor's relentless advances on this flank."
       ],
       "facts": [
        "Eastmoor attacks down the right: 17.9 % (in_channel 5, final_third_actions 28)",
        "Eastmoor attacks down the right: 55.6 % (in_channel 10, final_third_actions 18)",
        "Eastmoor overloads on the right: 0 episodes",
        "Eastmoor overloads on the right: 2 episodes (biggest 5 v 2)"
+      ]
+     },
+     {
+      "kind": "deep_block",
+      "team": "HAR",
+      "minute": 20.0,
+      "headline": "Harbour dropping deeper: line 39.0 m to 34.2 m",
+      "story": "s1",
+      "moment": false,
+      "grounded": true,
+      "errors": [],
+      "title": "Backs to the wall",
+      "script": [
+       "Harbour have taken a step back.",
+       "Their back line has dropped from 39 to 34.2 metres from goal.",
+       "Eastmoor now have 42.9% of the passes in the final third."
+      ],
+      "facts": [
+       "Harbour defensive line height: 39.0 m",
+       "Harbour defensive line height: 34.2 m",
+       "Eastmoor field tilt: 23.5 % (ours 4, theirs 13)",
+       "Eastmoor field tilt: 42.9 % (ours 6, theirs 8)"
       ]
      }
     ],
@@ -1682,9 +1672,9 @@
     "facts_checked": 9,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 2.06,
-    "rejected": 2,
-    "routed_around": 0
+    "lock_s": 7.17,
+    "rejected": 5,
+    "routed_around": 2
    }
   },
   {
@@ -1740,7 +1730,7 @@
       "script": [
        "Keep an eye on Dario Yilmaz.",
        "His top speed has dropped from 26.8 to 19.9 kilometres an hour.",
-       "His sprints are down from 7 to 0. Harbour will go at him."
+       "His sprints went from 7 to 0. Harbour will go at him."
       ],
       "facts": [
        "Dario Yilmaz sprints: 7 sprints (distance_m 2926, top_speed_kmh 26.8)",
@@ -1758,7 +1748,7 @@
       "errors": [],
       "title": "The press is on",
       "script": [
-       "Look at how Eastmoor have changed in the last ten minutes.",
+       "Look at how Eastmoor have changed in recent minutes.",
        "They were allowing 7.7 passes per defensive action. Now it's 5.7.",
        "They're pressing higher, and Harbour have no time to play out."
       ],
@@ -1800,12 +1790,11 @@
       "moment": true,
       "grounded": true,
       "errors": [],
-      "title": "Zielinski's First Half Strike",
+      "title": "Dario Zielinski's Impactful Header Goal",
       "script": [
-       "Dario Zielinski nets a crucial goal at minute 38.",
-       "A precise header after a slick build-up from the left wing.",
-       "This 0.215 xG chance put Eastmoor Athletic in control heading to half-time.",
-       "A game-changing moment for Eastmoor as they go ahead."
+       "Here we see Dario Zielinski slotting a header from Oskar Quist's cross at minute 38.",
+       "The shot had an expected goal value of 0.215, making it a solid scoring chance.",
+       "This goal proved pivotal, tilting the game's momentum strongly towards Eastmoor Athletic just before half-time."
       ],
       "facts": [
        "chance quality, Dario Zielinski: 0.215 xG (outcome goal, minute 37.64)"
@@ -1820,12 +1809,11 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor Athletic Intensifies Their Press",
+      "title": "The press is on",
       "script": [
-       "Eastmoor start with a PPDA of 7.7, allowing fewer pressures.",
-       "In the last 10 minutes, their PPDA drops to 5.7, showing sharper pressing.",
-       "Pressures tripled from 1.8 to 5.4 per minute, showing rising intensity.",
-       "Here, you see Eastmoor’s higher press forces a key interception near halfway."
+       "Look at how Eastmoor have changed in recent minutes.",
+       "They were allowing 7.7 passes per defensive action. Now it's 5.7.",
+       "They're pressing higher, and Harbour have no time to play out."
       ],
       "facts": [
        "Eastmoor PPDA: 7.7 passes per action (opp_passes 46, defensive_actions 6)",
@@ -1843,12 +1831,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Yilmaz's Speed Drops Mid Half",
+      "title": "Yilmaz�s Speed Dip Signals Fatigue",
       "script": [
-       "Here’s Dario Yilmaz visibly slowing at 40.",
-       "His top speed drops from 26.8 to 19.9 km/h.",
-       "Eastmoor Athletic's attack struggles as he tires.",
-       "7 sprints early on, none after halftime nearing 40."
+       "By the 40th minute, Yilmaz's top speed falls sharply from 26.8 to 19.9 km/h.",
+       "This drop shows he's losing energy, which hits Eastmoor's attacking pace.",
+       "Notice how he�s pressured in this picture, reflecting that fatigue.",
+       "Eastmoor need him sharper after half-time to keep their threat alive."
       ],
       "facts": [
        "Dario Yilmaz sprints: 7 sprints (distance_m 2926, top_speed_kmh 26.8)",
@@ -1865,9 +1853,9 @@
     "facts_checked": 7,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 1.67,
-    "rejected": 5,
-    "routed_around": 0
+    "lock_s": 2.89,
+    "rejected": 3,
+    "routed_around": 1
    }
   },
   {
@@ -1910,7 +1898,7 @@
       "script": [
        "Eastmoor have made their plan obvious. Everything goes down the left.",
        "58.3% of their final-third attacks start there, up from 14.3%.",
-       "And they arrive with the extra man: 3 times in ten minutes."
+       "And they arrive with the extra man: 3 times lately."
       ],
       "facts": [
        "Eastmoor attacks down the left: 14.3 % (in_channel 1, final_third_actions 7)",
@@ -1950,7 +1938,7 @@
       "title": "Backs to the wall",
       "script": [
        "Harbour have taken a step back.",
-       "Their back line has dropped from 42.0 to 37.5 metres from goal.",
+       "Their back line has dropped from 42 to 37.5 metres from goal.",
        "Eastmoor now have 21.1% of the passes in the final third."
       ],
       "facts": [
@@ -1991,12 +1979,11 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor's Left Flank Surge Changes Game",
+      "title": "Down the left",
       "script": [
-       "Eastmoor starts with just 14.3% of their attacks down the left in the opening minutes.",
-       "By minute 18, their attacks down the left soar to 58.3%, showing clear tactical intent.",
-       "This surge is backed by 3 overloads on the left flank, focusing pressure and creating chances.",
-       "Eastmoor’s left side surge reshapes the first half’s attacking pattern and heightens threat."
+       "Eastmoor have made their plan obvious. Everything goes down the left.",
+       "58.3% of their final-third attacks start there, up from 14.3%.",
+       "And they arrive with the extra man: 3 times lately."
       ],
       "facts": [
        "Eastmoor attacks down the left: 14.3 % (in_channel 1, final_third_actions 7)",
@@ -2014,12 +2001,11 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City Sinks Their Defensive Line",
+      "title": "Backs to the wall",
       "script": [
-       "At 23 minutes, Harbour City drops their defensive line from 42 m to 37.5 m.",
-       "This deeper position forms a tight, compact block in front of their goal.",
-       "Eastmoor’s possession tilt slightly decreases, reflecting Harbour’s control shift.",
-       "This tactic really limits Eastmoor’s ability to press high and control the pitch."
+       "Harbour have taken a step back.",
+       "Their back line has dropped from 42 to 37.5 metres from goal.",
+       "Eastmoor now have 21.1% of the passes in the final third."
       ],
       "facts": [
        "Harbour defensive line height: 42.0 m",
@@ -2037,11 +2023,10 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City Steps Up The Pace",
+      "title": "Faster, faster",
       "script": [
-       "At 36, Harbour City quickens the tempo from 11.3 to 13.7 passes a minute on the ball.",
-       "This rise marks more control and better attacking flow as first half nears its end.",
-       "You see quick, progressive passes flying around in the clip, stirring up Eastmoor’s defence."
+       "Harbour have turned up the tempo.",
+       "From 11.3 to 13.7 passes for every minute on the ball."
       ],
       "facts": [
        "Harbour tempo: 11.3 passes per possession minute (passes 179, possession_minutes 15.8)",
@@ -2058,9 +2043,9 @@
     "facts_checked": 10,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 2.06,
-    "rejected": 2,
-    "routed_around": 0
+    "lock_s": 6.03,
+    "rejected": 22,
+    "routed_around": 11
    }
   },
   {
@@ -2121,7 +2106,7 @@
       "script": [
        "Eastmoor have made their plan obvious. Everything goes down the left.",
        "83.3% of their final-third attacks start there, up from 26.9%.",
-       "And they arrive with the extra man: 2 times in ten minutes."
+       "And they arrive with the extra man: 2 times lately."
       ],
       "facts": [
        "Eastmoor attacks down the left: 26.9 % (in_channel 7, final_third_actions 26)",
@@ -2141,7 +2126,7 @@
       "errors": [],
       "title": "The press is on",
       "script": [
-       "Look at how Eastmoor have changed in the last ten minutes.",
+       "Look at how Eastmoor have changed in recent minutes.",
        "They were allowing 8.8 passes per defensive action. Now it's 5.6.",
        "They're pressing higher, and Harbour have no time to play out."
       ],
@@ -2174,6 +2159,25 @@
     "segments": 3,
     "aired": [
      {
+      "kind": "goal",
+      "team": "EMA",
+      "minute": 11.9,
+      "headline": "Viktor Sato scores (0.15 xG)",
+      "story": null,
+      "moment": true,
+      "grounded": true,
+      "errors": [],
+      "title": "Sato's Early Strike Shifts Momentum",
+      "script": [
+       "Viktor Sato finds the net at minute 12, a slick header from Vidal's precise cross.",
+       "This chance had an expected goal value of 0.15, showing it was a decent opportunity.",
+       "His goal puts Eastmoor Athletic ahead early, setting the tone and grabbing momentum."
+      ],
+      "facts": [
+       "chance quality, Viktor Sato: 0.15 xG (outcome goal, minute 11.86)"
+      ]
+     },
+     {
       "kind": "flank_overload",
       "team": "EMA",
       "minute": 33.0,
@@ -2182,38 +2186,18 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Eastmoor Athletic's Left Flank Attack Shift",
+      "title": "Eastmoor's Sharp Shift to Left Flank",
       "script": [
-       "Eastmoor start the half with just 26.9% of attacks down the left.",
-       "By the 33rd minute, this rockets to 83.3%, as they push hard on that flank.",
-       "The picture shows Eastmoor concentrating play down the left side.",
-       "Two overload episodes show a clear tactical shift pressuring Harbour City."
+       "Eastmoor Athletic change gears, pushing down their left flank sharply.",
+       "Their share of attacks there jumps from 26.9% at game start to 83.3% by minute 33.",
+       "This increase is backed by two overload episodes on the left side, where more players join the attack.",
+       "Such a shift suggests a tactical move to build pressure and find rhythm on this side."
       ],
       "facts": [
        "Eastmoor attacks down the left: 26.9 % (in_channel 7, final_third_actions 26)",
        "Eastmoor attacks down the left: 83.3 % (in_channel 10, final_third_actions 12)",
        "Eastmoor overloads on the left: 0 episodes",
        "Eastmoor overloads on the left: 2 episodes (biggest 4 v 2)"
-      ]
-     },
-     {
-      "kind": "goal",
-      "team": "HAR",
-      "minute": 37.0,
-      "headline": "Arlo Pereira scores (0.065 xG)",
-      "story": null,
-      "moment": true,
-      "grounded": true,
-      "errors": [],
-      "title": "Arlo Pereira's clinical moment",
-      "script": [
-       "Harbour City take the lead as Arlo Pereira scores in the 37th minute.",
-       "This shot came from a low xG chance of 0.065, showing sharp finishing.",
-       "He found space on the right channel to receive a perfect pass.",
-       "A calm finish that changed the complexion of the first half."
-      ],
-      "facts": [
-       "chance quality, Arlo Pereira: 0.065 xG (outcome goal, minute 37.03)"
       ]
      },
      {
@@ -2225,12 +2209,12 @@
       "moment": false,
       "grounded": true,
       "errors": [],
-      "title": "Harbour City Intense Pressing Shifts Up Front",
+      "title": "Harbour City ups the pressure high up the pitch",
       "script": [
-       "At 27, Harbour City steps up their pressing intensity.",
-       "PPDA falls from 4.3 to 2.6, showing tighter pressure.",
-       "They keep pressing hard with over 29 pressures per minute in the opponent's half.",
-       "This forces interceptions like the one shown here near midfield."
+       "Here we see Harbour City pressing deeper into Eastmoor's half, leading to a key interception.",
+       "Their PPDA drops from 4.3 passes per defensive action to 2.6, showing sharper, quicker pressure.",
+       "Pressures in the opponent half dip slightly from 37 to 29 total actions during this period.",
+       "This high defensive intensity disrupts Eastmoor�s build-up just 27 minutes in."
       ],
       "facts": [
        "Harbour PPDA: 4.3 passes per action (opp_passes 60, defensive_actions 14)",
@@ -2249,8 +2233,8 @@
     "facts_checked": 9,
     "duration_s": 90.01,
     "slot_error_s": 0.01,
-    "lock_s": 3.9,
-    "rejected": 4,
+    "lock_s": 13.67,
+    "rejected": 3,
     "routed_around": 0
    }
   }

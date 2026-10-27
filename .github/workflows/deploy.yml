@@ -7,6 +7,11 @@ on:
         description: "1 keeps the app warm for judging; 0 scales to zero"
         default: "0"
 
+# one deploy at a time: two runs collide on the same Azure deployment name
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

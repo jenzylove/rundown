@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Rundown">
+  <rect width="64" height="64" rx="12" fill="#0a1208"/>
+  <rect x="12" y="16" width="26" height="6" rx="1.5" fill="#d8ff3c"/>
+  <rect x="12" y="29" width="20" height="6" rx="1.5" fill="#f2f0e8"/>
+  <rect x="12" y="42" width="14" height="6" rx="1.5" fill="#f2f0e8" opacity=".6"/>
+  <path d="M38 27 L54 37 L38 47 Z" fill="#d8ff3c"/>
+</svg>
