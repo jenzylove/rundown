@@ -463,22 +463,29 @@ function Building({ feed, picks, run, trail, status, fan, live }: {
     <p className="muted small">{second
       ? 'The crew keeps watching. Your full-time show locks at the final whistle; press Catch me up any time.'
       : <>Talking points the crew is tracking. {fan ? <>Your show is being drafted as <b>{fanLabel(fan, run?.meta)}</b>.</> : 'The best three lock at the half-time whistle.'}</>}</p>
-    {!second && <ol className="picks">
-      {[0, 1, 2].map(i => {
-        const c = picks[i]
-        return <li key={i} className={c ? '' : 'empty'}>
-          <span className="slot">{i + 1}</span>
-          {c ? <div><span className={`kind k-${c.kind}`}>{KIND_LABEL[c.kind] ?? c.kind}</span> {c.headline}<Strength v={c.strength} /></div>
-            : <div className="muted">Waiting for a story…</div>}
-        </li>
-      })}
-    </ol>}
+    {!second && picks.length === 0 && <div className="picks-empty">
+      <b>Your three stories land here</b>
+      <span>From about minute 18 the crew starts picking the stories of your half. Until then, follow the match below.</span>
+    </div>}
     <h3>Live from the match</h3>
     <ul className="livefeed" aria-live="polite">
-      {live.length === 0 && <li className="muted">Shots, saves, goals and fouls appear here as they happen.</li>}
+      {live.length === 0 && <li className="muted wide">Shots, saves, goals and fouls appear here as they happen.</li>}
       {live.slice(0, 6).map((l, i) => <li key={live.length - i} className={`lv-${l.kind}`}>
         <span className="min">{l.minute}'</span><span>{l.text}</span></li>)}
     </ul>
+    {!second && picks.length > 0 && <>
+      <h3>Your show so far</h3>
+      <ol className="picks">
+        {[0, 1, 2].map(i => {
+          const c = picks[i]
+          return <li key={i} className={c ? '' : 'empty'}>
+            <span className="slot">{i + 1}</span>
+            {c ? <div><span className={`kind k-${c.kind}`}>{KIND_LABEL[c.kind] ?? c.kind}</span> {c.headline}<Strength v={c.strength} /></div>
+              : <div className="muted">The crew is looking for one more story…</div>}
+          </li>
+        })}
+      </ol>
+    </>}
     <h3>Talking points spotted</h3>
     <ul className="feed">
       {cands.length === 0 && <li className="muted">The detectors compare the last ten minutes with what came before, so the first talking points arrive after about eighteen minutes of play.</li>}

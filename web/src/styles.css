@@ -380,3 +380,9 @@ details p { color: var(--ink-muted); margin: 10px 0 0; }
 .said .line { margin: 0 0 8px; font-size: 18px; line-height: 1.45; }
 .lfoot .built { grid-column: 1 / -1; font-size: 14px; color: var(--ink-muted); }
 @media (max-width: 900px) { .compare { grid-template-columns: 1fr; } .hero::after { background: linear-gradient(0deg, rgba(5,8,10,.96) 0%, rgba(5,8,10,.75) 55%, rgba(5,8,10,.45) 100%); } }
+
+.livefeed li.wide { grid-template-columns: 1fr; color: var(--ink-muted); }
+.picks-empty { display: flex; flex-direction: column; gap: 4px; margin: 14px 0 18px; padding: 14px 16px; border-left: 3px solid var(--accent-text, var(--accent));
+  background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.picks-empty b { font: 800 20px/1.1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+.picks-empty span { font-size: 14px; color: var(--ink-muted); }
