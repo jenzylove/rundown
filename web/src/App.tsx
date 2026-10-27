@@ -451,7 +451,7 @@ function Desk({ rundown, decisions, setDecisions, swap, desk, fan, setShowing, l
       <p className="muted small mode">Built by: <b>{crewLine(rundown)}</b>. Every number comes from the stats engine and links to the match events behind it.</p>
     </>}
     {wall.length > 0 && <p className="wall-line small">
-      The crew has made <b>{wall.length}</b> cuts {phase === 'ht' ? 'this break' : 'since full time'}, <b>{full}</b> fully verified.{' '}
+      The crew has made <b>{wall.length}</b> {wall.length === 1 ? 'cut' : 'cuts'} {phase === 'ht' ? 'this break' : 'since full time'}, <b>{full}</b> fully verified.{' '}
       {run && <a href={`/proof?run=${run.id}`}>See the whistle wall</a>}</p>}
   </>
 }

@@ -1,17 +1,64 @@
 # Evals
 
-Does the studio put the right stories on air, are its numbers true, and do the agents do better than
-a rules-only picker? Measured on held-out seeds (101 to 112) against the stories each match plants and
-keeps apart as an answer key. The agents never see the key; only the scorer reads it. Changes are
-tuned on separate practice seeds (201 to 240), never on the held-out ones.
+Two questions, measured on held-out seeds (101 to 112) that no change was tuned on:
 
-Rerun it (needs the `AZURE_OPENAI_*` settings; `--rules-only` needs nothing):
+1. **Does every fan get a show that is true, and genuinely theirs?** (`rundown/evals/fans.py`)
+2. **Does the studio put the right stories on air, and do the agents beat a rules-only picker?**
+   (`rundown/evals/rundown.py`), scored against the stories each match plants and keeps apart as an
+   answer key. The agents never see the key; only the scorer reads it.
+
+Changes are tuned on separate practice seeds (201 to 240), never on the held-out ones. Rerun:
 
 ```bash
+python -m rundown.evals.fans --seeds 101-112 --rules-only          # no keys needed
+python -m rundown.evals.rundown --seeds 101-112 --rules-only       # no keys needed
+python -m rundown.evals.fans --seeds 101-112 --out docs/evals/fans.json          # agents: AZURE_OPENAI_*
 python -m rundown.evals.rundown --seeds 101-112 --out docs/evals/rundown.json
 python -m rundown.evals.foundry docs/evals/rundown.json --out docs/evals/foundry-groundedness.json
-python -m rundown.evals.dev cache && python -m rundown.evals.dev picks --agents   # practice seeds
 ```
+
+## Fans (26 Oct, gpt-4.1-mini)
+For each seed the first half is played as a live run plays it, then eight fan cuts are made from the
+same talking points: every side (neutral, home, away) at both depths in English, plus two fans who
+follow a player (a home fan in Spanish, casual; an away fan in French, analyst). Each cut is made by
+the agent crew and by the rules crew and checked by the same Verifier.
+
+12 held-out seeds (101 to 112), 8 fan profiles each.
+
+| | Agent crew | Rules crew |
+|---|---|---|
+| Segments that pass the Verifier | 274/274 (100%) | 274/274 (100%) |
+| Home and away cuts that differ | 16/24 (67%) | 22/24 (92%) |
+| Casual and analyst scripts that differ | 36/36 (100%) | 36/36 (100%) |
+| Casual segments that break the casual rules | 0 | 0 |
+| Followed players with their own segment | 24/24 (100%) | 24/24 (100%) |
+| Words written by the Writer agent | 203/274 (74%) | - |
+| Seconds to make a cut (median, worst) | 11.55 s, 20.29 s | at once |
+
+**What it says.** Every segment of every cut passed the Verifier, and the casual rules held. The
+agents' casual and analyst scripts always differ, and every followed player got his own segment.
+The agents' home and away cuts differ less often than the rules crew's (16 of 24 against 22 of 24):
+the agent Producer weighs how strong a story is above whose story it is, even with the club rule
+(below). Three in four segments air with the Writer agent's words; the rest fell back to the rules
+Writer after a rejected retry, and the trail on `/proof` says which.
+
+## Planted errors (26 Oct)
+Every clean segment the agents aired in the fans eval was copied with one error planted in what it
+says, and each copy went through the Verifier as it was on 22 Oct and as it is now. A copy that passes
+would have gone on air.
+
+| Error planted | Copies | Verifier of 22 Oct | Verifier now |
+|---|---|---|---|
+| number changed in a spoken line | 501 | 0/501 (0%) | 477/501 (95%) |
+| pair the wrong way round | 177 | 0/177 (0%) | 171/177 (97%) |
+| rise said as a fall, or a fall as a rise | 115 | 0/115 (0%) | 98/115 (85%) |
+| number changed on the stat card | 274 | 0/274 (0%) | 261/274 (95%) |
+
+The Verifier of 22 Oct recomputed every fact and checked every event, but read nothing a segment
+*says*, so it caught none of these. The misses that remain: a changed number that lands on another
+value the same line cites (a "12" changed to "15" when 15 is also in the line), and a rise word
+swapped in a sentence that also says the opposite elsewhere, which the check leaves alone rather than
+guess.
 
 ## Method
 For each seed the first half is played as a live run plays it: the detectors scan every match
@@ -30,31 +77,37 @@ gated by the Verifier) and once by the rules-only baseline (the "biggest stat ch
   reads each aired script against the facts and detail the writer had.
 - **Slot fit:** distance from the 90 s slot.
 
-## Results (22 Oct, gpt-4.1-mini, held-out seeds 101 to 112)
-12 seeds, 33 planted first-half stories. The detectors spotted **23/33 (70%)**
-by half-time, a median 6.8 min after each started: that is the ceiling for any picker.
+## Half-time eval (26 Oct, gpt-4.1-mini, held-out seeds 101 to 112)
+12 held-out seeds (101 to 112), neutral English rundown, 90 s slot. Planted first-half stories spotted by half-time: **23/33 (70%)**, a median 6.8 min after they start.
 
 | | Agent crew | Rules-only baseline |
 |---|---|---|
-| Story recall | **19/33 (58%)** | 17/33 (52%) |
-| Precision | **27/34 (79%)** | 25/34 (74%) |
-| Grounding (Verifier) | 34/34 (100%) | 34/34 (100%) |
-| Foundry groundedness, scripts scoring 4 or 5 | 34/34 (100%), mean 4.79 | 30/34 (88%), mean 4.53 |
+| Story recall (planted stories on air) | 19/33 (58%) | 17/33 (52%) |
+| Precision (aired points that are a planted story or a real moment) | 27/34 (79%) | 25/34 (74%) |
+| Grounding (segments whose every fact the Verifier recomputes) | 34/34 (100%) | 34/34 (100%) |
 | Slot fit (median, worst) | 0.01 s, 26.0 s | 0.01 s, 26.0 s |
-| Locked after the whistle (median, worst) | 1.97 s, 7.85 s | at once |
-| Answers the Verifier rejected before air | 39 (6 routed to the rules crew) | - |
+| Locked after the whistle (median, worst) | 5.58 s, 14.05 s | at once |
+| Answers the Verifier rejected before air | 76 (25 routed to the rules crew) | - |
 
-Reference, not a product: a simple rule that prefers talking points still showing at the whistle and
-seen in many scans picks 18/33 (55%) of the planted stories, precision 26/34 (76%).
+Reference, not a product: a simple rule that prefers talking points still showing at the whistle and seen in many scans (set on practice seeds 201-240) picks 18/33 (55%) of the planted stories, precision 26/34 (76%).
 
-**What it says.** Nothing unverified went on air from either system. The agent crew now puts more
-planted stories on air than the rules baseline and makes fewer off-key picks, but the margin is
-small: two stories out of 33, one more than the persistence rule. Most of the gain comes from
-code screening the evidence the Producer chooses from (below), not from better editorial judgement
-by the model. The Foundry judge rates the agents' scripts a little higher than the rules templates.
+**What it says.** Nothing that failed the Verifier went on air from either system. The agent crew
+puts two more planted stories on air than the rules baseline and makes fewer off-key picks; one
+more than the persistence rule. The margin is small, and most of it comes from code screening the
+evidence the Producer chooses from (below). The stricter Verifier of 25 Oct rejects more first drafts
+(76 rejections, 25 segments routed to the rules crew) and the lock takes longer (median 5.6 s).
 
-The worst slot fit (26 s) is seed 101 for both: one talking point qualified, so the rundown is one
-60 s segment, 64 s for a 90 s slot.
+**Foundry groundedness judge** (Azure AI Evaluation's GroundednessEvaluator, 1 to 5, reading each
+aired script against the facts and detail the writer had): agents 32/34 scripts at 4 or 5, mean
+4.59; rules crew 31/34, mean 4.71. Both agent scripts below 4 describe how a goal was scored ("a
+header from Vidal's cross", "Halvorsen's precise cross"), and both are true: checked against the match
+events, seed 112's 12th-minute goal and seed 105's 26th-minute goal were headers from those players'
+crosses. The Writer knows it from the Telestrator's picture, which reads the events; the judge only
+sees the facts table, so it marks the detail unsupported. The Verifier checks every number, its order
+and its direction, not descriptive detail like that. The judge is gpt-4.1-mini,
+the model that writes the agents' scripts. Results are in `docs/evals/foundry-groundedness.json`;
+they are not logged in the Foundry project because the deploy identity lacks
+`Microsoft.CognitiveServices/accounts/AIServices/assets/write` on the Foundry resource.
 
 ## Tuning the Producer
 Before tuning, on these same held-out seeds, the agents' story recall was 52%, 48%, 39% over three
@@ -96,13 +149,7 @@ The Producer still decides what airs and in what order, and sees how each point 
 4. **Not fixed: detection.** The detectors miss 30% of planted stories (mostly deep blocks, tempo
    changes and late fatigue). No picker can air a story that isn't spotted.
 
-Judge caveats: the judge is gpt-4.1-mini, the model that writes the agents' scripts. All four
-scores below 4 are the rules crew's goal segments; the judge's reasons disagree with the scripts on
-the scoring minute or on whether the chance went in, and they haven't been checked against the
-match data line by line. The run could not be logged to the Foundry project: the deploy identity lacks
-`Microsoft.CognitiveServices/accounts/AIServices/assets/write` on the Foundry resource.
-
-## Every miss (held-out run)
+## Every miss (held-out half-time run)
 - seed 101: not spotted by half-time: Harbour drop into a deep block from 15'
 - seed 102: not spotted by half-time: Eastmoor drop into a deep block from 9'
 - seed 102 agents: aired a point not in the answer key: Harbour dropping deeper: line 44.1 m to 38.3 m (19.0')
@@ -141,6 +188,7 @@ match data line by line. The run could not be logged to the Foundry project: the
 - seed 112 rules: aired a point not in the answer key: Eastmoor pressing higher: PPDA 8.8 to 5.6 (38.0')
 
 ## Files
+- `docs/evals/fans.json`: the fans eval, every cut and the planted-error counts.
 - `docs/evals/rundown.json`: the held-out run, every aired segment with its script, facts and score.
 - `docs/evals/rundown-first.json`, `rundown-second.json`, `rundown-untuned.json`: the runs before the
   Producer was tuned (the first is also before fix 1).
