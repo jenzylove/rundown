@@ -49,12 +49,14 @@ was pointed at every fan (this document), and the Verifier now checks what each 
 **Users:** a fan watching the match (casual or analyst, any side, four languages), and the studio
 producer or match-day editor who owns the master rundown and the approval desk.
 
-**First ten seconds:** the site opens on a match already playing on a 2D pitch, with no sign-up.
+**First ten seconds:** the landing page plays a real segment in a 3D stadium and lets you switch between two
+fans' cuts of it. **Make my show** opens the app (`/watch`), where a match is already playing, with no sign-up.
 Beside it, **Who's watching?**: pick your side, Casual or Analyst, a language, and a player to
 follow. Press **Make my show**; the crew drafts your cut while the half plays.
 
 **Demo path, click by click:**
-1. Open `/`: the match plays at 8x speed. Pick a fan card (for example an Eastmoor fan, Casual,
+1. Open `/`: the landing page plays a verified segment of a showcase match, for two fans. Press **Make my
+   show** (or open `/watch`): a fresh match plays at 8x speed. Pick a fan card (for example an Eastmoor fan, Casual,
    Français, following their striker).
 2. Watch the rundown build live: talking points with strength bars, the crew's trail.
 3. Press **Catch me up** at any point: a short voiced segment on what you missed, for your profile.

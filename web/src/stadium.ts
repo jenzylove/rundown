@@ -9,7 +9,7 @@ import * as THREE from 'three'
 import type { Theme } from './renderer'
 
 export const LEN = 105, WID = 68
-const PX_PER_M = 20  // ground overlay resolution
+const PX_PER_M = 12  // ground overlay resolution: sharp at broadcast distance, cheap to upload
 const FIG = 1.3      // figures a little larger than life, so a broadcast-distance camera can read them
 
 /** What the 2D drawing code needs: a context, a mapping from pitch metres to its pixels, a theme. */
@@ -131,7 +131,7 @@ export class Stadium {
 
   constructor(readonly root: HTMLElement) {
     this.gl = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance', preserveDrawingBuffer: false })
-    this.gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    this.gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))  // sharp enough, and light enough for a laptop
     this.gl.shadowMap.enabled = true
     this.gl.shadowMap.type = THREE.PCFSoftShadowMap
     this.gl.toneMapping = THREE.ACESFilmicToneMapping
@@ -167,18 +167,14 @@ export class Stadium {
     const s = this.scene
     s.background = new THREE.Color('#06090b')
     s.fog = new THREE.Fog('#06090b', 160, 420)
-    s.add(new THREE.HemisphereLight('#e8f0ff', '#24401c', 1.15))
+    s.add(new THREE.HemisphereLight('#e8f0ff', '#24401c', 1.45))
     const sun = new THREE.DirectionalLight('#fff6e6', 2.6)
     sun.position.set(20, 90, -40); sun.target.position.set(52.5, 0, 34)
     sun.castShadow = true
-    sun.shadow.mapSize.set(2048, 2048)
+    sun.shadow.mapSize.set(1024, 1024)
     Object.assign(sun.shadow.camera, { left: -70, right: 70, top: 55, bottom: -55, near: 10, far: 220 })
     sun.shadow.bias = -0.0005; sun.shadow.radius = 3
     s.add(sun, sun.target)
-    // floodlight glow from the four corners
-    for (const [x, z] of [[-18, -22], [123, -22], [-18, 90], [123, 90]]) {
-      const l = new THREE.PointLight('#e8f0ff', 900, 220, 1.6); l.position.set(x, 45, z); s.add(l)
-    }
 
     // the stands: dark tiers with a speckled crowd, open on the camera's side
     const crowd = crowdTexture()
@@ -307,10 +303,15 @@ export class Stadium {
   }
 
   /** Clear the ground overlay and the HUD before a frame's drawing. */
+  /** Set by the segment renderer when it draws ground graphics this frame. */
+  groundInk = false
+  private groundShown = false
+
   begin(dim = 0) {
-    this.ground.ctx.clearRect(0, 0, this.overlayCanvas.width, this.overlayCanvas.height)
+    this.groundInk = false
+    if (this.groundShown) this.ground.ctx.clearRect(0, 0, this.overlayCanvas.width, this.overlayCanvas.height)
     this.hud.ctx.clearRect(0, 0, this.hudCanvas.width, this.hudCanvas.height)
-    this.dimMat.opacity = dim * 0.55
+    this.dimMat.opacity = Math.min(0.92, dim * 0.55)
   }
 
   /** frame: [ball_x, ball_y, ball_z, 22 x (x, y)] */
@@ -369,9 +370,17 @@ export class Stadium {
     this.camera.position.copy(this.camPos); this.camera.lookAt(this.look)
   }
 
-  render(f: number[] | null, snap = false) {
+  /** Move the camera for this frame (before projecting tags), without drawing. */
+  place(f: number[] | null, snap = false) {
     this.aim(f, snap)
-    this.overlayTex.needsUpdate = true
+    this.camera.updateMatrixWorld()
+  }
+
+  /** Draw the frame. Places the camera too, unless place() already did this frame. */
+  render(f: number[] | null, snap = false, placed = false) {
+    if (!placed) this.aim(f, snap)
+    if (this.groundInk || this.groundShown) this.overlayTex.needsUpdate = true
+    this.groundShown = this.groundInk
     this.gl.render(this.scene, this.camera)
   }
 
@@ -379,6 +388,13 @@ export class Stadium {
     this.gl.dispose()
     this.gl.domElement.remove(); this.hudCanvas.remove()
   }
+}
+
+/** Shirt-number ink that reads on a kit colour. */
+export function inkFor(hex: string): string {
+  const n = parseInt(hex.replace('#', ''), 16)
+  const lum = 0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)
+  return lum > 150 ? '#0b1a12' : '#ffffff'
 }
 
 export function webglAvailable(): boolean {

@@ -76,7 +76,27 @@ CLUBS: dict[str, dict] = {
                 style=dict(press=0.65, depth=0.6, width=0.0, tempo=0.7, directness=0.3)),
     "KGT": dict(name="Kingsgate Rovers", short="Kingsgate", colour="#f5a524",
                 style=dict(press=0.45, depth=0.45, width=0.0, tempo=0.5, directness=0.5)),
+    "SLT": dict(name="Saltmere Town", short="Saltmere", colour="#12a594",
+                style=dict(press=0.5, depth=0.55, width=0.0, tempo=0.65, directness=0.4)),
+    "CRB": dict(name="Corran Bay", short="Corran Bay", colour="#8e4ec6",
+                style=dict(press=0.4, depth=0.35, width=0.0, tempo=0.4, directness=0.6)),
 }
+
+
+def _light(hex_colour: str) -> bool:
+    r, g, b = (int(hex_colour[i:i + 2], 16) for i in (1, 3, 5))
+    return 0.299 * r + 0.587 * g + 0.114 * b > 150
+
+
+def fixture(seed: int) -> tuple[str, str]:
+    """A home and an away club for a live match, from the seed: two different clubs whose kits
+    tell apart on the pitch (not both light, not both dark)."""
+    rng = np.random.default_rng(seed + 7919)
+    codes = sorted(CLUBS)
+    while True:
+        home, away = (str(c) for c in rng.choice(codes, 2, replace=False))
+        if _light(CLUBS[home]["colour"]) != _light(CLUBS[away]["colour"]):
+            return home, away
 
 BENCH_ROLES = ["GK", "RCB", "DM", "RW", "ST"]
 

@@ -317,6 +317,7 @@ export function renderSegment3D(st: Stadium, seg: Segment, t: number, numbers: n
   const freezeCue = active.find(q => q.kind === 'freeze')
   const dim = frozen && freezeCue ? 0.45 * ease((t - freezeCue.t) / 0.35) : 0
   st.begin(dim)
+  st.groundInk = active.some(q => ['zone', 'line', 'arrow', 'run', 'highlight'].includes(q.kind))
   const G = st.ground
   for (const q of active) {
     const u = ease((t - q.t) / Math.min(q.d, 0.9))
@@ -338,7 +339,7 @@ export function renderSegment3D(st: Stadium, seg: Segment, t: number, numbers: n
       polyline(G, pts, th.accent, true)
     }
   }
-  st.render(f)  // place the camera before projecting tags
+  st.place(f)  // place the camera before projecting tags
   const occupied: [number, number][] = [st.project(f[0], f[1])]
   for (const q of active) {
     if (q.kind === 'highlight' && q.slot !== undefined) {
@@ -354,5 +355,5 @@ export function renderSegment3D(st: Stadium, seg: Segment, t: number, numbers: n
     if (q.kind === 'statcard') statCard(st.hud, q, t, occupied)
   }
   bug(st.hud, clock, frozen)
-  st.render(f)  // again, with this frame's ground graphics
+  st.render(f, false, true)
 }

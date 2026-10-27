@@ -343,6 +343,7 @@ def proof_run(run_id: str):
 
 
 _showcase: dict = {}
+_showcase_audio: dict = {}
 _showcase_lock = __import__("threading").Lock()
 SHOWCASE_SEED = 38920  # a first half with a headed goal from a cross, a press and a flank story
 
@@ -366,8 +367,27 @@ def showcase():
                 for seg in r["segments"]:
                     seg["provenance"]["verified"] = not verify.segment_errors(md, seg)
                 cuts[prof.key] = dict(r, profile=prof.to_dict())
+            if voice.configured():
+                for key, r in cuts.items():
+                    for seg in r["segments"]:
+                        try:
+                            v = voice.synthesise([ln["text"] for ln in seg["script"]], r["lang"])
+                            track = voice.fit(seg, v)
+                            k = voice.key(seg, r["lang"])
+                            _showcase_audio[k] = v["audio"]
+                            seg["voice"] = dict(track, key=k, url=f"/api/showcase/audio/{k}.mp3")
+                        except Exception:
+                            pass  # the hero still plays, captions only
             _showcase.update(seed=SHOWCASE_SEED, meta=md.meta, cuts=cuts)
     return _showcase
+
+
+@app.get("/api/showcase/audio/{key}.mp3")
+def showcase_audio(key: str):
+    data = _showcase_audio.get(key)
+    if data is None:
+        raise HTTPException(404, "no such audio")
+    return Response(data, media_type="audio/mpeg", headers={"Cache-Control": "public, max-age=86400"})
 
 
 @app.get("/api/proof/evals")
@@ -379,7 +399,13 @@ def proof_evals():
 if WEB.exists():
     app.mount("/assets", StaticFiles(directory=WEB / "assets"), name="assets")
 
+    PAGES = {"", "watch", "demo", "proof"}
+
     @app.get("/{path:path}")
     def spa(path: str):
         f = WEB / path
-        return FileResponse(f if path and f.is_file() else WEB / "index.html")
+        if path and f.is_file():
+            return FileResponse(f)
+        if path.strip("/").split("/")[0] in PAGES:
+            return FileResponse(WEB / "index.html")
+        raise HTTPException(404, "no such page")

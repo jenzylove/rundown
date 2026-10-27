@@ -343,3 +343,40 @@ details p { color: var(--ink-muted); margin: 10px 0 0; }
   .hero-caption { left: 16px; right: 16px; max-width: none; bottom: 170px; }
 }
 @media (max-width: 560px) { .facts, .two, .stats { grid-template-columns: 1fr; } }
+
+
+/* the fan's journey bar and the live feed */
+.journey { margin: 14px 0 4px; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface); }
+.journey ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--rule); }
+.journey li { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font: 600 14px/1.2 Barlow, sans-serif; color: var(--ink-muted); }
+.journey li span { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; font: 700 13px "IBM Plex Mono", monospace; box-shadow: inset 0 0 0 1.5px var(--rule); }
+.journey li.done { color: var(--ink); } .journey li.done span { background: var(--surface-2); }
+.journey li.now { color: var(--ink); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.journey li.now span { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+.journey-now { display: flex; align-items: center; gap: 16px; padding: 12px 14px; }
+.journey-now p { margin: 0; flex: 1; font: 500 15px/1.4 Barlow, sans-serif; }
+.journey-now button { flex: none; font: 800 17px/1 "Barlow Condensed", sans-serif; letter-spacing: .04em; text-transform: uppercase; padding: 12px 18px; }
+.livefeed { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 2px; }
+.livefeed li { display: grid; grid-template-columns: 34px 1fr; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
+.livefeed .min { font: 500 13px "IBM Plex Mono", monospace; color: var(--ink-muted); }
+.livefeed .lv-goal { font-weight: 700; } .livefeed .lv-goal .min, .livefeed .lv-chance .min { color: var(--accent); }
+@media (max-width: 900px) { .journey ol { grid-template-columns: 1fr 1fr; } .journey-now { flex-direction: column; align-items: stretch; } }
+
+
+/* landing round two: sound, two fans side by side, contrast in light theme */
+:root { --accent-text: var(--accent); }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) { --accent-text: #4d6b00; } }
+:root[data-theme="light"] { --accent-text: #4d6b00; }
+.mark span, .band .num, .lfoot .mark span { color: var(--accent-text); }
+.hero .mark span, .lnav .mark span { color: var(--accent-text); }
+.hero-switch .hs-sound { background: rgba(13,23,18,.88); color: #f2f0e8; box-shadow: inset 0 0 0 1px rgba(216,255,60,.6); }
+.hero-switch .hs-sound.on { background: #f2f0e8; color: #0a1208; box-shadow: none; }
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; max-width: 1150px; margin-bottom: 18px; }
+.said { border-top: 3px solid var(--accent-text); padding-top: 16px; }
+.said .who { margin: 0 0 12px; display: flex; flex-direction: column; gap: 2px; }
+.said .who b { font: 800 26px/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+.said .who span { color: var(--ink-muted); font-size: 14px; }
+.said h3 { margin: 10px 0 8px; }
+.said .line { margin: 0 0 8px; font-size: 18px; line-height: 1.45; }
+.lfoot .built { grid-column: 1 / -1; font-size: 14px; color: var(--ink-muted); }
+@media (max-width: 900px) { .compare { grid-template-columns: 1fr; } .hero::after { background: linear-gradient(0deg, rgba(5,8,10,.96) 0%, rgba(5,8,10,.75) 55%, rgba(5,8,10,.45) 100%); } }

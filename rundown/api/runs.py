@@ -23,6 +23,7 @@ from ..agents.crew import Crew
 from ..agents.state import Store
 from ..engine import detect
 from ..engine.data import MatchData
+from ..sim import teams
 from ..sim.match import Sim
 from ..studio import producer, telestrate, voice
 from ..studio.profile import DEPTHS, MASTER, SIDES, Profile
@@ -142,7 +143,7 @@ class RunManager:
         if not self.bus.ready(30):
             raise RuntimeError("the match stream is not ready yet")
         seed = int(seed if seed is not None else np.random.default_rng().integers(1000, 99999))
-        sim = Sim(seed)
+        sim = Sim(seed, *teams.fixture(seed))  # a different fixture from the six fictional clubs
         run = Run(id=uuid.uuid4().hex[:10], seed=seed, speed=speed, sim=sim, meta=archive_mod.plain(sim.match.meta()),
                   owner=uuid.uuid4().hex, client=client)
         run.store = Store(on_record=lambda item: self._trail(run, item),

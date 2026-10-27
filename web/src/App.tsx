@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react'
 import { postRun, rememberOwner } from './owners'
 import { bug, Pitch, readTheme, renderSegment, renderSegment3D } from './renderer'
-import { Stadium, webglAvailable } from './stadium'
+import { inkFor, Stadium, webglAvailable } from './stadium'
 import type { Candidate, FeedItem, MatchEvent, Meta, Phase, Profile, Rundown, RunSnapshot, Segment, TrailItem, WallItem } from './types'
 
 type View = 'live' | 'studio'
@@ -79,6 +79,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null)
   const [notice, setNotice] = useState<string | null>(null)  // information, not a failure: fades on its own
   const [missed, setMissed] = useState<number | null>(null)  // match clock when the fan looked away
+  const [live, setLive] = useState<LiveItem[]>([])  // the match as it happens, in plain words
   const frameRef = useRef<number[] | null>(null)
   const eventsRef = useRef<MatchEvent[]>([])
   const wsRef = useRef<WebSocket | null>(null)
@@ -99,7 +100,7 @@ export default function App() {
       const snap: RunSnapshot & { owner?: string } = await r.json()
       rememberOwner(snap.id, snap.owner)
       setRun(snap); setFeed([]); setTrail([]); setPicks([]); setRundowns({}); setWall([]); setDecisions({}); setStatus(snap.status)
-      setScore([0, 0]); setView('live'); setOnStage(null); setMissed(null); eventsRef.current = []; frameRef.current = null
+      setScore([0, 0]); setView('live'); setOnStage(null); setMissed(null); setLive([]); eventsRef.current = []; frameRef.current = null
       // a returning fan keeps their side, language and depth; squads change every match, so not the player
       const saved = loadFan()
       const known: Profile | null = saved ? { ...saved, player: null } : null
@@ -115,6 +116,8 @@ export default function App() {
           setClock({ t: last[0], period: msg.period })
         } else if (msg.type === 'events') {
           eventsRef.current = eventsRef.current.concat(msg.events)
+          const said = describe(msg.events as MatchEvent[], snap.meta)
+          if (said.length) setLive(l => [...said.reverse(), ...l].slice(0, 30))
           for (const e of msg.events as MatchEvent[]) if (e.type === 'goal') {
             const [h, a] = String(e.score).split('-').map(Number); setScore([h, a])
           }
@@ -231,6 +234,7 @@ export default function App() {
   }
 
   const lockItem = [...feed].reverse().find(f => f.kind === 'locked')
+  const spotted = feed.some(f => f.kind === 'candidate')
   const onAirCount = current?.segments.filter(s => decisions[s.segment_id] !== 'dropped').length ?? 0
   const numbers = useMemo(() => run ? shirtNumbers(run.meta, eventsRef.current) : [], [run, view])
   const playing = status === 'first_half' || status === 'second_half'
@@ -251,7 +255,8 @@ export default function App() {
         </button>}
         <nav className="nav"><a href={run ? `/proof?run=${run.id}` : '/proof'}>Proof</a></nav>
         <div className="actions">
-          {playing && <button onClick={() => catchUp()} className="ghost" disabled={catching || clock.t - (clock.period === 1 ? 0 : 2700) < 60}>
+          {playing && <button onClick={() => catchUp()} className="ghost" disabled={catching || !spotted}
+            title={spotted ? 'A short segment on what you missed' : 'Available once the crew has spotted its first story, about 18 minutes in'}>
             {catching ? 'Catching you up…' : 'Catch me up'}</button>}
           {status === 'first_half' && <button onClick={skip} className="ghost">Skip to half-time</button>}
           {status === 'half_time' && <button onClick={secondHalf} className="ghost">Kick off the second half</button>}
@@ -260,7 +265,9 @@ export default function App() {
       </header>
       {error && <div className="error" role="alert">{error}</div>}
       {notice && <div className="notice" role="status">{notice}</div>}
-      {missed !== null && playing && <div className="missed" role="status">
+      {run && fan && !picking && <Journey status={status} clock={clock} fan={fan} meta={run.meta} spotted={spotted}
+        ready={!!current && locked} onSkip={skip} onWatch={goStudio} onSecond={secondHalf} voicing={voicing} />}
+      {missed !== null && playing && spotted && <div className="missed" role="status">
         <span>You missed {Math.round((clock.t - missed) / 60)} minutes.</span>
         <button onClick={() => catchUp(missed)} disabled={catching}>{catching ? 'Catching you up…' : 'Catch me up ▸'}</button>
         <button className="ghost" onClick={() => setMissed(null)}>No thanks</button>
@@ -268,13 +275,13 @@ export default function App() {
 
       {view === 'live' && <main className="live">
         <section className="stage">
-          <LivePitch frameRef={frameRef} eventsRef={eventsRef} meta={run?.meta} clock={clock} status={status} />
+          <LivePitch frameRef={frameRef} eventsRef={eventsRef} meta={run?.meta} clock={clock} status={status} score={score} />
           <p className="caption-note">Seed {run?.seed ?? '…'} · synthetic match, fictional clubs · 8× speed</p>
         </section>
         <aside className="desk">
           {run && picking ? <FanCard meta={run.meta} initial={fan ?? DEFAULT_FAN} choose={chooseFan}
             cancel={fan ? () => setPicking(false) : undefined} /> :
-            !locked ? <Building feed={feed} picks={status === 'first_half' ? picks : []} run={run} trail={trail} status={status} fan={fan} /> :
+            !locked ? <Building feed={feed} picks={status === 'first_half' ? picks : []} run={run} trail={trail} status={status} fan={fan} live={live} /> :
             <Desk rundown={current} decisions={decisions} setDecisions={setDecisions} swap={swap}
               desk={desk} fan={fan} setShowing={p => { setShowing(p); setDecisions({}) }} lockItem={lockItem} run={run}
               goStudio={goStudio} voicing={voicing} onAirCount={onAirCount} phase={phase} making={!current && !!making}
@@ -286,6 +293,57 @@ export default function App() {
         numbers={numbers} fan={onStage.profile ?? fan ?? MASTER} back={() => { setView('live'); setOnStage(null) }} />}
     </div>
   )
+}
+
+interface LiveItem { minute: number; kind: string; text: string }
+
+/** The events worth a line in the live feed, in plain words. */
+function describe(events: MatchEvent[], meta: Meta): LiveItem[] {
+  const name = (id: unknown) => playerName(meta, id as string) ?? ''
+  const club = (code: unknown) => code === meta.home.code ? meta.home.short : meta.away.short
+  const out: LiveItem[] = []
+  for (const e of events) {
+    const minute = Math.floor(e.minute) + 1
+    if (e.type === 'goal') out.push({ minute, kind: 'goal', text: `GOAL! ${name(e.player)} scores for ${club(e.team)}. ${String(e.score ?? '').replace('-', '–')}` })
+    else if (e.type === 'shot' && e.outcome !== 'goal') {
+      const big = Number(e.xg ?? 0) >= 0.25 ? 'Big chance! ' : ''
+      const how = e.outcome === 'saved' ? 'saved' : e.outcome === 'blocked' ? 'blocked' : 'wide'
+      out.push({ minute, kind: big ? 'chance' : 'shot', text: `${big}${name(e.player)} (${club(e.team)}) shoots, ${how}` })
+    }
+    else if (e.type === 'card') out.push({ minute, kind: 'card', text: `Card for ${name(e.player)} (${club(e.team)})` })
+    else if (e.type === 'substitution') out.push({ minute, kind: 'sub', text: `${club(e.team)} change: ${name(e.player_on)} on` })
+    else if (e.type === 'foul') out.push({ minute, kind: 'foul', text: `Foul by ${name(e.player)} on ${name(e.on)}` })
+  }
+  return out
+}
+
+/** Where the fan is in their match, and the one thing to do next. */
+function Journey({ status, clock, fan, meta, spotted, ready, onSkip, onWatch, onSecond, voicing }: {
+  status: string; clock: { t: number; period: number }; fan: Profile; meta: Meta; spotted: boolean; ready: boolean
+  onSkip: () => void; onWatch: () => void; onSecond: () => void; voicing: boolean
+}) {
+  const minute = Math.min(45, Math.floor(clock.t / 60) + 1)
+  const step = status === 'first_half' ? 2 : status === 'half_time' ? 3 : 4
+  const steps: [number, string][] = [[1, 'You pick who you are'], [2, 'First half: the crew builds your show'], [3, 'Half time: watch your show'], [4, 'Second half, then your full-time show']]
+  let hint = '', action: ReactElement | null = null
+  if (status === 'first_half') {
+    hint = spotted ? `Minute ${minute} of 45. The crew is drafting ${fanLabel(fan, meta)}'s show from what it has spotted.`
+      : `Minute ${minute} of 45. The crew compares each ten minutes with the last, so its first stories land around minute 18. Watch the live feed meanwhile, or jump ahead.`
+    action = <button onClick={onSkip}>Skip to half-time ▸</button>
+  } else if (status === 'half_time') {
+    hint = ready ? 'Your show is ready: three segments, drawn on the pitch and voiced in your language. Turn your sound on.' : 'The whistle has gone. The crew is finishing your show…'
+    action = ready ? <button onClick={onWatch} disabled={voicing}>{voicing ? 'Recording the voice…' : 'Watch my show, with sound ▸'}</button> : null
+  } else if (status === 'second_half') {
+    hint = 'The second half is on. Your full-time show locks at the final whistle; Catch me up works any time.'
+  } else if (status === 'full_time') {
+    hint = 'Full time. Your full-time show is on the desk.'
+    action = ready ? <button onClick={onWatch} disabled={voicing}>Watch my full-time show ▸</button> : null
+  }
+  void onSecond
+  return <div className="journey" role="navigation" aria-label="Your match">
+    <ol>{steps.map(([n, label]) => <li key={n} className={n < step ? 'done' : n === step ? 'now' : ''}><span>{n < step ? '✓' : n}</span>{label}</li>)}</ol>
+    <div className="journey-now"><p>{hint}</p>{action}</div>
+  </div>
 }
 
 function FanCard({ meta, initial, choose, cancel }: { meta: Meta; initial: Profile; choose: (p: Profile) => void; cancel?: () => void }) {
@@ -335,10 +393,11 @@ function FanCard({ meta, initial, choose, cancel }: { meta: Meta; initial: Profi
 
 const GL = webglAvailable()
 
-function LivePitch({ frameRef, eventsRef, meta, clock, status }: {
+function LivePitch({ frameRef, eventsRef, meta, clock, status, score }: {
   frameRef: React.RefObject<number[] | null>; eventsRef: React.RefObject<MatchEvent[]>; meta?: Meta
-  clock: { t: number; period: number }; status: string
+  clock: { t: number; period: number }; status: string; score: [number, number]
 }) {
+  const scoreRef = useRef(score); scoreRef.current = score
   const ref = useRef<HTMLDivElement>(null)
   const clockRef = useRef(clock); clockRef.current = clock
   const statusRef = useRef(status); statusRef.current = status
@@ -354,13 +413,14 @@ function LivePitch({ frameRef, eventsRef, meta, clock, status }: {
     const draw = () => {
       const theme = readTheme(root)
       const status = statusRef.current
-      const label = meta ? `${meta.home.code} ${status === 'half_time' ? 'HT' : status === 'full_time' ? 'FT' : clockText(clockRef.current.t, clockRef.current.period)} ${meta.away.code}` : ''
+      const sc = scoreRef.current
+      const label = meta ? `${meta.home.code} ${sc[0]}-${sc[1]} ${meta.away.code}  ·  ${status === 'half_time' ? 'HT' : status === 'full_time' ? 'FT' : clockText(clockRef.current.t, clockRef.current.period)}` : ''
       const f = frameRef.current
       const numbers = meta ? shirtNumbers(meta, eventsRef.current ?? []) : null
       const dim = status === 'half_time' || status === 'full_time' ? 0.35 : 0
       if (st) {
         st.theme = theme
-        if (meta) { st.colours = [meta.home.colour, meta.away.colour]; st.inks = ['#0b1a12', '#ffffff'] }
+        if (meta) { st.colours = [meta.home.colour, meta.away.colour]; st.inks = [inkFor(meta.home.colour), inkFor(meta.away.colour)] }
         st.mode = 'live'
         st.begin(dim)
         if (f && meta) st.setFrame(f, null, numbers)
@@ -368,7 +428,7 @@ function LivePitch({ frameRef, eventsRef, meta, clock, status }: {
         st.render(f, first); first = !f
       } else if (p) {
         p.theme = theme
-        if (meta) { p.colours = [meta.home.colour, meta.away.colour]; p.inks = ['#0b1a12', '#ffffff'] }
+        if (meta) { p.colours = [meta.home.colour, meta.away.colour]; p.inks = [inkFor(meta.home.colour), inkFor(meta.away.colour)] }
         p.drawPitch(dim)
         if (f && meta) p.drawPlayers(f, null, numbers)
         if (meta) bug(p, label, false)
@@ -389,8 +449,8 @@ const AGENT_LABEL: Record<string, string> = {
   analyst: 'Analyst', producer: 'Producer', telestrator: 'Telestrator', writer: 'Writer', verifier: 'Verifier', voice: 'Voice',
 }
 
-function Building({ feed, picks, run, trail, status, fan }: {
-  feed: FeedItem[]; picks: Candidate[]; run: RunSnapshot | null; trail: TrailItem[]; status: string; fan: Profile | null
+function Building({ feed, picks, run, trail, status, fan, live }: {
+  feed: FeedItem[]; picks: Candidate[]; run: RunSnapshot | null; trail: TrailItem[]; status: string; fan: Profile | null; live: LiveItem[]
 }) {
   const cands = feed.filter(f => f.kind === 'candidate')
   const work = trail.filter(t => !t.action.startsWith('wrote ') || t.agent === 'writer').slice(-5).reverse()
@@ -413,7 +473,13 @@ function Building({ feed, picks, run, trail, status, fan }: {
         </li>
       })}
     </ol>}
-    <h3>Spotted so far</h3>
+    <h3>Live from the match</h3>
+    <ul className="livefeed" aria-live="polite">
+      {live.length === 0 && <li className="muted">Shots, saves, goals and fouls appear here as they happen.</li>}
+      {live.slice(0, 6).map((l, i) => <li key={live.length - i} className={`lv-${l.kind}`}>
+        <span className="min">{l.minute}'</span><span>{l.text}</span></li>)}
+    </ul>
+    <h3>Talking points spotted</h3>
     <ul className="feed">
       {cands.length === 0 && <li className="muted">The detectors compare the last ten minutes with what came before, so the first talking points arrive after about eighteen minutes of play.</li>}
       {[...cands].reverse().map((f, i) => <li key={i}>
@@ -479,7 +545,7 @@ function Desk({ rundown, decisions, setDecisions, swap, desk, fan, setShowing, l
           approve={() => set(s.segment_id, 'approved')} drop={() => set(s.segment_id, decisions[s.segment_id] === 'dropped' ? 'pending' : 'dropped')} swap={() => swap(s.segment_id)} />)}
       </ol>
       <div className="slotfit"><span>Slot 90 s</span><b className={Math.abs(total - 90) <= 3 ? 'ok' : 'warn'}>{total.toFixed(1)} s</b></div>
-      <button className="go" onClick={goStudio} disabled={onAirCount === 0 || voicing}>{voicing ? 'Recording the voice-over…' : 'Watch it ▸'}</button>
+      <button className="go" onClick={goStudio} disabled={onAirCount === 0 || voicing}>{voicing ? 'Recording the voice-over…' : 'Watch it, with sound ▸'}</button>
       <p className="muted small mode">Built by: <b>{crewLine(rundown)}</b>. Every number comes from the stats engine and links to the match events behind it.</p>
     </>}
     {wall.length > 0 && <p className="wall-line small">
@@ -576,7 +642,7 @@ function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta:
     else { const c = document.createElement('canvas'); c.className = 'pitch-flat'; root.append(c); p = new Pitch(c) }
     const surface = () => (st ? st.hud : p!)
     if (p) p.colours = [meta.home.colour, meta.away.colour]
-    if (st) { st.colours = [meta.home.colour, meta.away.colour]; st.inks = ['#0b1a12', '#ffffff']; st.mode = 'studio' }
+    if (st) { st.colours = [meta.home.colour, meta.away.colour]; st.inks = [inkFor(meta.home.colour), inkFor(meta.away.colour)]; st.mode = 'studio' }
     let raf = 0, last = performance.now(), first = true
     const onResize = () => { p?.resize(); st?.resize() }
     window.addEventListener('resize', onResize)
@@ -590,7 +656,7 @@ function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta:
       if (t < intro) {
         if (st) {
           const f0 = segs[0]?.clip.frames[0] ?? null
-          st.begin(0.7)
+          st.begin(1.6)
           if (f0) st.setFrame(f0, null, numbers)
           st.render(f0, first); first = false
         } else p!.drawPitch(0.6)

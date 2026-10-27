@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { readTheme, renderSegment3D, bug } from './renderer'
-import { Stadium, webglAvailable } from './stadium'
+import { inkFor, Stadium, webglAvailable } from './stadium'
 import type { Meta, Rundown } from './types'
 
 interface Showcase { seed: number; meta: Meta; cuts: Record<string, Rundown> }
@@ -12,7 +12,7 @@ const FANS: { key: string; label: string; sub: string }[] = [
 ]
 
 /** The hero: a real segment from a fixed first half, played in the stadium, for the fan you pick. */
-function HeroStage({ show, fanKey }: { show: Showcase | null; fanKey: string }) {
+function HeroStage({ show, fanKey, sound }: { show: Showcase | null; fanKey: string; sound: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
   const [line, setLine] = useState('')
   const [title, setTitle] = useState('')
@@ -24,9 +24,10 @@ function HeroStage({ show, fanKey }: { show: Showcase | null; fanKey: string }) 
     if (window.innerWidth > 900) { st.shiftX = 0.2; st.hudX0 = 0.44; st.resize() }
     let raf = 0, t = 0, last = performance.now(), k = 0, first = true
     const cut = show ? Object.entries(show.cuts).find(([key]) => key.startsWith(fanKey))?.[1] ?? null : null
+    const audios = (cut?.segments ?? []).map(sg => sound && sg.voice ? new Audio(sg.voice.url) : null)
     const numbers = show ? [...show.meta.home.starters, ...show.meta.away.starters].map(id =>
       [...show.meta.home.players, ...show.meta.away.players].find(p => p.id === id)?.number ?? 0) : null
-    if (show) { st.colours = [show.meta.home.colour, show.meta.away.colour]; st.inks = ['#0b1a12', '#ffffff'] }
+    if (show) { st.colours = [show.meta.home.colour, show.meta.away.colour]; st.inks = [inkFor(show.meta.home.colour), inkFor(show.meta.away.colour)] }
     const onResize = () => st.resize()
     window.addEventListener('resize', onResize)
     const draw = (now: number) => {
@@ -37,6 +38,12 @@ function HeroStage({ show, fanKey }: { show: Showcase | null; fanKey: string }) 
         t += dt
         if (t >= segs[k].duration_s) { t = 0; k = (k + 1) % segs.length }
         const seg = segs[k]
+        audios.forEach((a, i) => {  // the voice of the segment on screen, in step with it
+          if (!a) return
+          const v = segs[i].voice!, at = t - v.start
+          if (i !== k || at < 0 || at > v.audio_s) { if (!a.paused) a.pause(); return }
+          if (a.paused) { a.currentTime = at; a.play().catch(() => {}) } else if (Math.abs(a.currentTime - at) > 0.25) a.currentTime = at
+        })
         renderSegment3D(st, seg, t, numbers ?? [], `${show.meta.home.code} ${cut!.score} ${show.meta.away.code}  ·  ${Math.floor(seg.clip.t0 / 60) + 1}'`)
         const ln = seg.script.find(l => t >= l.t && t < l.t + l.d + 0.3)
         setLine(x => x === (ln?.text ?? '') ? x : ln?.text ?? '')
@@ -50,8 +57,8 @@ function HeroStage({ show, fanKey }: { show: Showcase | null; fanKey: string }) 
       raf = requestAnimationFrame(draw)
     }
     raf = requestAnimationFrame(draw)
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); st.dispose(); root.replaceChildren() }
-  }, [show, fanKey])
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); audios.forEach(a => a?.pause()); st.dispose(); root.replaceChildren() }
+  }, [show, fanKey, sound])
   return <div className="hero-stage">
     <div ref={ref} className="stage3d hero-canvas" role="img" aria-label={`A half-time segment: ${title}`} />
     {line && <div className="hero-caption" aria-live="polite">{line}</div>}
@@ -61,6 +68,7 @@ function HeroStage({ show, fanKey }: { show: Showcase | null; fanKey: string }) 
 export default function Landing() {
   const [show, setShow] = useState<Showcase | null>(null)
   const [fan, setFan] = useState(FANS[1].key)
+  const [sound, setSound] = useState(false)
   useEffect(() => {
     let gone = false
     const load = (n: number) => fetch('/api/showcase').then(r => r.ok ? r.json() : Promise.reject())
@@ -75,7 +83,7 @@ export default function Landing() {
       <nav>
         <a href="#how">How it works</a>
         <a href="#proof">Proof</a>
-        <a href="#broadcasters">For broadcasters</a>
+        <a href="#same">Two fans</a>
         <a href="#faq">FAQ</a>
         <a href={GH}>GitHub</a>
       </nav>
@@ -83,7 +91,7 @@ export default function Landing() {
     </header>
 
     <section className="hero">
-      <HeroStage show={show} fanKey={fan} />
+      <HeroStage show={show} fanKey={fan} sound={sound} />
       <div className="hero-copy">
         <p className="eyebrow">Rundown For You</p>
         <h1>Every fan's own<br />half-time show.</h1>
@@ -98,7 +106,9 @@ export default function Landing() {
         <span className="hs-label">Same match, made for</span>
         {FANS.map(f => <button key={f.key} className={fan === f.key ? 'on' : ''} aria-pressed={fan === f.key} onClick={() => setFan(f.key)}>
           <b>{f.label}</b><span>{f.sub}</span></button>)}
-        <span className="hs-note">{show ? `A real segment from match ${show.seed}: drawn from the tracking, every number checked.` : 'Loading a real segment…'}</span>
+        <button className={`hs-sound ${sound ? 'on' : ''}`} aria-pressed={sound} onClick={() => setSound(x => !x)}>
+          <b>{sound ? '🔊 Sound on' : '🔈 Play with sound'}</b><span>{sound ? 'the voice-over, as a fan hears it' : 'hear the show in that fan\'s language'}</span></button>
+        <span className="hs-note">{show ? 'A segment from one showcase match, drawn from its tracking and checked by the Verifier. Press Make my show for a fresh match.' : 'Loading a real segment…'}</span>
       </div>
     </section>
 
@@ -152,52 +162,35 @@ export default function Landing() {
         <h3 className="chart-title">Errors we planted in copies of aired segments, caught before air</h3>
         <div className="bars">
           {[['A number changed in a spoken line', 95], ['A before and now pair the wrong way round', 97], ['A rise said as a fall', 85], ['A number changed on the stat card', 95]].map(([k, v]) =>
-            <div className="bar" key={k as string}><span>{k}</span><div className="track"><i className="old" /><i className="new" style={{ width: `${v}%` }} /></div><b>0% → {v}%</b></div>)}
+            <div className="bar" key={k as string}><span>{k}</span><div className="track"><i className="new" style={{ width: `${v}%` }} /></div><b>0% → {v}%</b></div>)}
         </div>
         <p className="foot">0% is the Verifier as it was on 22 October, which checked the facts but not what was said about them.
           Every miss is published: <a href={`${GH}/blob/main/docs/EVALS.md`}>docs/EVALS.md</a>. Every live run's trail: <a href="/proof">Proof</a>.</p>
       </div>
     </section>
 
-    <section className="band" id="broadcasters">
+    <section className="band" id="same">
       <p className="num">04</p>
       <div>
-        <h2>For broadcasters and apps</h2>
-        <div className="two">
-          <div>
-            <h3>A producer's desk</h3>
-            <p>The studio keeps a master rundown with approve, swap and drop, an audit trail of every agent's decision, and the
-              Overlay Script: a timed JSON of every arrow, zone and stat card, so a rendering partner can put it on a real feed.</p>
-          </div>
-          <div>
-            <h3>Any agent, over MCP</h3>
-            <p>The same crew answers other agents at <code>/mcp/</code>: list a match, get a fan's show, catch a fan up, read the
-              whistle wall.</p>
-            <pre>{`get_fan_show(run_id, side="away",
-             lang="fr", depth="casual")`}</pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section className="band" id="built">
-      <p className="num">05</p>
-      <div>
-        <h2>Built on Microsoft, every piece doing a job</h2>
-        <dl className="stack">
-          <dt>Microsoft Foundry</dt><dd>gpt-4.1-mini for every agent, and Azure AI Evaluation's groundedness judge</dd>
-          <dt>Microsoft Agent Framework</dt><dd>the Analyst, Producer, Telestrator and Writer, with retries and a kill switch</dd>
-          <dt>Azure AI Speech</dt><dd>the voices, in four languages, with word timings for the captions</dd>
-          <dt>Azure Event Hubs</dt><dd>the live match stream the crew works from</dd>
-          <dt>Azure Container Apps</dt><dd>the app, the crew and the burst of cuts at the whistle</dd>
-          <dt>Azure Cosmos DB</dt><dd>every run, every cut and every agent's trail</dd>
-          <dt>Application Insights</dt><dd>a trace for every agent call</dd>
-        </dl>
+        <h2>Same moment, two different shows</h2>
+        <p className="sub">The first segment of the showcase match, as two fans get it. Same goal, same numbers underneath.</p>
+        {show ? <div className="compare">
+          {FANS.map(f => {
+            const cut = Object.entries(show.cuts).find(([key]) => key.startsWith(f.key))?.[1]
+            const seg = cut?.segments[0]
+            return <div key={f.key} className="said">
+              <p className="who"><b>{f.label}</b><span>{f.sub}</span></p>
+              {seg && <><h3>{seg.title}</h3>{seg.script.map((l, i) => <p key={i} className="line">“{l.text}”</p>)}</>}
+            </div>
+          })}
+        </div> : <p className="sub">Loading…</p>}
+        <p className="foot">Broadcasters get the same crew with a producer's desk (approve, swap, drop) and a timed overlay file for
+          their own graphics; other apps can ask for a fan's show over MCP. Details in the <a href={GH}>README</a>.</p>
       </div>
     </section>
 
     <section className="band" id="faq">
-      <p className="num">06</p>
+      <p className="num">05</p>
       <div>
         <h2>Questions</h2>
         <details><summary>Is this real match data?</summary><p>No. Every club, player and match is synthetic, made by our own
@@ -217,8 +210,9 @@ export default function Landing() {
       <div><a className="mark" href="/">RUN<span>DOWN</span></a><p>Every fan's own half-time show.</p></div>
       <nav>
         <a href="/watch">Make my show</a><a href="/proof">Proof</a><a href={GH}>GitHub</a>
-        <a href={`${GH}/blob/main/docs/EVALS.md`}>Evals</a><a href="/mcp/">MCP</a>
+        <a href={`${GH}/blob/main/docs/EVALS.md`}>Evals</a>
       </nav>
+      <p className="built">Built on Microsoft Foundry · Microsoft Agent Framework · Azure AI Speech · Azure Event Hubs · Azure Container Apps · Azure Cosmos DB</p>
       <p className="fine">Built for the Microsoft and Premier League Inside the Game Developer Hackathon. Synthetic data,
         fictional clubs. MIT licensed.</p>
     </footer>

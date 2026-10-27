@@ -9,6 +9,7 @@ import pytest
 from rundown.api import archive as archive_mod
 from rundown.api.bus import LocalBus
 from rundown.api.runs import RunManager
+from rundown.sim import teams
 from rundown.sim.match import Sim
 from rundown.studio.profile import MASTER, Profile
 
@@ -52,7 +53,7 @@ def played(tmp_path_factory):
 
 def test_studio_sees_exactly_what_the_simulator_played(played):
     _, run, _ = played
-    ref = Sim(5)
+    ref = Sim(5, *teams.fixture(5))
     frames = []
     for f in ref.run():
         if f[0] == 2:
