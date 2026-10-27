@@ -39,7 +39,7 @@ app.mount("/mcp", mcp_app)
 
 # Every match, cut and catch-up spends model and voice calls, and the app is open with no sign-up,
 # so each address gets a budget per ten minutes. Generous for a judge clicking around; a loop stops.
-LIMITS = {("POST", "/api/runs"): 8, ("POST", "catchup"): 20, ("POST", "watch"): 40,
+LIMITS = {("POST", "/api/runs"): 15, ("POST", "catchup"): 20, ("POST", "watch"): 40,
           ("GET", "rundown"): 120, ("POST", "voice"): 40, ("POST", "swap"): 40, ("POST", "/mcp"): 120}
 WINDOW_S = 600.0
 _hits: dict = {}

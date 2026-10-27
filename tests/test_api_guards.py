@@ -39,8 +39,8 @@ def test_only_the_starter_can_skip_or_restart(client):
 
 
 def test_one_address_cannot_fill_the_server(client):
-    codes = [client.post("/api/runs", json={"speed": 16}).status_code for _ in range(4)]
-    assert codes[:3] == [200, 200, 200] and codes[3] == 429
+    codes = [client.post("/api/runs", json={"speed": 16}).status_code for _ in range(7)]
+    assert codes[:6] == [200] * 6 and codes[6] == 429
 
 
 def test_paid_endpoints_have_a_budget(client):

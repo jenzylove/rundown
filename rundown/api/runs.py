@@ -31,7 +31,8 @@ from . import bus as bus_mod
 
 SCAN_EVERY_S = 60.0
 MAX_RUNS = 24  # in memory; older runs live on in the archive
-MAX_PLAYING_PER_CLIENT = 3  # matches in play started from one address
+MAX_PLAYING_PER_CLIENT = 6  # matches in play started from one address (every page load starts one)
+PARKED_S = 600.0  # a match left at half-time this long stops counting against its address
 SEND_EVERY_S = 0.1  # how often the simulator publishes a batch of frames
 CUSHION_S = 0.4  # playback runs this far behind the simulator, to absorb the stream's jitter
 # At the whistle the crew makes the viewers' own cuts first, then this wall of cuts in English: every
@@ -128,7 +129,10 @@ class RunManager:
         return self._models
 
     def playing_for(self, client: str) -> int:
-        return sum(1 for r in self.runs.values() if r.client == client and r.status in ("first_half", "half_time", "second_half"))
+        t = time.time()
+        return sum(1 for r in self.runs.values() if r.client == client and (
+            r.status in ("first_half", "second_half")
+            or r.status == "half_time" and t - (r.whistle_at or t) < PARKED_S))
 
     def create(self, seed: int | None, speed: float, client: str = "") -> Run:
         if client and self.playing_for(client) >= MAX_PLAYING_PER_CLIENT:
