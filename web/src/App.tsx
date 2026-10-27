@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { postRun, rememberOwner } from './owners'
-import { bug, Pitch, readTheme, renderSegment } from './renderer'
+import { bug, Pitch, readTheme, renderSegment, renderSegment3D } from './renderer'
+import { Stadium, webglAvailable } from './stadium'
 import type { Candidate, FeedItem, MatchEvent, Meta, Phase, Profile, Rundown, RunSnapshot, Segment, TrailItem, WallItem } from './types'
 
 type View = 'live' | 'studio'
@@ -227,7 +228,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="top">
-        <div className="mark">RUN<span>DOWN</span></div>
+        <a className="mark" href="/">RUN<span>DOWN</span></a>
         {run && <div className="scorebug">
           <span className="club"><i style={{ background: run.meta.home.colour }} />{run.meta.home.short}</span>
           <b>{score[0]}–{score[1]}</b>
@@ -320,33 +321,52 @@ function FanCard({ meta, initial, choose, cancel }: { meta: Meta; initial: Profi
   </form>
 }
 
+const GL = webglAvailable()
+
 function LivePitch({ frameRef, eventsRef, meta, clock, status }: {
   frameRef: React.RefObject<number[] | null>; eventsRef: React.RefObject<MatchEvent[]>; meta?: Meta
   clock: { t: number; period: number }; status: string
 }) {
-  const ref = useRef<HTMLCanvasElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
   const clockRef = useRef(clock); clockRef.current = clock
   const statusRef = useRef(status); statusRef.current = status
   useEffect(() => {
-    const c = ref.current!
-    const p = new Pitch(c)
-    let raf = 0
-    const onResize = () => p.resize()
+    const root = ref.current!
+    const flat = !GL
+    let st: Stadium | null = null, p: Pitch | null = null
+    if (flat) { const c = document.createElement('canvas'); c.className = 'pitch-flat'; root.append(c); p = new Pitch(c) }
+    else st = new Stadium(root)
+    let raf = 0, first = true
+    const onResize = () => { st?.resize(); p?.resize() }
     window.addEventListener('resize', onResize)
     const draw = () => {
-      p.theme = readTheme(c)
-      if (meta) { p.colours = [meta.home.colour, meta.away.colour]; p.inks = ['#0b1a12', '#ffffff'] }
-      const st = statusRef.current
-      p.drawPitch(st === 'half_time' || st === 'full_time' ? 0.35 : 0)
+      const theme = readTheme(root)
+      const status = statusRef.current
+      const label = meta ? `${meta.home.code} ${status === 'half_time' ? 'HT' : status === 'full_time' ? 'FT' : clockText(clockRef.current.t, clockRef.current.period)} ${meta.away.code}` : ''
       const f = frameRef.current
-      if (f && meta) p.drawPlayers(f, null, shirtNumbers(meta, eventsRef.current ?? []))
-      if (meta) bug(p, `${meta.home.code} ${st === 'half_time' ? 'HT' : st === 'full_time' ? 'FT' : clockText(clockRef.current.t, clockRef.current.period)} ${meta.away.code}`, false)
+      const numbers = meta ? shirtNumbers(meta, eventsRef.current ?? []) : null
+      const dim = status === 'half_time' || status === 'full_time' ? 0.35 : 0
+      if (st) {
+        st.theme = theme
+        if (meta) { st.colours = [meta.home.colour, meta.away.colour]; st.inks = ['#0b1a12', '#ffffff'] }
+        st.mode = 'live'
+        st.begin(dim)
+        if (f && meta) st.setFrame(f, null, numbers)
+        if (meta) bug(st.hud, label, false)
+        st.render(f, first); first = !f
+      } else if (p) {
+        p.theme = theme
+        if (meta) { p.colours = [meta.home.colour, meta.away.colour]; p.inks = ['#0b1a12', '#ffffff'] }
+        p.drawPitch(dim)
+        if (f && meta) p.drawPlayers(f, null, numbers)
+        if (meta) bug(p, label, false)
+      }
       raf = requestAnimationFrame(draw)
     }
     raf = requestAnimationFrame(draw)
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize) }
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); st?.dispose(); root.replaceChildren() }
   }, [meta, frameRef, eventsRef])
-  return <canvas ref={ref} className="pitch" aria-label="Live match, top-down view" />
+  return <div ref={ref} className="pitch stage3d" role="img" aria-label="Live match, broadcast view" />
 }
 
 function Strength({ v }: { v: number }) {
@@ -524,7 +544,7 @@ function introLine(r: Rundown, lang: Lang) {
 }
 
 function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta: Meta; numbers: number[]; fan: Profile; back: () => void }) {
-  const ref = useRef<HTMLCanvasElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState({ seg: -1, t: 0 })
   const [playing, setPlaying] = useState(true)
   const playRef = useRef(playing); playRef.current = playing
@@ -538,28 +558,40 @@ function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta:
   const phase: Phase = rundown.phase ?? 'ht'
 
   useEffect(() => {
-    const c = ref.current!
-    const p = new Pitch(c)
-    p.colours = [meta.home.colour, meta.away.colour]
-    let raf = 0, last = performance.now()
-    const onResize = () => p.resize()
+    const root = ref.current!
+    let p: Pitch | null = null, st: Stadium | null = null
+    if (GL) st = new Stadium(root)
+    else { const c = document.createElement('canvas'); c.className = 'pitch-flat'; root.append(c); p = new Pitch(c) }
+    const surface = () => (st ? st.hud : p!)
+    if (p) p.colours = [meta.home.colour, meta.away.colour]
+    if (st) { st.colours = [meta.home.colour, meta.away.colour]; st.inks = ['#0b1a12', '#ffffff']; st.mode = 'studio' }
+    let raf = 0, last = performance.now(), first = true
+    const onResize = () => { p?.resize(); st?.resize() }
     window.addEventListener('resize', onResize)
     const draw = (now: number) => {
       const dt = (now - last) / 1000; last = now
       if (playRef.current) tRef.current = Math.min(total, tRef.current + dt)
-      p.theme = readTheme(c)
+      const theme = readTheme(root)
+      if (p) p.theme = theme
+      if (st) st.theme = theme
       let t = tRef.current
       if (t < intro) {
-        p.drawPitch(0.6)
-        const g = p.ctx, s = p.scale
-        g.fillStyle = p.theme.accent; g.font = `800 ${s * 3}px 'Barlow Condensed'`; g.textAlign = 'center'; g.textBaseline = 'middle'
-        g.fillText(TITLE[phase][lang], p.sx(52.5), p.sy(22))
-        g.fillStyle = p.theme.text; g.font = `800 ${s * 9}px 'Barlow Condensed'`
-        g.fillText(`${meta.home.short.toUpperCase()}  ${rundown.score.replace('-', ' – ')}  ${meta.away.short.toUpperCase()}`, p.sx(52.5), p.sy(32))
-        g.fillStyle = p.theme.muted; g.font = `500 ${s * 2.6}px Barlow`
-        g.fillText(introLine(rundown, lang), p.sx(52.5), p.sy(41))
-        g.fillStyle = p.theme.accent; g.font = `600 ${s * 2.2}px Barlow`
-        g.fillText(`Made for: ${fanLabel(fan, meta)}`, p.sx(52.5), p.sy(47))
+        if (st) {
+          const f0 = segs[0]?.clip.frames[0] ?? null
+          st.begin(0.7)
+          if (f0) st.setFrame(f0, null, numbers)
+          st.render(f0, first); first = false
+        } else p!.drawPitch(0.6)
+        const sf = surface(), g = sf.ctx, s = sf.scale
+        const ink = st ? '#f2f0e8' : sf.theme.text, muted = st ? '#b9c4bc' : sf.theme.muted
+        g.fillStyle = sf.theme.accent; g.font = `800 ${s * 3}px 'Barlow Condensed'`; g.textAlign = 'center'; g.textBaseline = 'middle'
+        g.fillText(TITLE[phase][lang], sf.sx(52.5), sf.sy(22))
+        g.fillStyle = ink; g.font = `800 ${s * 9}px 'Barlow Condensed'`
+        g.fillText(`${meta.home.short.toUpperCase()}  ${rundown.score.replace('-', ' – ')}  ${meta.away.short.toUpperCase()}`, sf.sx(52.5), sf.sy(32))
+        g.fillStyle = muted; g.font = `500 ${s * 2.6}px Barlow`
+        g.fillText(introLine(rundown, lang), sf.sx(52.5), sf.sy(41))
+        g.fillStyle = sf.theme.accent; g.font = `600 ${s * 2.2}px Barlow`
+        g.fillText(`Made for: ${fanLabel(fan, meta)}`, sf.sx(52.5), sf.sy(47))
         setPos(x => x.seg === -1 ? x : { seg: -1, t })
         follow(audios, segs, -1, 0)
       } else {
@@ -568,7 +600,9 @@ function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta:
         while (k < segs.length - 1 && t >= segs[k].duration_s) { t -= segs[k].duration_s; k++ }
         const seg = segs[k]
         const tt = Math.min(t, seg.duration_s - 0.001)
-        renderSegment(p, seg, tt, numbers, [], `${meta.home.code} ${rundown.score} ${meta.away.code}  ·  ${Math.floor(seg.clip.t0 / 60) + 1}'`)
+        const clockLabel = `${meta.home.code} ${rundown.score} ${meta.away.code}  ·  ${Math.floor(seg.clip.t0 / 60) + 1}'`
+        if (st) renderSegment3D(st, seg, tt, numbers, clockLabel)
+        else renderSegment(p!, seg, tt, numbers, [], clockLabel)
         follow(audios, segs, playRef.current ? k : -1, tt)
         const a = audios[k]  // read-only probe for the sync check in headless runs
         ;(window as unknown as { __studio?: object }).__studio = {
@@ -578,7 +612,7 @@ function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta:
       raf = requestAnimationFrame(draw)
     }
     raf = requestAnimationFrame(draw)
-    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize) }
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); st?.dispose(); root.replaceChildren() }
   }, [rundown, meta, numbers, intro, segs, total, audios, lang, phase, fan])
 
   const seg = pos.seg >= 0 ? segs[pos.seg] : null
@@ -589,7 +623,7 @@ function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta:
 
   return <main className="studio">
     <div className="studio-frame">
-      <canvas ref={ref} className="pitch studio-canvas" aria-label="Analysis segment" />
+      <div ref={ref} className="pitch studio-canvas stage3d" role="img" aria-label="Analysis segment" />
       <div className="captions" aria-live="polite">{line && said !== null
         ? line.text.split(/\s+/).map((w, i) => <span key={i} className={i < said ? 'said' : ''}>{w} </span>)
         : line?.text ?? ''}</div>

@@ -1,5 +1,6 @@
 // Canvas renderer: the live pitch, and Overlay Script v1 segment playback.
 import type { Cue, Segment } from './types'
+import type { Stadium, Surface } from './stadium'
 
 export interface Theme {
   bg: string; pitch: string; stripe: string; line: string; text: string; muted: string
@@ -161,7 +162,7 @@ export function renderSegment(p: Pitch, seg: Segment, t: number, numbers: number
   void names
 }
 
-function drawZone(p: Pitch, q: Cue, u: number, t: number) {
+function drawZone(p: Surface, q: Cue, u: number, t: number) {
   const g = p.ctx, [x, y, w, h] = q.rect!
   const pulse = 0.5 + 0.5 * Math.sin((t - q.t) * 4)
   g.save()
@@ -176,7 +177,7 @@ function drawZone(p: Pitch, q: Cue, u: number, t: number) {
   g.restore()
 }
 
-function drawLine(p: Pitch, q: Cue, u: number) {
+function drawLine(p: Surface, q: Cue, u: number) {
   const g = p.ctx, x = p.sx(q.x!)
   g.save(); g.strokeStyle = p.theme.accent; g.lineWidth = p.scale * 0.35; g.shadowColor = p.theme.accent; g.shadowBlur = p.scale * 1.5
   g.beginPath(); g.moveTo(x, p.sy(0)); g.lineTo(x, p.sy(WID * u)); g.stroke(); g.shadowBlur = 0
@@ -188,7 +189,7 @@ function drawLine(p: Pitch, q: Cue, u: number) {
   g.restore()
 }
 
-function arrow(p: Pitch, x0: number, y0: number, x1: number, y1: number, u: number, col: string, dashed: boolean, bend: number) {
+function arrow(p: Surface, x0: number, y0: number, x1: number, y1: number, u: number, col: string, dashed: boolean, bend: number) {
   const g = p.ctx
   const mx = (x0 + x1) / 2 + bend * (y1 - y0) * 0.5, my = (y0 + y1) / 2 - bend * (x1 - x0) * 0.5
   const pt = (v: number): [number, number] => [(1 - v) ** 2 * x0 + 2 * (1 - v) * v * mx + v * v * x1, (1 - v) ** 2 * y0 + 2 * (1 - v) * v * my + v * v * y1]
@@ -202,7 +203,7 @@ function arrow(p: Pitch, x0: number, y0: number, x1: number, y1: number, u: numb
   }
 }
 
-function polyline(p: Pitch, pts: [number, number][], col: string, dashed: boolean) {
+function polyline(p: Surface, pts: [number, number][], col: string, dashed: boolean) {
   if (pts.length < 2) return
   const g = p.ctx
   g.save(); g.strokeStyle = col; g.lineWidth = p.scale * 0.5; g.lineCap = 'round'; g.shadowColor = col; g.shadowBlur = p.scale * 1.2
@@ -210,13 +211,13 @@ function polyline(p: Pitch, pts: [number, number][], col: string, dashed: boolea
   g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.stroke(); g.restore()
 }
 
-function ring(p: Pitch, x: number, y: number, u: number, t: number) {
+function ring(p: Surface, x: number, y: number, u: number, t: number) {
   const g = p.ctx
   g.save(); g.strokeStyle = p.theme.accent; g.lineWidth = p.scale * 0.35; g.shadowColor = p.theme.accent; g.shadowBlur = p.scale
   g.beginPath(); g.arc(x, y, p.scale * (1.9 + 0.25 * Math.sin(t * 6)), -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * u); g.stroke(); g.restore()
 }
 
-function tag(p: Pitch, x: number, y: number, text: string, u: number) {
+function tag(p: Surface, x: number, y: number, text: string, u: number) {
   const g = p.ctx, s = p.scale
   g.save(); g.globalAlpha = u; g.font = `700 ${s * 2.1}px ${DISPLAY}`
   const w = g.measureText(text.toUpperCase()).width + s * 1.8, h = s * 3.1
@@ -228,7 +229,7 @@ function tag(p: Pitch, x: number, y: number, text: string, u: number) {
   g.restore()
 }
 
-function lowerThird(p: Pitch, q: Cue, t: number, occupied: [number, number][]) {
+function lowerThird(p: Surface, q: Cue, t: number, occupied: [number, number][]) {
   const g = p.ctx, s = p.scale
   const k = ease((t - q.t) / 0.5), out = Math.max(0, (t - (q.t + q.d - 0.35)) / 0.35)
   g.font = `800 ${s * 4.6}px ${DISPLAY}`
@@ -246,7 +247,7 @@ function lowerThird(p: Pitch, q: Cue, t: number, occupied: [number, number][]) {
   g.restore()
 }
 
-function statCard(p: Pitch, q: Cue, t: number, occupied: [number, number][]) {
+function statCard(p: Surface, q: Cue, t: number, occupied: [number, number][]) {
   const g = p.ctx, s = p.scale, rows = q.rows ?? []
   const k = ease((t - q.t) / 0.5)
   // size the card to its text: a row whose label and value don't fit side by side stacks them
@@ -290,7 +291,7 @@ function fit(g: CanvasRenderingContext2D, text: string, width: number): string {
   return t + '…'
 }
 
-export function bug(p: Pitch, text: string, frozen: boolean) {
+export function bug(p: Surface, text: string, frozen: boolean) {
   const g = p.ctx, s = p.scale
   g.save(); g.font = `700 ${s * 2.6}px ${DISPLAY}`
   const w = g.measureText(text).width + s * 3, h = s * 4
@@ -304,4 +305,54 @@ export function bug(p: Pitch, text: string, frozen: boolean) {
     g.fillText('❚❚ ANALYSIS', p.sx(LEN - 1.5) - s * 1.5, p.sy(1.5) + h / 2 + s * 0.1)
   }
   g.restore()
+}
+
+/** The same segment, in the 3D stadium: ground graphics on the grass, tags and broadcast graphics on top. */
+export function renderSegment3D(st: Stadium, seg: Segment, t: number, numbers: number[], clock: string) {
+  const th = st.theme
+  const { clip, frozen } = clipTime(seg, t)
+  const f = sampleClip(seg, clip)
+  const active = seg.cues.filter(q => t >= q.t && t < q.t + q.d)
+  const focus = new Set(active.filter(q => q.kind === 'highlight' || q.kind === 'run').map(q => q.slot!))
+  const freezeCue = active.find(q => q.kind === 'freeze')
+  const dim = frozen && freezeCue ? 0.45 * ease((t - freezeCue.t) / 0.35) : 0
+  st.begin(dim)
+  const G = st.ground
+  for (const q of active) {
+    const u = ease((t - q.t) / Math.min(q.d, 0.9))
+    if (q.kind === 'zone' && q.rect) drawZone(G, q, u, t)
+    if (q.kind === 'line' && q.x !== undefined) drawLine(G, q, u)
+  }
+  st.setFrame(f, focus.size ? focus : null, numbers)
+  for (const q of active) {
+    const u = ease((t - q.t) / Math.min(q.d * 0.6, 0.9))
+    if (q.kind === 'arrow' && q.from && q.to) arrow(G, G.sx(q.from[0]), G.sy(q.from[1]), G.sx(q.to[0]), G.sy(q.to[1]), u,
+      q.style === 'pass' || q.style === 'carry' ? '#ffffff' : th.accent, q.style === 'carry', q.style === 'cross' ? 0.5 : q.style === 'shot' ? 0.05 : 0.15)
+    if (q.kind === 'run' && q.slot !== undefined) {
+      const pts: [number, number][] = []
+      const n = 24, a = q.from_t ?? 0, b = q.to_t ?? a + 3
+      for (let k = 0; k <= n * u; k++) {
+        const fr = sampleClip(seg, a + (b - a) * k / n)
+        pts.push([G.sx(fr[3 + 2 * q.slot]), G.sy(fr[4 + 2 * q.slot])])
+      }
+      polyline(G, pts, th.accent, true)
+    }
+  }
+  st.render(f)  // place the camera before projecting tags
+  const occupied: [number, number][] = [st.project(f[0], f[1])]
+  for (const q of active) {
+    if (q.kind === 'highlight' && q.slot !== undefined) {
+      const px = f[3 + 2 * q.slot], py = f[4 + 2 * q.slot]
+      ring(G, G.sx(px), G.sy(py), ease((t - q.t) / 0.5), t)
+      const [hx, hy] = st.project(px, py, 3.4)
+      occupied.push([hx, hy])
+      if (q.text) tag(st.hud, hx, hy + st.hud.scale * 6.6, q.text, ease((t - q.t) / 0.4))
+    }
+  }
+  for (const q of active) {
+    if (q.kind === 'label') lowerThird(st.hud, q, t, occupied)
+    if (q.kind === 'statcard') statCard(st.hud, q, t, occupied)
+  }
+  bug(st.hud, clock, frozen)
+  st.render(f)  // again, with this frame's ground graphics
 }

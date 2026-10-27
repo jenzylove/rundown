@@ -30,6 +30,8 @@ mcp_app = mcp.streamable_http_app()
 @contextlib.asynccontextmanager
 async def lifespan(_app):
     runs.loop = asyncio.get_running_loop()
+    import threading
+    threading.Thread(target=lambda: showcase(), daemon=True, name="showcase").start()  # warm the landing page's hero
     async with mcp.session_manager.run():
         yield
 
@@ -338,6 +340,34 @@ def proof_run(run_id: str):
         raise HTTPException(404, "no such run")
     return dict(live=False, now=time.time(), run=saved["run"], trail=saved["trail"],
                 rundowns={k: _light(r) for k, r in saved["rundowns"].items()})
+
+
+_showcase: dict = {}
+_showcase_lock = __import__("threading").Lock()
+SHOWCASE_SEED = 38920  # a first half with a headed goal from a cross, a press and a flank story
+
+
+@app.get("/api/showcase")
+def showcase():
+    """The landing page's hero: one fixed first half cut for two different fans, by the rules crew
+    (no model calls), through the same Verifier. Made once, then served from memory."""
+    with _showcase_lock:
+        if not _showcase:
+            from ..agents import verify
+            from ..evals.rundown import first_half, spot
+            from ..studio import producer
+            from ..studio.profile import Profile
+            md, _ = first_half(SHOWCASE_SEED)
+            cands, t_end = spot(md)
+            away_mid = next(p for p in md.meta["away"]["starters"] if md.players[p]["role"] in ("LCM", "RCM", "CM"))
+            cuts = {}
+            for prof in (Profile("neutral", "en", "analyst"), Profile("away", "fr", "casual", away_mid)):
+                r = producer.rundown(md, cands, t_end, 90.0, prof.side, prof.lang, prof.depth, prof.player)
+                for seg in r["segments"]:
+                    seg["provenance"]["verified"] = not verify.segment_errors(md, seg)
+                cuts[prof.key] = dict(r, profile=prof.to_dict())
+            _showcase.update(seed=SHOWCASE_SEED, meta=md.meta, cuts=cuts)
+    return _showcase
 
 
 @app.get("/api/proof/evals")

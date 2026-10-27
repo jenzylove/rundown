@@ -75,7 +75,7 @@ code { font: 12px "IBM Plex Mono", monospace; color: var(--ink-muted); display: 
 
 .live { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 24px; padding-top: 18px; }
 .stage { min-width: 0; }
-.pitch { width: 100%; aspect-ratio: 105 / 72; display: block; border-radius: 4px; }
+.pitch { width: 100%; aspect-ratio: 16 / 9; display: block; border-radius: 4px; }
 .caption-note { margin: 8px 0 0; color: var(--ink-muted); font-size: 13px; }
 
 .desk { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
@@ -252,3 +252,93 @@ button.link { background: none; color: inherit; padding: 0; text-decoration: und
 .wall-line { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--rule); color: var(--ink-muted); }
 .wall-line b { color: var(--ink); }
 .ok-mark { color: var(--ink); font-weight: 600; }
+
+/* the 3D stadium: WebGL scene plus a HUD canvas, stacked in one box */
+.stage3d { position: relative; overflow: hidden; background: #06090b; }
+.stage3d canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.pitch-flat { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+
+/* ---------------------------------------------------------------- landing */
+.landing { color: var(--ink); }
+.lnav { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 28px; padding: 14px clamp(16px, 4vw, 48px);
+  background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); }
+.lnav nav { display: flex; gap: 22px; margin-right: auto; font: 600 15px Barlow, sans-serif; }
+.lnav nav a { text-decoration: none; color: var(--ink-muted); }
+.lnav nav a:hover { color: var(--ink); }
+.mark { text-decoration: none; color: var(--ink); }
+.btn { display: inline-block; text-decoration: none; font: 700 15px/1 Barlow, sans-serif; color: var(--accent-ink); background: var(--accent);
+  padding: 11px 18px; border-radius: 3px; }
+.btn.big { font: 800 20px/1 "Barlow Condensed", sans-serif; letter-spacing: .04em; text-transform: uppercase; padding: 16px 26px; }
+.btn.ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--rule); }
+.hero { position: relative; height: min(92vh, 980px); min-height: 640px; overflow: hidden; background: #06090b; }
+.hero-stage, .hero-canvas { position: absolute; inset: 0; }
+.hero-canvas { aspect-ratio: auto; }
+.hero::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(5,8,10,.92) 0%, rgba(5,8,10,.72) 30%, rgba(5,8,10,0) 58%),
+              linear-gradient(0deg, rgba(5,8,10,.85) 0%, rgba(5,8,10,0) 26%); }
+.hero-copy { position: absolute; z-index: 2; left: clamp(16px, 5vw, 72px); top: 50%; transform: translateY(-58%); max-width: 640px; color: #f2f0e8; }
+.hero-copy .eyebrow { font: 600 13px "IBM Plex Mono", monospace; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+.hero-copy h1 { font: 800 clamp(48px, 7.4vw, 112px)/.9 "Barlow Condensed", sans-serif; text-transform: uppercase; margin: 0; letter-spacing: -.01em; }
+.hero-copy .lede { font: 500 clamp(17px, 1.5vw, 21px)/1.5 Barlow, sans-serif; color: #c9d1cb; margin: 22px 0 28px; max-width: 520px; }
+.hero-copy .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-copy .btn.ghost { color: #f2f0e8; box-shadow: inset 0 0 0 1px rgba(242,240,232,.35); }
+.hero-caption { position: absolute; z-index: 3; right: clamp(16px, 4vw, 48px); bottom: 150px; max-width: min(560px, 46vw); text-align: center;
+  font: 600 clamp(15px, 1.4vw, 21px)/1.35 Barlow, sans-serif; color: #fff; background: rgba(0,0,0,.72); padding: 8px 16px; border-radius: 2px; }
+.hero-switch { position: absolute; z-index: 3; right: clamp(16px, 4vw, 48px); bottom: 28px; display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; justify-content: flex-end; max-width: 760px; }
+.hero-switch .hs-label { align-self: center; font: 600 12px "IBM Plex Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: #b9c4bc; }
+.hero-switch button { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-align: left; background: rgba(13,23,18,.88); color: #f2f0e8;
+  box-shadow: inset 0 0 0 1px rgba(242,240,232,.18); padding: 10px 14px; }
+.hero-switch button span { font: 500 12px Barlow, sans-serif; opacity: .75; }
+.hero-switch button.on { background: var(--accent); color: var(--accent-ink); box-shadow: none; }
+.hero-switch .hs-note { flex-basis: 100%; text-align: right; font: 500 12px Barlow, sans-serif; color: #9aa79f; }
+.band { display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding: clamp(56px, 8vw, 110px) clamp(16px, 5vw, 72px); border-bottom: 1px solid var(--rule); max-width: 1400px; margin: 0 auto; }
+.band .num { font: 800 64px/1 "Barlow Condensed", sans-serif; color: var(--accent); margin: 0; }
+.band h2 { font: 800 clamp(36px, 4.6vw, 64px)/.95 "Barlow Condensed", sans-serif; text-transform: uppercase; margin: 0 0 22px; }
+.band h3 { font: 700 22px/1.2 "Barlow Condensed", sans-serif; text-transform: uppercase; letter-spacing: .02em; margin: 0 0 8px; }
+.band p { max-width: 760px; }
+.big-quote { font: 500 clamp(22px, 2.2vw, 30px)/1.35 Barlow, sans-serif; margin: 0 0 28px; }
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 980px; }
+.facts p { margin: 0; color: var(--ink-muted); } .facts b { color: var(--ink); }
+.steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; max-width: 980px; }
+.steps li { display: grid; grid-template-columns: 72px 1fr; gap: 20px; padding: 24px 0; border-top: 1px solid var(--rule); }
+.steps li > span { font: 800 48px/1 "Barlow Condensed", sans-serif; color: var(--ink-muted); }
+.steps p { margin: 0; color: var(--ink-muted); }
+.sub { color: var(--ink-muted); margin: -8px 0 28px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 44px; max-width: 1100px; }
+.stats div { border-top: 3px solid var(--accent); padding-top: 14px; }
+.stats b { display: block; font: 800 clamp(34px, 3.6vw, 52px)/1 "Barlow Condensed", sans-serif; }
+.stats span { color: var(--ink-muted); }
+.chart-title { margin-top: 8px; }
+.bars { display: grid; gap: 14px; max-width: 980px; margin: 14px 0 20px; }
+.bar { display: grid; grid-template-columns: 300px 1fr 110px; gap: 16px; align-items: center; }
+.bar span { color: var(--ink-muted); }
+.bar .track { position: relative; height: 14px; background: var(--surface-2); border-radius: 2px; overflow: hidden; }
+.bar .track .new { position: absolute; left: 0; top: 0; bottom: 0; background: var(--accent); }
+.bar b { font: 600 15px "IBM Plex Mono", monospace; text-align: right; }
+.foot { color: var(--ink-muted); font-size: 14px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 1100px; }
+.two p { color: var(--ink-muted); }
+.two pre { background: var(--surface-2); padding: 14px 16px; font: 500 14px/1.5 "IBM Plex Mono", monospace; overflow-x: auto; }
+.stack { display: grid; grid-template-columns: 280px 1fr; margin: 0; max-width: 1000px; }
+.stack dt, .stack dd { padding: 16px 0; border-top: 1px solid var(--rule); margin: 0; }
+.stack dt { font: 700 20px "Barlow Condensed", sans-serif; text-transform: uppercase; }
+.stack dd { color: var(--ink-muted); }
+details { border-top: 1px solid var(--rule); padding: 18px 0; max-width: 900px; }
+details summary { cursor: pointer; font: 700 22px "Barlow Condensed", sans-serif; text-transform: uppercase; }
+details p { color: var(--ink-muted); margin: 10px 0 0; }
+.lfoot { display: grid; grid-template-columns: 1fr auto; gap: 18px 40px; padding: 48px clamp(16px, 5vw, 72px); max-width: 1400px; margin: 0 auto; }
+.lfoot p { color: var(--ink-muted); margin: 6px 0 0; }
+.lfoot nav { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+.lfoot nav a { color: var(--ink); text-decoration: none; font-weight: 600; }
+.lfoot .fine { grid-column: 1 / -1; font-size: 13px; }
+@media (max-width: 900px) {
+  .lnav nav { display: none; }
+  .band { grid-template-columns: 1fr; }
+  .facts, .two, .stats { grid-template-columns: 1fr 1fr; }
+  .bar { grid-template-columns: 1fr; gap: 6px; }
+  .stack { grid-template-columns: 1fr; } .stack dd { border-top: 0; padding-top: 0; }
+  .hero-copy { top: 34%; } .hero::after { background: linear-gradient(0deg, rgba(5,8,10,.95) 0%, rgba(5,8,10,.55) 60%, rgba(5,8,10,.3) 100%); }
+  .hero-caption { left: 16px; right: 16px; max-width: none; bottom: 170px; }
+}
+@media (max-width: 560px) { .facts, .two, .stats { grid-template-columns: 1fr; } }
