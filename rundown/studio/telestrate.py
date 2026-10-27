@@ -312,15 +312,59 @@ def plan_layout(md: MatchData, plan: dict, cl: dict, tl: Timeline, opts: dict) -
     return cues
 
 
+MAX_LEAD_S = 8.0  # how much more of the build-up a segment may show; a shorter show beats a padded one
+HOLD_GROWTH = 1.35  # a freeze may be held this much longer than planned, no more
+END_HOLD_EXTRA_S = 3.0
+TALK_TAIL_S = 6.0
+
+
+def _shift_plan(plan: dict, lead: float) -> dict:
+    """An agent's plan names clip times; a clip that starts `lead` seconds earlier moves them."""
+    p = {k: [dict(x) for x in v] if isinstance(v, list) and v and isinstance(v[0], dict) else v for k, v in plan.items()}
+    for f in p.get("freezes", []):
+        f["at"] = f["at"] + lead
+    for kind in ("highlights", "zones", "lines"):
+        for item in p.get(kind, []):
+            if item.get("at") is not None:
+                item["at"] = item["at"] + lead
+    for r in p.get("runs", []):
+        r["from_t"] += lead; r["to_t"] += lead
+        if r.get("at") is not None:
+            r["at"] += lead
+    return p
+
+
 def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None = None,
           seg_id: str = "seg", plan: dict | None = None, words: dict | None = None,
           made_by: str = "rules", depth: str = "analyst") -> dict:
     """Talking point -> segment. `plan` (an agent's visual plan) replaces the rules layout and
     `words` (an agent Writer's text, numbers already filled in) the rules writer; timing,
-    geometry and the end card are always worked out here."""
+    geometry and the end card are always worked out here.
+
+    A segment shorter than its slot fills the time with more of the play that led to the moment
+    (a longer clip), not with long freezes: a frozen picture with nothing said reads as a stall."""
+    args = dict(lang=lang, seg_id=seg_id, plan=plan, words=words, made_by=made_by, depth=depth)
+    if not target_s:
+        return _build(md, c, target_s=None, lead=0.0, **args)
+    first = _build(md, c, target_s=None, lead=0.0, **args)
+    natural, last = first["duration_s"], first["script"][-1]
+    # never longer than its talk, the build-up and a few seconds on the stat card: a short script makes a short segment
+    target_s = min(target_s, max(natural, last["t"] + last["d"] + MAX_LEAD_S + TALK_TAIL_S))
+    extra = target_s - natural
+    return _build(md, c, target_s=target_s, lead=min(max(extra, 0.0), MAX_LEAD_S) if extra > 0.5 else 0.0, **args)
+
+
+def _build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None = None,
+           seg_id: str = "seg", plan: dict | None = None, words: dict | None = None,
+           made_by: str = "rules", depth: str = "analyst", lead: float = 0.0) -> dict:
     period = c.period
     facts = list(c.facts)
     anchor, t0, t1 = moment(md, c)
+    start = 0.0 if period == 1 else md.meta.get("period2_start", 2700.0)
+    lead = max(0.0, min(lead, t0 - start))
+    t0 -= lead
+    if plan is not None and lead:
+        plan = _shift_plan(plan, lead)
     cl = clip(md, period, t0, t1)
     clip_t0 = cl["t0"]
     tl = Timeline(cl["t1"] - clip_t0)
@@ -335,9 +379,9 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
     if target_s and target_s > tl.duration:
         extra = target_s - tl.duration
         held = sum(h for _, h in tl.freezes)
-        grown = [(at, min(h * 2.5, h + extra * h / held)) for at, h in tl.freezes]
+        grown = [(at, min(h * HOLD_GROWTH, h + extra * h / held)) for at, h in tl.freezes]
         rest = target_s - (tl.clip_len + sum(h for _, h in grown))
-        grown[-1] = (grown[-1][0], grown[-1][1] + max(0.0, rest))
+        grown[-1] = (grown[-1][0], grown[-1][1] + min(max(0.0, rest), END_HOLD_EXTRA_S))
         # cues pinned to a freeze move with it
         old = list(tl.freezes)
         tl.freezes = grown
@@ -367,11 +411,15 @@ def build(md: MatchData, c: Candidate, lang: str = "en", target_s: float | None 
     cues.sort(key=lambda q: q["t"])
 
     lines = words["lines"]
-    script, t = [], 0.4
+    # the talk lands on the moment: it starts as the build-up ends, or earlier when it would run past the end card
+    speech = sum(max(2.0, len(text.split()) / 2.6) + 0.3 for text, _ in lines)
+    script, t = [], max(0.4, min(lead - 1.0, tl.duration - speech - 1.0))
+    # the rest of the time goes into pauses between lines, so the voice carries the whole segment
+    pause = min(3.0, max(0.0, tl.duration - t - speech - 2.5) / max(1, len(lines) - 1)) if len(lines) > 1 else 0.0
     for text, keys in lines:
         d = max(2.0, len(text.split()) / 2.6)
         script.append(dict(t=round(t, 2), d=round(d, 2), text=text, fact_keys=keys))
-        t += d + 0.3
+        t += d + 0.3 + pause
 
     return dict(version="1", segment_id=seg_id, title=title[:48], kind=c.kind, team=c.team, lang=lang, depth=depth,
                 duration_s=round(max(tl.duration, t), 2), clip=cl, cues=cues, script=script,

@@ -187,7 +187,15 @@ export default function App() {
     if (run) await watch(run.id, p)
   }
 
-  const skip = async () => { if (run) await postRun(`/api/runs/${run.id}/skip`) }
+  const [skipping, setSkipping] = useState(false)
+  useEffect(() => { if (status !== 'first_half') setSkipping(false) }, [status])
+  useEffect(() => { setSkipping(false) }, [run])
+  const skip = async () => {
+    if (!run || skipping) return
+    setSkipping(true)
+    const r = await postRun(`/api/runs/${run.id}/skip`).catch(() => null)
+    if (!r?.ok) { setSkipping(false); setError('Could not skip ahead. Try again.') }
+  }
   const secondHalf = async () => {
     if (!run) return
     const r = await postRun(`/api/runs/${run.id}/second-half`)
@@ -258,15 +266,16 @@ export default function App() {
           {playing && <button onClick={() => catchUp()} className="ghost" disabled={catching || !spotted}
             title={spotted ? 'A short segment on what you missed' : 'Available once the crew has spotted its first story, about 18 minutes in'}>
             {catching ? 'Catching you up…' : 'Catch me up'}</button>}
-          {status === 'first_half' && <button onClick={skip} className="ghost">Skip to half-time</button>}
+          {status === 'first_half' && <button onClick={skip} className="ghost" disabled={skipping}>
+            {skipping ? `Skipping… ${Math.min(45, Math.floor(clock.t / 60) + 1)}'` : 'Skip to half-time'}</button>}
           {status === 'half_time' && <button onClick={secondHalf} className="ghost">Kick off the second half</button>}
           <button onClick={() => start()} disabled={busy}>New match</button>
         </div>
       </header>
       {error && <div className="error" role="alert">{error}</div>}
       {notice && <div className="notice" role="status">{notice}</div>}
-      {run && fan && !picking && <Journey status={status} clock={clock} fan={fan} meta={run.meta} spotted={spotted}
-        ready={!!current && locked} onSkip={skip} onWatch={goStudio} onSecond={secondHalf} voicing={voicing} />}
+      {view === 'live' && run && fan && !picking && <Journey status={status} clock={clock} fan={fan} meta={run.meta} spotted={spotted}
+        ready={!!current && locked} onSkip={skip} skipping={skipping} onWatch={goStudio} onSecond={secondHalf} voicing={voicing} />}
       {missed !== null && playing && spotted && <div className="missed" role="status">
         <span>You missed {Math.round((clock.t - missed) / 60)} minutes.</span>
         <button onClick={() => catchUp(missed)} disabled={catching}>{catching ? 'Catching you up…' : 'Catch me up ▸'}</button>
@@ -290,7 +299,9 @@ export default function App() {
       </main>}
 
       {view === 'studio' && onStage && run && <Studio rundown={onStage} meta={run.meta}
-        numbers={numbers} fan={onStage.profile ?? fan ?? MASTER} back={() => { setView('live'); setOnStage(null) }} />}
+        numbers={numbers} fan={onStage.profile ?? fan ?? MASTER} back={() => { setView('live'); setOnStage(null) }}
+        second={status === 'half_time' ? async () => { setView('live'); setOnStage(null); await secondHalf() } : undefined}
+        newMatch={() => start()} />}
     </div>
   )
 }
@@ -318,9 +329,9 @@ function describe(events: MatchEvent[], meta: Meta): LiveItem[] {
 }
 
 /** Where the fan is in their match, and the one thing to do next. */
-function Journey({ status, clock, fan, meta, spotted, ready, onSkip, onWatch, onSecond, voicing }: {
+function Journey({ status, clock, fan, meta, spotted, ready, onSkip, skipping, onWatch, onSecond, voicing }: {
   status: string; clock: { t: number; period: number }; fan: Profile; meta: Meta; spotted: boolean; ready: boolean
-  onSkip: () => void; onWatch: () => void; onSecond: () => void; voicing: boolean
+  onSkip: () => void; skipping: boolean; onWatch: () => void; onSecond: () => void; voicing: boolean
 }) {
   const minute = Math.min(45, Math.floor(clock.t / 60) + 1)
   const step = status === 'first_half' ? 2 : status === 'half_time' ? 3 : 4
@@ -330,6 +341,10 @@ function Journey({ status, clock, fan, meta, spotted, ready, onSkip, onWatch, on
     hint = spotted ? `Minute ${minute} of 45. The crew is drafting ${fanLabel(fan, meta)}'s show from what it has spotted.`
       : `Minute ${minute} of 45. The crew compares each ten minutes with the last, so its first stories land around minute 18. Watch the live feed meanwhile, or jump ahead.`
     action = <button onClick={onSkip}>Skip to half-time ▸</button>
+    if (skipping) {
+      hint = `Fast forwarding: minute ${minute} of 45. The crew still reads every minute as it races past, so this takes about a minute. Your show is ready at the whistle.`
+      action = <button disabled>Skipping to half-time…</button>
+    }
   } else if (status === 'half_time') {
     hint = ready ? 'Your show is ready: three segments, drawn on the pitch and voiced in your language. Turn your sound on.' : 'The whistle has gone. The crew is finishing your show…'
     action = ready ? <button onClick={onWatch} disabled={voicing}>{voicing ? 'Recording the voice…' : 'Watch my show, with sound ▸'}</button> : null
@@ -627,10 +642,14 @@ function introLine(r: Rundown, lang: Lang) {
   }[lang]
 }
 
-function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta: Meta; numbers: number[]; fan: Profile; back: () => void }) {
+function Studio({ rundown, meta, numbers, fan, back, second, newMatch }: {
+  rundown: Rundown; meta: Meta; numbers: number[]; fan: Profile; back: () => void
+  second?: () => void; newMatch: () => void
+}) {
   const ref = useRef<HTMLDivElement>(null)
   const [pos, setPos] = useState({ seg: -1, t: 0 })
   const [playing, setPlaying] = useState(true)
+  const [done, setDone] = useState(false)
   const playRef = useRef(playing); playRef.current = playing
   const intro = rundown.intro.d
   const segs = rundown.segments
@@ -654,7 +673,10 @@ function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta:
     window.addEventListener('resize', onResize)
     const draw = (now: number) => {
       const dt = (now - last) / 1000; last = now
-      if (playRef.current) tRef.current = Math.min(total, tRef.current + dt)
+      if (playRef.current) {
+        tRef.current = Math.min(total, tRef.current + dt)
+        if (tRef.current >= total) { playRef.current = false; setPlaying(false); setDone(true) }
+      }
       const theme = readTheme(root)
       if (p) p.theme = theme
       if (st) st.theme = theme
@@ -703,18 +725,44 @@ function Studio({ rundown, meta, numbers, fan, back }: { rundown: Rundown; meta:
   const line = seg?.script.find(l => pos.t >= l.t && pos.t < l.t + l.d + 0.3)
   const said = line && seg?.voice ? spokenTokens(seg.voice, line, pos.t) : null
   const elapsed = pos.seg < 0 ? pos.t : intro + segs.slice(0, pos.seg).reduce((a, s) => a + s.duration_s, 0) + pos.t
-  const jump = (k: number) => { tRef.current = k < 0 ? 0 : intro + segs.slice(0, k).reduce((a, s) => a + s.duration_s, 0); setPlaying(true) }
+  const jump = (k: number) => { tRef.current = k < 0 ? 0 : intro + segs.slice(0, k).reduce((a, s) => a + s.duration_s, 0); setDone(false); setPlaying(true) }
+  const replay = () => jump(-1)
+
+  // a catch-up hands the fan back to the live match by itself
+  const [home, setHome] = useState(8)
+  const backRef = useRef(back); backRef.current = back
+  useEffect(() => {
+    if (!done || phase !== 'catchup') return
+    setHome(8)
+    const t = setInterval(() => setHome(h => Math.max(0, h - 1)), 1000)
+    return () => clearInterval(t)
+  }, [done, phase])
+  useEffect(() => { if (done && phase === 'catchup' && home === 0) backRef.current() }, [done, phase, home])
 
   return <main className="studio">
     <div className="studio-frame">
       <div ref={ref} className="pitch studio-canvas stage3d" role="img" aria-label="Analysis segment" />
       <div className="captions" aria-live="polite">{line && said !== null
         ? line.text.split(/\s+/).map((w, i) => <span key={i} className={i < said ? 'said' : ''}>{w} </span>)
-        : line?.text ?? ''}</div>
+        : line?.text ?? (seg && pos.t < (seg.script[0]?.t ?? 0) ? <span className="buildup">The build up · {Math.floor(seg.clip.t0 / 60) + 1}'</span> : '')}</div>
+      {done && <div className="endcard" role="dialog" aria-label="Show finished">
+        <p className="eyebrow">{fanLabel(fan, meta)}</p>
+        <h2>{phase === 'catchup' ? "You're caught up" : phase === 'ft' ? 'That was your full-time show' : 'That was your half-time show'}</h2>
+        <p>{phase === 'catchup' ? `Back to the live match in ${home}…`
+          : phase === 'ft' ? 'Every number in it was checked against the match before you heard it.'
+          : 'The second half is waiting. Your full-time show is built the same way, from what happens next.'}</p>
+        <div className="endcard-actions">
+          {phase === 'catchup' && <button onClick={back}>Back to the live match ▸</button>}
+          {phase === 'ht' && second && <button onClick={second}>Kick off the second half ▸</button>}
+          {phase === 'ft' && <button onClick={newMatch}>Start a new match ▸</button>}
+          <button className="ghost" onClick={replay}>Watch again</button>
+          {phase !== 'catchup' && <button className="ghost" onClick={back}>Back to the desk</button>}
+        </div>
+      </div>}
     </div>
     <div className="transport">
       <button onClick={back} className="ghost">◂ {phase === 'catchup' ? 'Back to the match' : 'Desk'}</button>
-      <button onClick={() => { if (tRef.current >= total) tRef.current = 0; setPlaying(!playing) }}>{playing && tRef.current < total ? 'Pause' : 'Play'}</button>
+      <button onClick={() => done ? replay() : setPlaying(!playing)}>{done ? 'Watch again' : playing ? 'Pause' : 'Play'}</button>
       <div className="chips">
         <button className={pos.seg === -1 ? 'on' : ''} onClick={() => jump(-1)}>Intro</button>
         {segs.map((s, k) => <button key={s.segment_id} className={pos.seg === k ? 'on' : ''} onClick={() => jump(k)}>{k + 1}. {s.title}</button>)}

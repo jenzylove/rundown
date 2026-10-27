@@ -386,3 +386,15 @@ details p { color: var(--ink-muted); margin: 10px 0 0; }
   background: color-mix(in srgb, var(--accent) 10%, transparent); }
 .picks-empty b { font: 800 20px/1.1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
 .picks-empty span { font-size: 14px; color: var(--ink-muted); }
+
+/* studio end card */
+.endcard { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+  padding: 24px; text-align: center; color: #f2f0e8; background: rgba(5, 10, 8, .78); backdrop-filter: blur(3px); animation: endin .35s ease-out; }
+.endcard .eyebrow { margin: 0; color: #d8ff3c; font: 600 15px/1 Barlow, sans-serif; text-transform: uppercase; letter-spacing: .08em; }
+.endcard h2 { margin: 0; font: 800 clamp(30px, 4.4vw, 58px)/1 "Barlow Condensed", sans-serif; text-transform: uppercase; }
+.endcard p { margin: 0 0 8px; max-width: 560px; color: #c9d2cb; font-size: 17px; }
+.endcard-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.endcard .ghost { color: #f2f0e8; border-color: rgba(242, 240, 232, .5); }
+@keyframes endin { from { opacity: 0; } to { opacity: 1; } }
+
+.captions .buildup { color: #d8ff3c; font-size: .8em; text-transform: uppercase; letter-spacing: .06em; }

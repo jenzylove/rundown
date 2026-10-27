@@ -118,7 +118,7 @@ def test_crew_builds_a_verified_rundown(half):
         jsonschema.validate(s, verify.SCHEMA)
         assert s["provenance"]["verified"]
         assert s["provenance"]["crew"] == dict(telestrator="agent", writer="agent")
-    assert abs(r["duration_s"] - 90.0) <= 3.0
+    assert 40.0 <= r["duration_s"] <= 93.0  # fills its slot with play, never pads it past
     assert {it["agent"] for it in store.trail} >= {"analyst", "producer", "telestrator", "writer", "verifier"}
 
 
