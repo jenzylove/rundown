@@ -383,7 +383,7 @@ function Building({ feed, picks, run, trail, status, fan }: {
     </ol>}
     <h3>Spotted so far</h3>
     <ul className="feed">
-      {cands.length === 0 && <li className="muted">The detectors need about eight minutes of play before they compare anything.</li>}
+      {cands.length === 0 && <li className="muted">The detectors compare the last ten minutes with what came before, so the first talking points arrive after about eighteen minutes of play.</li>}
       {[...cands].reverse().map((f, i) => <li key={i}>
         <span className="min">{Math.floor(f.clock / 60)}'</span>
         <span className={`kind k-${f.candidate?.kind}`}>{KIND_LABEL[f.candidate?.kind ?? ''] ?? ''}</span>
