@@ -81,7 +81,7 @@ def main():
     print(f"\nlock after the whistle: median {s['lock_median_s']} s, max {s['lock_max_s']} s")
     if a.out:
         a.out.parent.mkdir(parents=True, exist_ok=True)
-        a.out.write_text(json.dumps(dict(summary=s, runs=[_brief(r) for r in results]), indent=1,
+        a.out.write_text(encoding="utf-8", data=json.dumps(dict(summary=s, runs=[_brief(r) for r in results]), indent=1,
                                     ensure_ascii=False, default=str))
 
 if __name__ == "__main__":

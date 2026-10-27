@@ -44,8 +44,8 @@ def main():
                                           api_key=os.environ["AZURE_OPENAI_API_KEY"],
                                           azure_deployment=os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4.1-mini"),
                                           api_version="2024-10-21")
-    data = rows(json.loads(a.eval_json.read_text()))
-    with tempfile.NamedTemporaryFile("w", suffix=".jsonl", delete=False) as f:
+    data = rows(json.loads(a.eval_json.read_text(encoding="utf-8")))
+    with tempfile.NamedTemporaryFile("w", suffix=".jsonl", delete=False, encoding="utf-8") as f:
         for r in data:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     kw = dict(data=f.name, evaluators={"groundedness": GroundednessEvaluator(model)},
@@ -78,7 +78,7 @@ def main():
     print(json.dumps({k: {kk: vv for kk, vv in v.items() if kk != "below_4"} for k, v in summary.items()}, indent=1))
     print("logged to Foundry:", logged or f"no ({log_error})")
     if a.out:
-        a.out.write_text(json.dumps(dict(summary=summary, foundry_url=logged, log_error=log_error,
+        a.out.write_text(encoding="utf-8", data=json.dumps(dict(summary=summary, foundry_url=logged, log_error=log_error,
                                          judge=os.environ.get("AZURE_OPENAI_DEPLOYMENT", "gpt-4.1-mini"),
                                          rows=scored),
                                     indent=1, ensure_ascii=False, default=str))

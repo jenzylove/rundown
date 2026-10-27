@@ -39,3 +39,7 @@ Thumbs.db
 .idea/
 .vscode/*
 !.vscode/extensions.json
+
+# local editor and session settings
+CLAUDE.md
+.claude/

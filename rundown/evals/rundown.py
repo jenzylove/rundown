@@ -238,7 +238,7 @@ def main():
         print(" -", m)
     if a.out:
         a.out.parent.mkdir(parents=True, exist_ok=True)
-        a.out.write_text(json.dumps(dict(summary=s, table=table(s), misses=misses(rows), runs=rows), indent=1,
+        a.out.write_text(encoding="utf-8", data=json.dumps(dict(summary=s, table=table(s), misses=misses(rows), runs=rows), indent=1,
                                     ensure_ascii=False, default=str))
 
 

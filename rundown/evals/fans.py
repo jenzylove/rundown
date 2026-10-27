@@ -226,7 +226,7 @@ def main():
     print(table(s))
     if a.out:
         a.out.parent.mkdir(parents=True, exist_ok=True)
-        a.out.write_text(json.dumps(dict(summary=s, table=table(s), rows=rows), ensure_ascii=False, indent=1, default=str))
+        a.out.write_text(encoding="utf-8", data=json.dumps(dict(summary=s, table=table(s), rows=rows), ensure_ascii=False, indent=1, default=str))
 
 
 if __name__ == "__main__":
