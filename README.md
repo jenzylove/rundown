@@ -10,6 +10,7 @@
 </p>
 
 <p align="center">
+  <a href="https://youtu.be/Mbysi6hhR5g"><img src="https://img.shields.io/badge/demo-watch%20(1%3A56)-d8ff3c?logo=youtube&logoColor=black" alt="Watch the demo"></a>
   <a href="https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io"><img src="https://img.shields.io/badge/live-Azure%20Container%20Apps-0a1208" alt="Live on Azure Container Apps"></a>
   <a href="https://github.com/jenzylove/rundown/actions/workflows/ci.yml"><img src="https://github.com/jenzylove/rundown/actions/workflows/ci.yml/badge.svg" alt="Tests"></a>
   <img src="https://img.shields.io/badge/agents-Microsoft%20Agent%20Framework-5c2d91" alt="Microsoft Agent Framework">
@@ -40,6 +41,7 @@ fan who joins late presses **Catch me up**. Nothing reaches a fan without passin
 
 | | |
 |---|---|
+| Demo video (1:56) | https://youtu.be/Mbysi6hhR5g |
 | Live (no sign-up) | https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io (the app itself: [`/watch`](https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io/watch)) |
 | Proof: every run, every cut, the trail, the evals | [`/proof`](https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io/proof) |
 | MCP server (streamable HTTP) | `https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io/mcp/` |
@@ -51,7 +53,7 @@ fan who joins late presses **Catch me up**. Nothing reaches a fan without passin
 1. Open the [live site](https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io). The hero plays a real segment; switch between the two fans to see one match cut two ways. Press **Make my show**: a fresh synthetic match starts playing.
 2. **Who's watching?** Pick a side, Casual or Analyst, a language, and a player to follow. Press **Make my show**.
 3. Once the clock passes about 20 minutes (two and a half minutes of real time at 8×), press **Catch me up**: a short voiced segment on what you missed, for your profile. The detectors compare each ten minutes with what came before, so earlier than that there is nothing to tell yet, and the app says so.
-4. Press **Skip to half-time**. Your show appears on the desk with its segments verified. Press **Watch it**.
+4. Press **Skip to half-time**: the clock races to the whistle (about a minute). Your show appears on the desk with its segments verified. Press **Watch my show, with sound**; it ends on a card that kicks off the second half.
 5. Flip the desk to another fan (the other club, Analyst, English) and compare: a different lead, different words, different numbers.
 6. Open **Proof**: the whistle wall shows every cut made this break, how many seconds after the whistle each was ready, and how much of it the Verifier passed.
 
