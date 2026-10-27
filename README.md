@@ -20,7 +20,7 @@
 
 <p align="center">
   <img src="docs/media/hero.png" alt="A fan's half-time segment: telestration drawn from the match tracking, captions in French following the voice" width="100%">
-  <br><sub>An Eastmoor fan's half-time show, in French: the move drawn from the tracking, the voice by Azure AI Speech, the captions following it word by word.</sub>
+  <br><sub>An Eastmoor fan's half-time show, in French, in the 3D stadium: the zone, the line and the run drawn on the grass from the tracking, the voice by Azure AI Speech, the captions following it word by word.</sub>
 </p>
 
 Half-time analysis is made once, for one market, in one language. A fan of the away side in
@@ -40,7 +40,7 @@ fan who joins late presses **Catch me up**. Nothing reaches a fan without passin
 
 | | |
 |---|---|
-| Live app (no sign-up) | https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io |
+| Live (no sign-up) | https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io (the app itself: [`/watch`](https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io/watch)) |
 | Proof: every run, every cut, the trail, the evals | [`/proof`](https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io/proof) |
 | MCP server (streamable HTTP) | `https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io/mcp/` |
 | Evals, with every miss | [docs/EVALS.md](docs/EVALS.md) |
@@ -48,12 +48,16 @@ fan who joins late presses **Catch me up**. Nothing reaches a fan without passin
 
 ## For judges: five minutes, no keys
 
-1. Open the [live app](https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io). A fresh synthetic match is already playing.
+1. Open the [live site](https://rundown.mangowave-7522f242.swedencentral.azurecontainerapps.io). The hero plays a real segment; switch between the two fans to see one match cut two ways. Press **Make my show**: a fresh synthetic match starts playing.
 2. **Who's watching?** Pick a side, Casual or Analyst, a language, and a player to follow. Press **Make my show**.
 3. Press **Catch me up** after a few minutes of play: a short voiced segment on what you missed, for your profile.
 4. Press **Skip to half-time**. Your show appears on the desk with its segments verified. Press **Watch it**.
 5. Flip the desk to another fan (the other club, Analyst, English) and compare: a different lead, different words, different numbers.
 6. Open **Proof**: the whistle wall shows every cut made this break, how many seconds after the whistle each was ready, and how much of it the Verifier passed.
+
+<p align="center">
+  <img src="docs/media/landing.png" alt="The landing page: a real segment playing in the 3D stadium, with a switch between two fans" width="100%">
+</p>
 
 <p align="center">
   <img src="docs/media/fan-card.png" alt="Who's watching: side, depth, language and a player to follow" width="49%">
