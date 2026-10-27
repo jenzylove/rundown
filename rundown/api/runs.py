@@ -545,7 +545,7 @@ class RunManager:
 
         def one(seg):
             k = voice.key(seg, lang)
-            v = voice.synthesise([ln["text"] for ln in seg["script"]], lang)
+            v = voice.synthesise([ln["text"] for ln in seg["script"]], lang, voice.gaps(seg))
             track = voice.fit(seg, v)
             run.audio[k] = v["audio"]
             seg["voice"] = dict(track, key=voice.key(seg, lang), url=f"/api/runs/{run.id}/audio/{voice.key(seg, lang)}.mp3")

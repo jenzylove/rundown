@@ -371,7 +371,7 @@ def showcase():
                 for key, r in cuts.items():
                     for seg in r["segments"]:
                         try:
-                            v = voice.synthesise([ln["text"] for ln in seg["script"]], r["lang"])
+                            v = voice.synthesise([ln["text"] for ln in seg["script"]], r["lang"], voice.gaps(seg))
                             track = voice.fit(seg, v)
                             k = voice.key(seg, r["lang"])
                             _showcase_audio[k] = v["audio"]
